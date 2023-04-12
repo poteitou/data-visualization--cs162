@@ -4,23 +4,31 @@ Game::Game()
 : mWindow(sf::VideoMode(1600, 900), "SFML Application")
 , mPlayer()
 {
-    // mWindow.setPosition(sf::Vector2i(10, 10)); 
+    mWindow.setVerticalSyncEnabled(true);
+    mWindow.setPosition(sf::Vector2i(10, 10)); 
     mPlayer.setRadius(40.f);
     mPlayer.setPosition(100.f, 100.f);
     mPlayer.setFillColor(sf::Color::Cyan);
 
+    TimePerFrame = sf::seconds(1.f / 60.f);
     mIsMovingUp = mIsMovingDown = mIsMovingLeft = mIsMovingRight = false;
-    PlayerSpeed = 60.f;
+    PlayerSpeed = 100.f;
 }
 
 void Game::run()
 {
     sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
     while (mWindow.isOpen())
     {
-        sf::Time deltaTime = clock.restart();
         processEvents();
-        update(deltaTime);
+        timeSinceLastUpdate += clock.restart();
+        while (timeSinceLastUpdate > TimePerFrame)
+        {
+            timeSinceLastUpdate -= TimePerFrame;
+            processEvents();
+            update(TimePerFrame); 
+        }
         render();
     }
 }

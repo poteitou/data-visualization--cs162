@@ -15,7 +15,8 @@ class Game
     private:
         sf::RenderWindow mWindow;
         sf::CircleShape mPlayer;
-        
+
+        sf::Time TimePerFrame;
         bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
         double PlayerSpeed;
 };
