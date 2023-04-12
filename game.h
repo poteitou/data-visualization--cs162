@@ -2,21 +2,21 @@
 
 class Game
 {
-    public:
-                    Game();
-        void        run();
-    
-    private:
-        void        handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
-        void        processEvents();
-        void        update(sf::Time deltaTime);
-        void        render();
+public:
+                Game();
+    void        run();
 
-    private:
-        sf::RenderWindow mWindow;
-        sf::CircleShape mPlayer;
+private:
+    void        handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+    void        processEvents();
+    void        update(sf::Time deltaTime);
+    void        render();
 
-        sf::Time TimePerFrame;
-        bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
-        double PlayerSpeed;
+private:
+    sf::RenderWindow mWindow;
+    sf::CircleShape mPlayer;
+
+    sf::Time TimePerFrame;
+    bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
+    double PlayerSpeed;
 };

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "button.cpp"
 
 Game::Game()
 : mWindow(sf::VideoMode(1600, 900), "SFML Application")
@@ -6,7 +7,7 @@ Game::Game()
 {
     mWindow.setVerticalSyncEnabled(true);
     // to the refresh rate of the monitor, usually around 60Hz. This can avoid graphical artifacts such as screen tearing
-    
+
     mWindow.setPosition(sf::Vector2i(10, 10)); 
     mPlayer.setRadius(40.f);
     mPlayer.setPosition(100.f, 100.f);
@@ -19,20 +20,66 @@ Game::Game()
 
 void Game::run()
 {
-    sf::Clock clock;
-    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    // sf::Clock clock;
+    // sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    // while (mWindow.isOpen())
+    // {
+    //     processEvents();
+    //     timeSinceLastUpdate += clock.restart();
+    //     while (timeSinceLastUpdate > TimePerFrame)
+    //     {
+    //         timeSinceLastUpdate -= TimePerFrame;
+    //         processEvents();
+    //         update(TimePerFrame); 
+    //     }
+    //     render();
+    // }
+    
+    sf::Font font;
+    if (!font.loadFromFile("resources/fonts/arial.ttf"))
+    {
+        return;
+    }
+
+    // Create button
+    Button button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(300, 250), sf::Color::Red, sf::Color::Green, "Click me!", font);
+
     while (mWindow.isOpen())
     {
-        processEvents();
-        timeSinceLastUpdate += clock.restart();
-        while (timeSinceLastUpdate > TimePerFrame)
+        sf::Event event;
+        while (mWindow.pollEvent(event))
         {
-            timeSinceLastUpdate -= TimePerFrame;
-            processEvents();
-            update(TimePerFrame); 
+            if (event.type == sf::Event::Closed)
+            {
+                mWindow.close();
+            }
+
+            // Check if mouse is hovering over button
+            if (button.isMouseOver())
+            {
+                button.setHovered(true);
+
+                // Check if mouse is clicked on button
+                if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+                {
+                    // Do something when button is clicked
+                    // ...
+                }
+            }
+            else
+            {
+                button.setHovered(false);
+            }
         }
-        render();
+
+        mWindow.clear(sf::Color::White);
+
+        // Draw button
+        button.draw();
+
+        mWindow.display();
     }
+
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
