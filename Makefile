@@ -1,4 +1,4 @@
-# Makefile for C++ SFML
+# Makefile for C++ SFML 2.5.1
 
 build: compile
 	g++ main.o -o main.exe -L "SFML-2.5.1\lib" -lsfml-graphics -lsfml-window -lsfml-system
