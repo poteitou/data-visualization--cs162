@@ -5,6 +5,8 @@ Game::Game()
 , mPlayer()
 {
     mWindow.setVerticalSyncEnabled(true);
+    // to the refresh rate of the monitor, usually around 60Hz. This can avoid graphical artifacts such as screen tearing
+    
     mWindow.setPosition(sf::Vector2i(10, 10)); 
     mPlayer.setRadius(40.f);
     mPlayer.setPosition(100.f, 100.f);
