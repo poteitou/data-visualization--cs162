@@ -1,5 +1,5 @@
-#include "game.h"
-#include "button.h"
+#include "game.hpp"
+#include "button.hpp"
 
 Game::Game()
 : mWindow(sf::VideoMode(1600, 900), "SFML Application")

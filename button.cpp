@@ -1,4 +1,4 @@
-#include "button.h"
+#include "button.hpp"
 
 Button::Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font& font)
 : mWindow(window), mColor(color), mHoverColor(hoverColor), mHovered(false)
