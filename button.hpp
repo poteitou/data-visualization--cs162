@@ -7,6 +7,7 @@ public:
 
     void draw();
     bool isMouseOver();
+    bool checkPress();
     void setHovered(bool value);
 
 private:

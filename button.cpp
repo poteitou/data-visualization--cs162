@@ -41,6 +41,18 @@ bool Button::isMouseOver()
     return bounds.contains(static_cast<sf::Vector2f>(mousePosition));
 }
 
+bool Button::checkPress()
+{
+    if (isMouseOver() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void Button::setHovered(bool value)
 {
     mHovered = value;
