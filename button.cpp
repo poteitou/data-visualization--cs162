@@ -12,7 +12,7 @@ Button::Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f positio
     mText.setString(textString);
     mText.setFont(font);
     mText.setCharacterSize(20);
-    mText.setFillColor(sf::Color::White);
+    mText.setFillColor(sf::Color::Black);
     mText.setPosition(position.x + (size.x - mText.getLocalBounds().width) / 2, position.y + (size.y - mText.getLocalBounds().height) / 2);
 }
 
@@ -21,10 +21,12 @@ void Button::draw()
     if (mHovered) 
     {
         mShape.setFillColor(mHoverColor);
+        mText.setFillColor(sf::Color::White);
     }
     else 
     {
         mShape.setFillColor(mColor);
+        mText.setFillColor(sf::Color::Black);
     }
 
     mWindow.draw(mShape);
