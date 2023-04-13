@@ -42,7 +42,7 @@ void Game::run()
     }
 
     // Create button
-    Button button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(300, 250), sf::Color::Red, sf::Color::Green, "Click me!", font);
+    Button button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(300, 250), sf::Color::, sf::Color::Green, "Click me!", font);
 
     while (mWindow.isOpen())
     {
