@@ -13,7 +13,7 @@ Button::Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f positio
     mText.setFont(font);
     mText.setCharacterSize(sizeText);
     mText.setFillColor(sf::Color::Black);
-    mText.setPosition(position.x + (size.x - mText.getLocalBounds().width) / 2, position.y + (size.y - mText.getLocalBounds().height) / 2);
+    mText.setPosition(position.x + (size.x - mText.getLocalBounds().width) / 2, position.y + (size.y - sizeText) / 2);
 }
 
 void Button::draw()
