@@ -1,6 +1,6 @@
 #include "button.hpp"
 
-Button::Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font& font)
+Button::Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font& font, int sizeText)
 : mWindow(window), mColor(color), mHoverColor(hoverColor), mHovered(false)
 {
     mShape.setSize(size);
@@ -11,7 +11,7 @@ Button::Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f positio
 
     mText.setString(textString);
     mText.setFont(font);
-    mText.setCharacterSize(20);
+    mText.setCharacterSize(sizeText);
     mText.setFillColor(sf::Color::Black);
     mText.setPosition(position.x + (size.x - mText.getLocalBounds().width) / 2, position.y + (size.y - mText.getLocalBounds().height) / 2);
 }
