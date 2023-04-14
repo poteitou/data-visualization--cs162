@@ -6,6 +6,7 @@ Game::Game()
 : mWindow(sf::VideoMode(1600, 900), "SFML Application")
 , mPlayer()
 {
+    mFont.loadFromFile("resources/fonts/arial.ttf");
     mWindow.setVerticalSyncEnabled(true);
     // to the refresh rate of the monitor, usually around 60Hz. This can avoid graphical artifacts such as screen tearing
 
@@ -36,11 +37,6 @@ void Game::run()
     //     render();
     // }
     
-    sf::Font font;
-    if (!font.loadFromFile("resources/fonts/arial.ttf"))
-    {
-        return;
-    }
     /*
     // Create button
     Button button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(300, 250), sf::Color::Cyan, sf::Color::Magenta, "Click me!", font, 25);
@@ -84,7 +80,7 @@ void Game::run()
 
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    Screen screen(mWindow);
+    Screen screen(mWindow, mFont);
     while (mWindow.isOpen())
     {
         processEvents();

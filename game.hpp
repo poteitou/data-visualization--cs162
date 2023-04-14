@@ -15,6 +15,7 @@ private:
 private:
     sf::RenderWindow mWindow;
     sf::CircleShape mPlayer;
+    sf::Font mFont;
 
     sf::Time TimePerFrame;
     bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
