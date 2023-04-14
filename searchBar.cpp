@@ -27,32 +27,49 @@ SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f position, sf::Vector
 
 void SearchBar::handleEvent(sf::Event event)
 {
-    if (event.type == sf::Event::MouseButtonPressed)
+    switch (event.type)
     {
-        if (event.mouseButton.button == sf::Mouse::Right)
+    case sf::Event::MouseButtonPressed:
+        if (event.mouseButton.button == sf::Mouse::Left)
         {
-    if (event.type == sf::Event::MouseMoved)
-    {
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+            if (contains(sf::Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))))
+            {
+                mSelected = true;
+            }
+            else
+            {
+                mSelected = false;
+                if (mHovered)
+                {
+                    mHovered = false;
+                    mRectangle.setFillColor(mDefaultColor);
+                }
+            }
+        }
+        break;
+    case sf::Event::MouseMoved:
+
         sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
         if (contains(sf::Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))))
         {
-            if (!mSelected)
+            if (!mHovered)
             {
-                mSelected = true;
+                mHovered = true;
                 mRectangle.setFillColor(mSelectedColor);
             }
         }
         else
         {
-            if (mSelected)
+            if (!mSelected && mHovered)
             {
-                mSelected = false;
+                mHovered = false;
                 mRectangle.setFillColor(mDefaultColor);
             }
         }
-    }
-    else if (event.type == sf::Event::TextEntered)
-    {
+        break;
+    case sf::Event::TextEntered:
+
         if (!mSelected)
         {
             return;
@@ -68,14 +85,19 @@ void SearchBar::handleEvent(sf::Event event)
             mValue += c;
             mText.setString(mValue);
         }
-    }
-    else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Backspace)
-    {
-        if (!mValue.empty())
+        break;
+    case sf::Event::KeyPressed:
+        if (event.key.code == sf::Keyboard::Backspace)
         {
-            mValue.pop_back();
-            mText.setString(mValue);
+            if (!mValue.empty())
+            {
+                mValue.pop_back();
+                mText.setString(mValue);
+            }
         }
+        break;
+    default:
+        break;
     }
 }
 
