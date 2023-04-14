@@ -1,3 +1,6 @@
+#ifndef BUTTON_HPP
+#define BUTTON_HPP
+
 #include <SFML/Graphics.hpp>
 
 class Button 
@@ -18,4 +21,6 @@ private:
     sf::Color mHoverColor;
     bool mHovered;
 };
+
+#endif // BUTTON_HPP
 

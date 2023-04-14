@@ -1,3 +1,6 @@
+#ifndef SCREEN_HPP
+#define SCREEN_HPP
+
 #include <SFML/Graphics.hpp>
 #include "button.hpp"
 
@@ -14,3 +17,5 @@ private:
 
     std::vector<Button> mButton;
 };
+
+#endif // SCREEN_HPP

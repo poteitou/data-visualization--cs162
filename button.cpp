@@ -57,3 +57,4 @@ void Button::setHovered(bool value)
 {
     mHovered = value;
 }
+

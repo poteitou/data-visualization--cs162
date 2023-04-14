@@ -1,4 +1,8 @@
+#ifndef GAME_HPP
+#define GAME_HPP
+
 #include <SFML/Graphics.hpp>
+#include "screen.hpp"
 
 class Game
 {
@@ -21,3 +25,5 @@ private:
     bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
     double PlayerSpeed;
 };
+
+#endif // GAME_HPP

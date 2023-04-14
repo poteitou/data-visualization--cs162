@@ -1,6 +1,4 @@
 #include "game.hpp"
-#include "button.hpp"
-#include "screen.hpp"
 
 Game::Game()
 : mWindow(sf::VideoMode(1600, 900), "SFML Application")
