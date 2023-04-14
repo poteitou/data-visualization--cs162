@@ -87,6 +87,7 @@ void Game::run()
         {
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
+            screen.setHovered();
             // update(TimePerFrame); 
         }
         // render();
