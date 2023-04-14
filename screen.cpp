@@ -1,6 +1,6 @@
 #include "screen.hpp"
 
-Screen::Screen(sf::RenderWindow& window, std::vector<Button> button)
+Screen::Screen(sf::RenderWindow& window)
 : mWindow(window)
 {
     vector<Button> button.resize(7);

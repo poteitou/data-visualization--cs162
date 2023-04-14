@@ -3,7 +3,7 @@
 class Screen
 {
 public:
-    Screen(sf::RenderWindow& window, std::vector<Button> button);
+    Screen(sf::RenderWindow& window);
     
     void draw();
     void setHovered();

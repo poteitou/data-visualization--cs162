@@ -40,7 +40,7 @@ void Game::run()
     {
         return;
     }
-
+    /*
     // Create button
     Button button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(300, 250), sf::Color::Cyan, sf::Color::Magenta, "Click me!", font, 25);
 
@@ -79,6 +79,29 @@ void Game::run()
 
         mWindow.display();
     }
+    */
+
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    Screen screen(mWindow);
+    while (mWindow.isOpen())
+    {
+        processEvents();
+        timeSinceLastUpdate += clock.restart();
+        while (timeSinceLastUpdate > TimePerFrame)
+        {
+            timeSinceLastUpdate -= TimePerFrame;
+            processEvents();
+            // update(TimePerFrame); 
+        }
+        // render();
+        mWindow.clear(sf::Color::White);
+
+        // Draw button
+        screen.draw();
+
+        mWindow.display();
+    }
 
 }
 
@@ -101,12 +124,12 @@ void Game::processEvents()
     {
         switch (event.type)
         {
-            case sf::Event::KeyPressed:
-                handlePlayerInput(event.key.code, true);
-                break;
-            case sf::Event::KeyReleased:
-                handlePlayerInput(event.key.code, false);
-                break;
+            // case sf::Event::KeyPressed:
+            //     handlePlayerInput(event.key.code, true);
+            //     break;
+            // case sf::Event::KeyReleased:
+            //     handlePlayerInput(event.key.code, false);
+            //     break;
             case sf::Event::Closed:
                 mWindow.close();
                 break;
@@ -133,7 +156,7 @@ void Game::update(sf::Time deltaTime)
 
 void Game::render()
 {
-    mWindow.clear();
+    mWindow.clear(sf::Color::White);
     mWindow.draw(mPlayer); // sf::RenderWindow::draw() method
     mWindow.display();
 }
