@@ -3,7 +3,7 @@
 Screen::Screen(sf::RenderWindow& window)
 : mWindow(window)
 {
-    vector<Button> button.resize(7);
+    button.resize(7);
     button[0] = Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 300), sf::Color::Cyan, sf::Color::Magenta, "Static Array", font, 25);
     button[1] = Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 300), sf::Color::Cyan, sf::Color::Magenta, "Dynamic Array", font, 25);
     button[2] = Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 300), sf::Color::Cyan, sf::Color::Magenta, "Singly Linked List", font, 25);
