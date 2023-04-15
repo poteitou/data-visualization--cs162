@@ -7,24 +7,23 @@
 class Arrow
 {
 public:
-    Arrow(float length = 100.f, float thickness = 10.f, float triangleSize = 20.f);
+    Arrow(sf::RenderWindow &window, sf::Vector2f pos, sf::Vector2f size, float triangleSize, sf::Color Color);
     void setPosition(sf::Vector2f pos);
     void setRotation(float angle);
     void setScale(sf::Vector2f scale);
-    void setColor(sf::Color color);
-    void draw(sf::RenderWindow &window);
+    void setColor(sf::Color Color);
+    void draw();
     void update(float dt);
     void makeLonger(float length, float dt);
 
 private:
+    sf::RenderWindow &mWindow;
     sf::RectangleShape mRect;
     sf::ConvexShape mTriangle;
     sf::Vector2f mPos;
-    float mAngle;
+    sf::Vector2f mSize;
     sf::Vector2f mScale;
-    sf::Color mColor;
-    float mLength;
-    float mThickness;
+    float mAngle;
     float mTriangleSize;
 };
 
@@ -39,8 +38,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "Arrow Example");
     window.setFramerateLimit(60);
 
-    Arrow arrow(50.f, 5.f, 10.f);
-    arrow.setPosition(sf::Vector2f(0.f, 0.f));
+    Arrow arrow(window, sf::Vector2f(0.f, 0.f), sf::Vector2f(50.f, 5.f), 10.f, sf::Color::Black);
     arrow.setRotation(30.f);
     arrow.setScale(sf::Vector2f(2.f, 2.f));
     arrow.setColor(sf::Color::Red);
@@ -63,7 +61,7 @@ int main()
         arrow.makeLonger(100.f, dt);
 
         window.clear(sf::Color::White);
-        arrow.draw(window);
+        arrow.draw();
         window.display();
     }
 
