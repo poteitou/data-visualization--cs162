@@ -3,7 +3,7 @@
 Screen::Screen(sf::RenderWindow& window, sf::Font& font)
 : mWindow(window)
 {
-    mButton.resize(7, Button(mWindow, sf::Vector2f(300, 100), sf::Vector2f(200, 300), sf::Color::Cyan, sf::Color::Blue, "Static Array", font, 30));
+    // mButton.resize(7, Button(mWindow, sf::Vector2f(300, 100), sf::Vector2f(200, 300), sf::Color::Cyan, sf::Color::Blue, "Static Array", font, 30));
 
     // mButton[0] = Button(mWindow, sf::Vector2f(300, 100), sf::Vector2f(200, 300), sf::Color::Cyan, sf::Color::Blue, "Static Array", font, 30);
     // mButton[1] = Button(mWindow, sf::Vector2f(300, 100), sf::Vector2f(200, 500), sf::Color::Cyan, sf::Color::Blue, "Dynamic Array", font, 30);
