@@ -1,4 +1,4 @@
-#include "screen.hpp"
+#include "Screen.hpp"
 
 Screen::Screen(sf::RenderWindow& window, sf::Font& font)
 : mWindow(window)

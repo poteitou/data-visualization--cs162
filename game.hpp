@@ -2,7 +2,7 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
-#include "screen.hpp"
+#include "Screen.hpp"
 
 class Game
 {

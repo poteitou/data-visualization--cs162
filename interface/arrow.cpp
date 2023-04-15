@@ -1,4 +1,4 @@
-#include "arrow.hpp"
+#include "Arrow.hpp"
 
 Arrow::Arrow(float length, float thickness, float triangleSize)
     : m_pos(0.f, 0.f), m_angle(0.f), m_scale(1.f, 1.f), m_color(sf::Color::White),

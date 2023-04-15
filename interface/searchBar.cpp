@@ -1,4 +1,4 @@
-#include "searchBar.hpp"
+#include "SearchBar.hpp"
 
 SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f position, sf::Vector2f size, sf::Font &font, std::string defaultText)
     : mWindow(window)

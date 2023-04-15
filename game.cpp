@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "Game.hpp"
 
 Game::Game()
 : mWindow(sf::VideoMode(1600, 900), "SFML Application")

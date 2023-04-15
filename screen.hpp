@@ -2,7 +2,7 @@
 #define SCREEN_HPP
 
 #include <SFML/Graphics.hpp>
-#include "interface/button.hpp"
+#include "interface/Button.hpp"
 
 class Screen
 {
