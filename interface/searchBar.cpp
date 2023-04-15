@@ -27,12 +27,15 @@ SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f position, sf::Vector
 
 void SearchBar::handleEvent(sf::Event event)
 {
+    sf::Vector2i mousePosition;
+    char c;
+    
     switch (event.type)
     {
     case sf::Event::MouseButtonPressed:
         if (event.mouseButton.button == sf::Mouse::Left)
         {
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+            mousePosition = sf::Mouse::getPosition(mWindow);
             if (contains(sf::Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))))
             {
                 mSelected = true;
@@ -49,8 +52,7 @@ void SearchBar::handleEvent(sf::Event event)
         }
         break;
     case sf::Event::MouseMoved:
-
-        sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+        mousePosition = sf::Mouse::getPosition(mWindow);
         if (contains(sf::Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))))
         {
             if (!mHovered)
@@ -69,18 +71,17 @@ void SearchBar::handleEvent(sf::Event event)
         }
         break;
     case sf::Event::TextEntered:
-
         if (!mSelected)
         {
-            return;
+            break; // return;
         }
-        char c = static_cast<char>(event.text.unicode);
+        c = static_cast<char>(event.text.unicode);
         if ((c >= '0' && c <= '9') || c == ' ')
         {
             if (c == ' ' && (mValue.empty() || mValue.back() == ' '))
             {
                 // Do not allow the first character to be a space or 2 spaces
-                return;
+                break; // return;
             }
             mValue += c;
             mText.setString(mValue);
