@@ -3,10 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
-class Button 
+class Button
 {
 public:
-    Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font& font, int sizeText);
+    Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font &font, int sizeText);
 
     void draw();
     bool isMouseOver();
@@ -14,8 +14,8 @@ public:
     void setHovered(bool value);
 
 private:
-    sf::RenderWindow& mWindow;
-    sf::RectangleShape mShape;
+    sf::RenderWindow &mWindow;
+    sf::RectangleShape mRect;
     sf::Text mText;
     sf::Color mColor;
     sf::Color mHoverColor;
@@ -23,4 +23,3 @@ private:
 };
 
 #endif // BUTTON_HPP
-

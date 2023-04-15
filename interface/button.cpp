@@ -1,41 +1,41 @@
 #include "Button.hpp"
 
-Button::Button(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font& font, int sizeText)
-: mWindow(window), mColor(color), mHoverColor(hoverColor), mHovered(false)
+Button::Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font& font, int sizeText)
+    : mWindow(window), mColor(color), mHoverColor(hoverColor), mHovered(false)
 {
-    mShape.setSize(size);
-    mShape.setPosition(position);
-    mShape.setFillColor(mColor);
-    mShape.setOutlineThickness(3.f);
-    mShape.setOutlineColor(sf::Color::Black);
+    mRect.setSize(size);
+    mRect.setPosition(position);
+    mRect.setFillColor(mColor);
+    mRect.setOutlineThickness(3.f);
+    mRect.setOutlineColor(sf::Color::Black);
 
     mText.setString(textString);
     mText.setFont(font);
     mText.setCharacterSize(sizeText);
-    mText.setFillColor(sf::Color::Black);
     mText.setPosition(position.x + (size.x - mText.getLocalBounds().width) / 2, position.y + (size.y - sizeText) / 2);
+    mText.setFillColor(sf::Color::Black);
 }
 
 void Button::draw()
 {
-    if (mHovered) 
+    if (mHovered)
     {
-        mShape.setFillColor(mHoverColor);
+        mRect.setFillColor(mHoverColor);
         mText.setFillColor(sf::Color::White);
     }
-    else 
+    else
     {
-        mShape.setFillColor(mColor);
+        mRect.setFillColor(mColor);
         mText.setFillColor(sf::Color::Black);
     }
 
-    mWindow.draw(mShape);
+    mWindow.draw(mRect);
     mWindow.draw(mText);
 }
 
 bool Button::isMouseOver()
 {
-    sf::FloatRect bounds = mShape.getGlobalBounds();
+    sf::FloatRect bounds = mRect.getGlobalBounds();
     sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
 
     return bounds.contains(static_cast<sf::Vector2f>(mousePosition));
@@ -57,4 +57,3 @@ void Button::setHovered(bool value)
 {
     mHovered = value;
 }
-
