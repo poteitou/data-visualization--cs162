@@ -31,3 +31,41 @@ private:
 };
 
 #endif
+
+/* #include <SFML/Graphics.hpp>
+#include "interface/DataPoint.hpp"
+
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(800, 600), "DataPoint Example");
+    window.setFramerateLimit(60);
+
+    sf::Font font;
+    font.loadFromFile("resources/fonts/arial.ttf");
+
+    // create a datapoint
+    DataPoint dataPoint(window, sf::Vector2f(100.f, 100.f), sf::Vector2f(200.f, 50.f), "Input", "Output", font, 30, 24, sf::Color::Black, sf::Color::Black, sf::Color(200, 200, 255));
+
+    sf::Clock clock;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        // update the datapoint
+        dataPoint.appear(0.01f);
+
+        // draw the datapoint
+        window.clear(sf::Color::White);
+        dataPoint.draw();
+        window.display();
+    }
+
+    return 0;
+}
+
+ */

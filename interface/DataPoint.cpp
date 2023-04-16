@@ -14,7 +14,7 @@ DataPoint::DataPoint(sf::RenderWindow &window, sf::Vector2f pos, sf::Vector2f si
     mTextIn.setString(textIn);
     mTextIn.setFont(font);
 
-    mTextIn.setOrigin(mTextIn.getLocalBounds().left + mTextIn.getLocalBounds().width / 2.0f, mTextIn.getLocalBounds().top + mTextIn.getLocalBounds().height / 2.0f);
+    // mTextIn.setOrigin(mTextIn.getLocalBounds().left + mTextIn.getLocalBounds().width / 2.0f, mTextIn.getLocalBounds().top + mTextIn.getLocalBounds().height / 2.0f);
     // mTextIn.setPosition(mTextIn.getLocalBounds().getPosition() + mTextIn.getLocalBounds().getSize() / 2.0f);
 
     mTextIn.setCharacterSize(inSize);
@@ -24,10 +24,10 @@ DataPoint::DataPoint(sf::RenderWindow &window, sf::Vector2f pos, sf::Vector2f si
     mTextOut.setString(textOut);
     mTextOut.setFont(font);
 
-    mTextOut.setOrigin(mTextOut.getLocalBounds().left + mTextOut.getLocalBounds().width / 2.0f, mTextOut.getLocalBounds().top + mTextOut.getLocalBounds().height / 2.0f);
+    // mTextOut.setOrigin(mTextOut.getLocalBounds().left + mTextOut.getLocalBounds().width / 2.0f, mTextOut.getLocalBounds().top + mTextOut.getLocalBounds().height / 2.0f);
 
     mTextOut.setCharacterSize(outSize);
-    mTextOut.setPosition(mPos.x + mSize.x + (mSize.x - mTextIn.getLocalBounds().width) / 2, mPos.y + (mSize.y - inSize) / 2);
+    mTextOut.setPosition(mPos.x + (mSize.x - mTextOut.getLocalBounds().width) / 2, mPos.y + (mSize.y - outSize) / 2 + mSize.y);
     mTextOut.setFillColor(inColor);
 }
 

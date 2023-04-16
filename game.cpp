@@ -1,14 +1,13 @@
 #include "Game.hpp"
 
 Game::Game()
-: mWindow(sf::VideoMode(1600, 900), "SFML Application")
-, mPlayer()
+    : mWindow(sf::VideoMode(1600, 900), "SFML Application"), mPlayer()
 {
     mFont.loadFromFile("resources/fonts/arial.ttf");
     mWindow.setVerticalSyncEnabled(true);
     // to the refresh rate of the monitor, usually around 60Hz. This can avoid graphical artifacts such as screen tearing
 
-    mWindow.setPosition(sf::Vector2i(10, 10)); 
+    mWindow.setPosition(sf::Vector2i(10, 10));
     mPlayer.setRadius(40.f);
     mPlayer.setPosition(100.f, 100.f);
     mPlayer.setFillColor(sf::Color::Cyan);
@@ -30,11 +29,11 @@ void Game::run()
     //     {
     //         timeSinceLastUpdate -= TimePerFrame;
     //         processEvents();
-    //         update(TimePerFrame); 
+    //         update(TimePerFrame);
     //     }
     //     render();
     // }
-    
+
     /*
     // Create button
     Button button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(300, 250), sf::Color::Cyan, sf::Color::Magenta, "Click me!", font, 25);
@@ -88,7 +87,7 @@ void Game::run()
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
             screen.setHovered();
-            // update(TimePerFrame); 
+            // update(TimePerFrame);
         }
         // render();
         mWindow.clear(sf::Color::White);
@@ -98,7 +97,6 @@ void Game::run()
 
         mWindow.display();
     }
-
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
@@ -120,17 +118,17 @@ void Game::processEvents()
     {
         switch (event.type)
         {
-            // case sf::Event::KeyPressed:
-            //     handlePlayerInput(event.key.code, true);
-            //     break;
-            // case sf::Event::KeyReleased:
-            //     handlePlayerInput(event.key.code, false);
-            //     break;
-            case sf::Event::Closed:
-                mWindow.close();
-                break;
-            default:
-                break;
+        // case sf::Event::KeyPressed:
+        //     handlePlayerInput(event.key.code, true);
+        //     break;
+        // case sf::Event::KeyReleased:
+        //     handlePlayerInput(event.key.code, false);
+        //     break;
+        case sf::Event::Closed:
+            mWindow.close();
+            break;
+        default:
+            break;
         }
     }
 }
