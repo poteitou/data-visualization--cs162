@@ -9,4 +9,8 @@ sf::Color
     sf::Color magenta     = sf::Color::Magenta;
     sf::Color cyan        = sf::Color::Cyan;
     sf::Color transparent = sf::Color::Transparent;
+
+    pink pastel:    255, 200, 200
+    purple pastel:  200, 200, 255
+    grey:           200, 200, 200
 }
