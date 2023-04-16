@@ -6,7 +6,7 @@ Button::Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f positio
     mRect.setSize(size);
     mRect.setPosition(position);
     mRect.setFillColor(mColor);
-    mRect.setOutlineThickness(3.f);
+    mRect.setOutlineThickness(2.f);
     mRect.setOutlineColor(sf::Color::Black);
 
     mText.setString(textString);
