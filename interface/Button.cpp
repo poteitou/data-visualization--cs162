@@ -18,6 +18,7 @@ Button::Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f positio
 
 void Button::draw()
 {
+    isMouseOver();
     if (mHovered)
     {
         mRect.setFillColor(mHoverColor);
