@@ -29,7 +29,7 @@ void SearchBar::handleEvent(sf::Event event)
 {
     sf::Vector2i mousePosition;
     char c;
-    
+
     switch (event.type)
     {
     case sf::Event::MouseButtonPressed:

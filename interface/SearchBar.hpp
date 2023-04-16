@@ -29,7 +29,7 @@ private:
 #endif
 
 /*
-#include "interface/searchBar.hpp"
+#include "interface/SearchBar.hpp"
 
 int main()
 {
