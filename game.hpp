@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Screen.hpp"
+#include "interface/Button.hpp"
 
 class Game
 {

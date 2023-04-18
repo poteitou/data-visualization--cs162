@@ -27,9 +27,3 @@ void Screen::draw()
     for (int i = 0; i < 7; i++)
         mButton[i].draw();
 }
-
-void Screen::setHovered()
-{
-    for (int i = 0; i < 7; i++)
-        mButton[i].setHovered(mButton[i].isMouseOver());
-}

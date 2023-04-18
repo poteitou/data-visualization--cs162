@@ -78,6 +78,7 @@ void Game::run()
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     Screen screen(mWindow, mFont);
+    
     while (mWindow.isOpen())
     {
         processEvents();
@@ -86,7 +87,6 @@ void Game::run()
         {
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
-            screen.setHovered();
             // update(TimePerFrame);
         }
         // render();

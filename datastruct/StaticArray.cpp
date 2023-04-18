@@ -21,13 +21,15 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[0].setPosition(1100, 70);
     mDefaultText[1].setPosition(950, 150);
     mDefaultText[2].setPosition(950, 200);
-    mDefaultText[3].setPosition(1150, 300);
+    mDefaultText[3].setPosition(1150, 275);
 
-    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Choose data structure"};
+    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Choose data structure", "Run step-by-step", "Run at-once"};
     for (int i = 0; i < 5; i++)
         mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(100, 600 + i * 55), sf::Color::Cyan, sf::Color::Blue, nameButton[i], font, 22));
 
     mButton.push_back(Button(mWindow, sf::Vector2f(250, 50), sf::Vector2f(1300, 150), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 450), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 505), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22));
 
     std::string nameBCreate[] = {"Enter", "Random", "Data File"};
     for (int i = 0; i < 3; i++)
@@ -50,7 +52,7 @@ void StaticArray::draw()
     {
         mWindow.draw(mDefaultText[i]);
     }
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 8; i++)
     {
         mButton[i].draw();
     }
@@ -70,9 +72,15 @@ void StaticArray::draw()
     case 2: // Insert
         for (int i = 0; i < 3; i++)
             mBInsert[i].draw();
+        break;
     case 3: // Remove
         for (int i = 0; i < 3; i++)
             mBRemove[i].draw();
+        break;
+    case 4: // Update
+        break;
+    case 5: // Search
+        break;
     default:
         break;
     }
