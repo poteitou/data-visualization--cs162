@@ -1,6 +1,6 @@
 #include "SearchBar.hpp"
 
-SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f position, sf::Vector2f size, sf::Font &font, std::string defaultText)
+SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText)
     : mWindow(window)
 {
     // Set up the rectangle shape
