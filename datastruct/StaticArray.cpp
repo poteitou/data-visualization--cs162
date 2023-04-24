@@ -1,22 +1,34 @@
 #include "StaticArray.hpp"
 
-StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(font), mType(0)
+StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(font), mType(0), mSmallType(0)
 {
-    mDefaultText.resize(4);
-    for (int i = 0; i < 4; i++)
+    mDefaultText.resize(7);
+    for (int i = 0; i < 7; i++)
     {
         mDefaultText[i].setFont(font);
         mDefaultText[i].setFillColor(sf::Color::Black);
     }
+
+    // Top right
     mDefaultText[0].setString("STATIC ARRAY");
     mDefaultText[1].setString("Max size: 7");
     mDefaultText[2].setString("Value range: 0..99");
     mDefaultText[3].setString("Implementation:");
 
+    // Create Enter
+    mDefaultText[4].setString("Max size");
+    mDefaultText[5].setString("Size");
+    mDefaultText[6].setString("Value");
+
     mDefaultText[0].setCharacterSize(45);
     mDefaultText[1].setCharacterSize(25);
     mDefaultText[2].setCharacterSize(25);
     mDefaultText[3].setCharacterSize(30);
+    for (int i = 4; i < 7; i++)
+    {
+        mDefaultText[i].setCharacterSize(22);
+        mDefaultText[i].setPosition(250, 650 + 19 + (i - 4) * 55);
+    }
 
     mDefaultText[0].setPosition(1100, 70);
     mDefaultText[1].setPosition(950, 150);
@@ -34,9 +46,6 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     std::string nameBCreate[] = {"Enter", "Random", "Data File"};
     for (int i = 0; i < 3; i++)
         mBCreate.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(300 + i * 200, 600), sf::Color::Cyan, sf::Color::Blue, nameBCreate[i], font, 22));
-    std::string nameBCEnter[] = {"Enter", "Random", "Data File"};
-    for (int i = 0; i < 3; i++)
-        mBCreate.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(300 + i * 200, 600), sf::Color::Cyan, sf::Color::Blue, nameBCreate[i], font, 22));
 
     std::string nameBInsert[] = {"At The First", "At The Last", "At The Middle"};
     for (int i = 0; i < 3; i++)
@@ -45,33 +54,100 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
         mBRemove.push_back(Button(mWindow, sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 600), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22));
     }
 
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 650 + 5), font, ""));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 650 + 50 + 10), font, ""));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 650 + 100 + 15), font, ""));
+
     array = new int[0];
     size = 0;
 }
 
-void StaticArray::draw()
+void StaticArray::handle(sf::Event event, int &mData)
 {
-    for (int i = 0; i < 4; i++)
-    {
-        mWindow.draw(mDefaultText[i]);
-    }
     for (int i = 0; i < 8; i++)
-    {
-        mButton[i].draw();
-    }
+        mButton[i].checkMouseOver();
     for (int i = 0; i < 5; i++)
-    {
         if (mButton[i].checkPress())
         {
             mType = i + 1;
+            mSmallType = 0;
         }
+    if (mButton[7].checkPress())
+        mData = 0;
+    
+    switch (mType)
+    {
+    case 1: // Create
+        for (int i = 0; i < 3; i++)
+            mBCreate[i].checkMouseOver();
+        for (int i = 0; i < 3; i++)
+        {
+            if (mBCreate[i].checkPress())
+                mSmallType = i + 1;
+        }
+        switch (mSmallType)
+        {
+        case 0:
+            break;
+        case 1:
+            mSearchBar[0].handleEvent(event, 1);
+            mSearchBar[1].handleEvent(event, 1);
+            mSearchBar[2].handleEvent(event, 20);
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+            break;
+        }
+        break;
+    case 2: // Insert
+        for (int i = 0; i < 3; i++)
+            mBInsert[i].checkMouseOver();
+        break;
+    case 3: // Remove
+        for (int i = 0; i < 3; i++)
+            mBRemove[i].checkMouseOver();
+        break;
+    case 4: // Update
+        break;
+    case 5: // Search
+        break;
+    default:
+        break;
     }
+}
+
+void StaticArray::draw(float dt)
+{
+    for (int i = 0; i < 4; i++)
+        mWindow.draw(mDefaultText[i]);
+    for (int i = 0; i < 8; i++)
+        mButton[i].draw();
+    
     switch (mType)
     {
     case 1: // Create
         for (int i = 0; i < 3; i++)
             mBCreate[i].draw();
-            
+        switch (mSmallType)
+        {
+        case 0:
+            break;
+        case 1:
+            for (int i = 4; i < 7; i++)
+                mWindow.draw(mDefaultText[i]);
+            for (int i = 0; i < 3; i++)
+                mSearchBar[i].draw();
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+            break;
+        }
         break;
     case 2: // Insert
         for (int i = 0; i < 3; i++)

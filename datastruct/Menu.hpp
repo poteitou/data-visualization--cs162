@@ -8,7 +8,8 @@ class Menu
 {
 public:
     Menu(sf::RenderWindow &window, sf::Font &font);
-    void draw(int &mData);
+    void handle(sf::Event event, int &mData);
+    void draw();
 
 private:
     sf::RenderWindow &mWindow;

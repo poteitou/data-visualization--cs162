@@ -7,7 +7,8 @@ SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f p
     mRectangle.setPosition(position);
     mRectangle.setSize(size);
     mDefaultColor = sf::Color(200, 200, 200);
-    mSelectedColor = sf::Color(255, 200, 200);
+    mHoveredColor = sf::Color(255, 200, 200);
+    mSelectedColor = sf::Color(255, 130, 130);
     mRectangle.setFillColor(mDefaultColor);
 
     // Set up the text object
@@ -15,7 +16,7 @@ SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f p
     // font.loadFromFile("resources/fonts/arial.ttf");
 
     mText.setFont(font);
-    mText.setCharacterSize(20);
+    mText.setCharacterSize(25);
     mText.setPosition(position.x + 10, position.y + 10);
     mText.setFillColor(sf::Color::Black);
     mText.setString(defaultText);
@@ -25,7 +26,7 @@ SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f p
     mSelected = false;
 }
 
-void SearchBar::handleEvent(sf::Event event)
+void SearchBar::handleEvent(sf::Event event, int capacity)
 {
     sf::Vector2i mousePosition;
     char c;
@@ -39,6 +40,7 @@ void SearchBar::handleEvent(sf::Event event)
             if (contains(sf::Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))))
             {
                 mSelected = true;
+                mRectangle.setFillColor(mSelectedColor);
             }
             else
             {
@@ -58,7 +60,7 @@ void SearchBar::handleEvent(sf::Event event)
             if (!mHovered)
             {
                 mHovered = true;
-                mRectangle.setFillColor(mSelectedColor);
+                mRectangle.setFillColor(mHoveredColor);
             }
         }
         else
@@ -71,7 +73,7 @@ void SearchBar::handleEvent(sf::Event event)
         }
         break;
     case sf::Event::TextEntered:
-        if (!mSelected)
+        if (!mSelected || (int)mValue.size() == capacity)
         {
             break; // return;
         }
@@ -82,6 +84,12 @@ void SearchBar::handleEvent(sf::Event event)
             {
                 // Do not allow the first character to be a space or 2 spaces
                 break; // return;
+            }
+            int mSize = (int)mValue.size();
+            if (c != ' ' && mSize >= 2 && mValue[mSize - 1] != ' ' && mValue[mSize - 2] != ' ')
+            {
+                // Do not allow 3-digit numbers
+                break;
             }
             mValue += c;
             mText.setString(mValue);

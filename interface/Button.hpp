@@ -9,7 +9,7 @@ public:
     Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font &font, int sizeText);
 
     void draw();
-    bool isMouseOver();
+    bool checkMouseOver();
     bool checkPress();
 
 private:

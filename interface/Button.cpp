@@ -18,7 +18,6 @@ Button::Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f positio
 
 void Button::draw()
 {
-    isMouseOver();
     if (mHovered)
     {
         mRect.setFillColor(mHoverColor);
@@ -34,7 +33,7 @@ void Button::draw()
     mWindow.draw(mText);
 }
 
-bool Button::isMouseOver()
+bool Button::checkMouseOver()
 {
     sf::FloatRect bounds = mRect.getGlobalBounds();
     sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
@@ -59,7 +58,7 @@ bool Button::checkPress()
 
                 // Check if mouse is clicked on button
                 if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) */
-    if (isMouseOver() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    if (checkMouseOver() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         return true;
     }

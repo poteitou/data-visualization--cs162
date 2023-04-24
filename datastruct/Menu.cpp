@@ -12,12 +12,22 @@ Menu::Menu(sf::RenderWindow &window, sf::Font &font)
     mButton.push_back(Button(mWindow, sf::Vector2f(300, 100), sf::Vector2f(1100, 500), sf::Color::Cyan, sf::Color::Blue, "Queue", font, 30));
 }
 
-void Menu::draw(int &mData)
+void Menu::handle(sf::Event event, int &mData)
+{
+    if (event.type == sf::Event::MouseMoved || event.type == sf::Event::MouseButtonPressed)
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            if (event.type == sf::Event::MouseMoved)
+                mButton[i].checkMouseOver();
+            if (event.type == sf::Event::MouseButtonPressed && mButton[i].checkPress())
+                mData = i + 1;
+        }
+    }
+}
+
+void Menu::draw()
 {
     for (int i = 0; i < 7; i++)
-    {
         mButton[i].draw();
-        if (mButton[i].checkPress())
-            mData = i + 1;
-    }
 }

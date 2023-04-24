@@ -20,7 +20,8 @@ public:
     StaticArray(const StaticArray &other);
     ~StaticArray(); */
 
-    void draw();
+    void handle(sf::Event event, int &mData);
+    void draw(float dt);
     /* void randomize(int min = 0, int max = 100);
     void add(int element);
     void insert(int index, int element);
@@ -43,9 +44,12 @@ private:
     std::vector<Button> mBSearch;
 
     std::vector<sf::Text> mDefaultText;
+
+    std::vector<SearchBar> mSearchBar;
     int *array;
     int size;
     int mType;
+    int mSmallType;
 
     /* void expandArray(); */
 };
