@@ -6,6 +6,7 @@
 #include "../interface/Button.hpp"
 #include "../interface/DataPoint.hpp"
 #include "../interface/SearchBar.hpp"
+#include <string.h>
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -22,6 +23,9 @@ public:
 
     void handle(sf::Event event, int &mData);
     void draw(float dt);
+
+    void saveData(std::string fileName);
+    void enter();
     /* void randomize(int min = 0, int max = 100);
     void add(int element);
     void insert(int index, int element);
@@ -46,7 +50,9 @@ private:
     std::vector<sf::Text> mDefaultText;
 
     std::vector<SearchBar> mSearchBar;
-    int *array;
+
+    std::vector<DataPoint> mDataPoint;
+    std::string *array;
     int size;
     int mType;
     int mSmallType;
