@@ -16,24 +16,21 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[3].setString("Implementation:");
 
     // Create Enter
-    mDefaultText[4].setString("Max size");
-    mDefaultText[5].setString("Size");
-    mDefaultText[6].setString("Value");
+    mDefaultText[4].setString("Value");
 
     mDefaultText[0].setCharacterSize(45);
     mDefaultText[1].setCharacterSize(25);
     mDefaultText[2].setCharacterSize(25);
     mDefaultText[3].setCharacterSize(30);
-    for (int i = 4; i < 7; i++)
-    {
-        mDefaultText[i].setCharacterSize(22);
-        mDefaultText[i].setPosition(250, 650 + 19 + (i - 4) * 55);
-    }
+    
+    mDefaultText[4].setCharacterSize(22);
 
     mDefaultText[0].setPosition(1100, 70);
     mDefaultText[1].setPosition(950, 150);
     mDefaultText[2].setPosition(950, 200);
     mDefaultText[3].setPosition(1150, 275);
+
+    mDefaultText[4].setPosition(250, 650 + 19);
 
     std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "OK"};
     for (int i = 0; i < 5; i++)
@@ -58,7 +55,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 650 + 5), font, ""));
     mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 650 + 50 + 10), font, ""));
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 650 + 100 + 15), font, ""));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 650 + 5), font, ""));
 
     array = new int[0];
     size = 0;
@@ -92,11 +89,14 @@ void StaticArray::handle(sf::Event event, int &mData)
         case 0:
             break;
         case 1:
-            mSearchBar[0].handleEvent(event, 1);
-            mSearchBar[1].handleEvent(event, 1);
             mSearchBar[2].handleEvent(event, 20);
 
             mButton[8].checkMouseOver();
+
+            if (mButton[8].checkPress())
+            {
+
+            }
             break;
         case 2:
             break;
@@ -140,10 +140,8 @@ void StaticArray::draw(float dt)
         case 0:
             break;
         case 1:
-            for (int i = 4; i < 7; i++)
-                mWindow.draw(mDefaultText[i]);
-            for (int i = 0; i < 3; i++)
-                mSearchBar[i].draw();
+            mWindow.draw(mDefaultText[4]);
+            mSearchBar[2].draw();
             
             mButton[8].draw();
             break;
