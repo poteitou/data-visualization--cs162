@@ -9,8 +9,8 @@ class Screen
 {
 public:
     Screen(sf::RenderWindow& window, sf::Font& font);
-    void draw(float dt);
     void handle(sf::Event event);
+    void draw(float dt);
 
 private:
     sf::RenderWindow& mWindow;

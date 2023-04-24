@@ -11,7 +11,7 @@ public:
     void handleEvent(sf::Event event, int capacity);
     void draw();
 
-    std::string getValue() const;
+    std::string getValue(); //const;
     void reset();
 
 private:

@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include "../interface/Button.hpp"
 
+#include <fstream>
+
 class Menu
 {
 public:

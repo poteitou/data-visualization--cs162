@@ -14,48 +14,50 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[1].setString("Max size: 7");
     mDefaultText[2].setString("Value range: 0..99");
     mDefaultText[3].setString("Implementation:");
+    mDefaultText[4].setString("Visualization:");
 
     // Create Enter
-    mDefaultText[4].setString("Value");
+    mDefaultText[5].setString("Value");
 
     mDefaultText[0].setCharacterSize(45);
     mDefaultText[1].setCharacterSize(25);
     mDefaultText[2].setCharacterSize(25);
     mDefaultText[3].setCharacterSize(30);
+    mDefaultText[4].setCharacterSize(30);
     
-    mDefaultText[4].setCharacterSize(22);
+    mDefaultText[5].setCharacterSize(22);
 
     mDefaultText[0].setPosition(1100, 70);
     mDefaultText[1].setPosition(950, 150);
     mDefaultText[2].setPosition(950, 200);
     mDefaultText[3].setPosition(1150, 275);
+    mDefaultText[4].setPosition(400, 70);
 
-    mDefaultText[4].setPosition(250, 650 + 19);
+    mDefaultText[5].setPosition(250, 620 + 19);
 
     std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "OK"};
     for (int i = 0; i < 5; i++)
-        mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(100, 600 + i * 55), sf::Color::Cyan, sf::Color::Blue, nameButton[i], font, 22));
+        mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(100, 570 + i * 55), sf::Color::Cyan, sf::Color::Blue, nameButton[i], font, 22));
 
-    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 450), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22));
-    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 505), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 420), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22));
     mButton.push_back(Button(mWindow, sf::Vector2f(250, 50), sf::Vector2f(1300, 150), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22));
     
-    mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(700, 800), sf::Color::Cyan, sf::Color::Blue, nameButton[8], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(700, 770), sf::Color::Cyan, sf::Color::Blue, nameButton[8], font, 22));
 
     std::string nameBCreate[] = {"Enter", "Random", "Data File"};
     for (int i = 0; i < 3; i++)
-        mBCreate.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(300 + i * 200, 600), sf::Color::Cyan, sf::Color::Blue, nameBCreate[i], font, 22));
+        mBCreate.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(300 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBCreate[i], font, 22));
 
     std::string nameBInsert[] = {"At The First", "At The Last", "At The Middle"};
     for (int i = 0; i < 3; i++)
     {
-        mBInsert.push_back(Button(mWindow, sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 600), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22));
-        mBRemove.push_back(Button(mWindow, sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 600), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22));
+        mBInsert.push_back(Button(mWindow, sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22));
     }
 
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 650 + 5), font, ""));
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 650 + 50 + 10), font, ""));
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 650 + 5), font, ""));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, ""));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, ""));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 620 + 5), font, ""));
 
     array = new std::string[7];
     size = 0;
@@ -72,7 +74,10 @@ void StaticArray::handle(sf::Event event, int &mData)
             mSmallType = 0;
         }
     if (mButton[7].checkPress())
+    {
         mData = 0;
+        mButton[7].reset();
+    }
     
     switch (mType)
     {
@@ -93,14 +98,14 @@ void StaticArray::handle(sf::Event event, int &mData)
 
             mButton[8].checkMouseOver();
 
-            // if (mButton[8].checkPress())
-            // {
-            //     std::ofstream outFile("../resources/data/create.data");
-            //     outFile << mSearchBar[2].getValue();
-            //     outFile.close();
+            if (mButton[8].checkPress())
+            {
+                std::ofstream outFile("resources/data/create.data");
+                outFile << mSearchBar[2].getValue();
+                outFile.close();
 
-            //     enter();
-            // }
+                enter();
+            }
             break;
         case 2:
             break;
@@ -116,7 +121,7 @@ void StaticArray::handle(sf::Event event, int &mData)
         break;
     case 3: // Remove
         for (int i = 0; i < 3; i++)
-            mBRemove[i].checkMouseOver();
+            mBInsert[i].checkMouseOver();
         break;
     case 4: // Update
         break;
@@ -129,7 +134,7 @@ void StaticArray::handle(sf::Event event, int &mData)
 
 void StaticArray::draw(float dt)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
         mWindow.draw(mDefaultText[i]);
     for (int i = 0; i < 8; i++)
         mButton[i].draw();
@@ -144,7 +149,7 @@ void StaticArray::draw(float dt)
         case 0:
             break;
         case 1: // Enter
-            mWindow.draw(mDefaultText[4]);
+            mWindow.draw(mDefaultText[5]);
             mSearchBar[2].draw();
             
             mButton[8].draw();
@@ -163,7 +168,7 @@ void StaticArray::draw(float dt)
         break;
     case 3: // Remove
         for (int i = 0; i < 3; i++)
-            mBRemove[i].draw();
+            mBInsert[i].draw();
         break;
     case 4: // Update
         break;
@@ -173,11 +178,8 @@ void StaticArray::draw(float dt)
         break;
     }
 
-    mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(150 + 0 * 100, 250), sf::Vector2f(50, 50), "2", "0", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
-    mDataPoint[0].draw();
-
-    // for (int i = 0; i < 7; i++)
-    //     mDataPoint[i].draw();
+    for (int i = 0; i < mDataPoint.size(); i++)
+        mDataPoint[i].draw();
 }
 
 void StaticArray::saveData(std::string fileName) {
@@ -203,22 +205,20 @@ void StaticArray::enter()
     size = 0;
 
     mDataPoint.clear();
-    std::ifstream inFile("create.data");
+    std::ifstream inFile("resources/data/create.data");
 
-    std::string x;
-    while (inFile >> x)
+    int id = 0;
+    while (inFile >> array[id++])
         ++size;
     
     for (int i = 0; i < size; i++) 
     {
-        inFile >> array[i];
-        std::string tmpTextOut = std::to_string(i + 48);
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(150 + i * 100, 250), sf::Vector2f(50, 50), array[i], tmpTextOut, mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
+        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(150 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
     }
 
     for (int i = size; i < 7; i++)
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(150 + i * 100, 250), sf::Vector2f(50, 50), "", "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
+        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(150 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
     }
 
     inFile.close();

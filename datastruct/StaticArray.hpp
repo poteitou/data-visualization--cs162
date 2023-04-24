@@ -7,7 +7,6 @@
 #include "../interface/DataPoint.hpp"
 #include "../interface/SearchBar.hpp"
 #include <string.h>
-#include <iostream>
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
@@ -43,7 +42,6 @@ private:
     std::vector<Button> mButton;
     std::vector<Button> mBCreate;
     std::vector<Button> mBInsert;
-    std::vector<Button> mBRemove;
     std::vector<Button> mBUpdate;
     std::vector<Button> mBSearch;
 

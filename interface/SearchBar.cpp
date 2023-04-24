@@ -116,7 +116,7 @@ void SearchBar::draw()
     mWindow.draw(mText);
 }
 
-std::string SearchBar::getValue() const
+std::string SearchBar::getValue()// const
 {
     return mValue;
 }
