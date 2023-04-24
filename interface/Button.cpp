@@ -67,3 +67,8 @@ bool Button::checkPress()
         return false;
     }
 }
+
+void Button::reset()
+{
+    mHovered = false;
+}

@@ -35,13 +35,13 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[2].setPosition(950, 200);
     mDefaultText[3].setPosition(1150, 275);
 
-    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Choose data structure", "Run step-by-step", "Run at-once"};
+    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure"};
     for (int i = 0; i < 5; i++)
         mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(100, 600 + i * 55), sf::Color::Cyan, sf::Color::Blue, nameButton[i], font, 22));
 
-    mButton.push_back(Button(mWindow, sf::Vector2f(250, 50), sf::Vector2f(1300, 150), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22));
-    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 450), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22));
-    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 505), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 450), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 505), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(250, 50), sf::Vector2f(1300, 150), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22));
 
     std::string nameBCreate[] = {"Enter", "Random", "Data File"};
     for (int i = 0; i < 3; i++)

@@ -11,6 +11,7 @@ public:
     void draw();
     bool checkMouseOver();
     bool checkPress();
+    void reset();
 
 private:
     sf::RenderWindow &mWindow;
