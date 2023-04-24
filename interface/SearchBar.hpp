@@ -12,6 +12,7 @@ public:
     void draw();
 
     std::string getValue() const;
+    void reset();
 
 private:
     sf::RenderWindow &mWindow;

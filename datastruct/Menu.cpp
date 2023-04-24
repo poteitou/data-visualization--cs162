@@ -23,7 +23,8 @@ void Menu::handle(sf::Event event, int &mData)
             if (event.type == sf::Event::MouseButtonPressed && mButton[i].checkPress())
             {
                 mData = i + 1;
-                mButton[i].
+                mButton[i].reset();
+            }
         }
     }
 }

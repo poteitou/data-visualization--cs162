@@ -125,3 +125,8 @@ bool SearchBar::contains(sf::Vector2f point) const
 {
     return mRectangle.getGlobalBounds().contains(point);
 }
+
+void SearchBar::reset()
+{
+    mValue = "";
+}
