@@ -77,6 +77,12 @@ void StaticArray::handle(sf::Event event, int &mData)
     {
         mData = 0;
         mButton[7].reset();
+        mDataPoint.clear();
+
+        std::ofstream outFile("data/create.data");
+        outFile << "";
+        outFile.close();
+        return;
     }
     
     switch (mType)
