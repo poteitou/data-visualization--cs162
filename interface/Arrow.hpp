@@ -4,20 +4,15 @@
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 
-class Arrow
+struct Arrow
 {
-public:
-    Arrow(sf::RenderWindow &window, sf::Vector2f pos, sf::Vector2f size, float triangleSize, sf::Color Color);
-    void setPosition(sf::Vector2f pos);
-    void setRotation(float angle);
-    void setScale(sf::Vector2f scale);
+    Arrow();
+    Arrow(sf::Vector2f pos, sf::Vector2f size, float triangleSize, sf::Color Color);
     void setColor(sf::Color Color);
-    void draw();
+    void draw(sf::RenderWindow &mWindow);
     void update(float dt);
     void makeLonger(float length, float dt);
 
-private:
-    sf::RenderWindow &mWindow;
     sf::RectangleShape mRect;
     sf::ConvexShape mTriangle;
     sf::Vector2f mPos;
@@ -30,6 +25,7 @@ private:
 #endif // ARROW_HPP
 
 /*
+
 #include <SFML/Graphics.hpp>
 #include "interface/Arrow.hpp"
 
@@ -38,9 +34,10 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "Arrow Example");
     window.setFramerateLimit(60);
 
-    Arrow arrow(window, sf::Vector2f(0.f, 0.f), sf::Vector2f(50.f, 5.f), 10.f, sf::Color::Black);
-    arrow.setRotation(30.f);
-    arrow.setScale(sf::Vector2f(2.f, 2.f));
+    Arrow arrow;
+    arrow = Arrow(sf::Vector2f(0.f, 0.f), sf::Vector2f(50.f, 5.f), 10.f, sf::Color::Black);
+    arrow.mAngle = 30.f;
+    arrow.mScale = sf::Vector2f(2.f, 2.f);
     arrow.setColor(sf::Color::Red);
 
     sf::Clock clock;
@@ -61,10 +58,11 @@ int main()
         arrow.makeLonger(100.f, dt);
 
         window.clear(sf::Color::White);
-        arrow.draw();
+        arrow.draw(window);
         window.display();
     }
 
     return 0;
 }
+
 */

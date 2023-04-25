@@ -4,10 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-class DataPoint
+struct DataPoint
 {
-public:
-    DataPoint(sf::RenderWindow &window, sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize, int outSize, sf::Color inColor, sf::Color outColor, sf::Color Color);
+    DataPoint();
+    DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize, int outSize, sf::Color inColor, sf::Color outColor, sf::Color Color);
     void setText(std::string textIn, std::string textOut);
     void setTextColor(sf::Color inColor, sf::Color outColor);
     void setBackgroundColor(sf::Color Color);
@@ -16,10 +16,8 @@ public:
     void appear(float dt);
     void disappear(float dt);
     void move(float dx, float dy);
-    void draw();
+    void draw(sf::RenderWindow &mWindow);
 
-private:
-    sf::RenderWindow &mWindow;
     sf::RectangleShape mRect;
     sf::Text mTextIn;
     sf::Text mTextOut;
@@ -32,7 +30,8 @@ private:
 
 #endif
 
-/* #include <SFML/Graphics.hpp>
+/* 
+#include <SFML/Graphics.hpp>
 #include "interface/DataPoint.hpp"
 
 int main()
@@ -44,7 +43,8 @@ int main()
     font.loadFromFile("resources/fonts/arial.ttf");
 
     // create a datapoint
-    DataPoint dataPoint(window, sf::Vector2f(100.f, 100.f), sf::Vector2f(200.f, 50.f), "Input", "Output", font, 30, 24, sf::Color::Black, sf::Color::Black, sf::Color(200, 200, 255));
+    DataPoint dataPoint;
+    dataPoint = DataPoint(sf::Vector2f(100.f, 100.f), sf::Vector2f(200.f, 50.f), "Input", "Output", font, 30, 24, sf::Color::Black, sf::Color::Black, sf::Color(200, 200, 255));
 
     sf::Clock clock;
     while (window.isOpen())
@@ -61,7 +61,7 @@ int main()
 
         // draw the datapoint
         window.clear(sf::Color::White);
-        dataPoint.draw();
+        dataPoint.draw(window);
         window.display();
     }
 

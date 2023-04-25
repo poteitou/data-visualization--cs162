@@ -1,7 +1,9 @@
 #include "SearchBar.hpp"
 
-SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText)
-    : mWindow(window)
+SearchBar::SearchBar() {}
+
+SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText)
+    : mValue(defaultText), mHovered(false), mSelected(false)
 {
     // Set up the rectangle shape
     mRectangle.setPosition(position);
@@ -20,13 +22,9 @@ SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f p
     mText.setPosition(position.x + 10, position.y + 10);
     mText.setFillColor(sf::Color::Black);
     mText.setString(defaultText);
-    mValue = defaultText;
-
-    mHovered = false;
-    mSelected = false;
 }
 
-void SearchBar::handleEvent(sf::Event event, int capacity)
+void SearchBar::handleEvent(sf::Event event, int capacity, sf::RenderWindow &mWindow)
 {
     sf::Vector2i mousePosition;
     char c;
@@ -110,7 +108,7 @@ void SearchBar::handleEvent(sf::Event event, int capacity)
     }
 }
 
-void SearchBar::draw()
+void SearchBar::draw(sf::RenderWindow &mWindow)
 {
     mWindow.draw(mRectangle);
     mWindow.draw(mText);
@@ -126,7 +124,7 @@ bool SearchBar::contains(sf::Vector2f point) const
     return mRectangle.getGlobalBounds().contains(point);
 }
 
-void SearchBar::reset()
+void SearchBar::reset(std::string defaultText)
 {
-    mValue = "";
+    mValue = defaultText;
 }

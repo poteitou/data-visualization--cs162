@@ -1,7 +1,9 @@
 #include "Button.hpp"
 
-Button::Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font &font, int sizeText)
-    : mWindow(window), mColor(color), mHoverColor(hoverColor), mHovered(false)
+Button::Button() {}
+
+Button::Button(sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font &font, int sizeText)
+    : mColor(color), mHoverColor(hoverColor), mHovered(false)
 {
     mRect.setSize(size);
     mRect.setPosition(position);
@@ -16,7 +18,7 @@ Button::Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f positio
     mText.setFillColor(sf::Color::Black);
 }
 
-void Button::draw()
+void Button::draw(sf::RenderWindow &mWindow)
 {
     if (mHovered)
     {
@@ -33,7 +35,7 @@ void Button::draw()
     mWindow.draw(mText);
 }
 
-bool Button::checkMouseOver()
+bool Button::checkMouseOver(sf::RenderWindow &mWindow)
 {
     sf::FloatRect bounds = mRect.getGlobalBounds();
     sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
@@ -50,7 +52,7 @@ bool Button::checkMouseOver()
     }
 }
 
-bool Button::checkPress()
+bool Button::checkPress(sf::RenderWindow &mWindow)
 {
     /* if (button.isMouseOver())
             {
@@ -58,7 +60,7 @@ bool Button::checkPress()
 
                 // Check if mouse is clicked on button
                 if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) */
-    if (checkMouseOver() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    if (checkMouseOver(mWindow) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         return true;
     }

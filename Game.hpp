@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Screen.hpp"
+#include "datastruct/Menu.hpp"
 #include "datastruct/StaticArray.hpp"
 #include "interface/Button.hpp"
 
@@ -20,6 +21,8 @@ private:
 private:
     sf::RenderWindow mWindow;
     sf::Font mFont;
+
+
 };
 
 #endif // GAME_HPP

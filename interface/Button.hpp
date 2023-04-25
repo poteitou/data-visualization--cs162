@@ -3,18 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 
-class Button
+struct Button
 {
-public:
-    Button(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font &font, int sizeText);
+    Button();
+    Button(sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font &font, int sizeText);
 
-    void draw();
-    bool checkMouseOver();
-    bool checkPress();
+    void draw(sf::RenderWindow &mWindow);
+    bool checkMouseOver(sf::RenderWindow &mWindow);
+    bool checkPress(sf::RenderWindow &mWindow);
     void reset();
 
-private:
-    sf::RenderWindow &mWindow;
     sf::RectangleShape mRect;
     sf::Text mText;
     sf::Color mColor;
@@ -24,7 +22,8 @@ private:
 
 #endif // BUTTON_HPP
 
-/*#include <SFML/Graphics.hpp>
+/*
+#include <SFML/Graphics.hpp>
 #include "interface/Button.hpp"
 
 int main()
@@ -34,7 +33,8 @@ int main()
     sf::Font font;
     font.loadFromFile("resources/fonts/arial.ttf");
     // Create a button
-    Button button(window, sf::Vector2f(200.f, 50.f), sf::Vector2f(300.f, 275.f), sf::Color::Green, sf::Color::Red, "Click me!", font, 20);
+    Button button;
+    button = Button(sf::Vector2f(200.f, 50.f), sf::Vector2f(300.f, 275.f), sf::Color::Green, sf::Color::Red, "Click me!", font, 20);
 
     while (window.isOpen())
     {
@@ -49,13 +49,13 @@ int main()
             if (event.type == sf::Event::MouseMoved)
             {
                 // Check if the mouse is over the button
-                button.setHovered(button.isMouseOver());
+                button.checkMouseOver(window);
             }
 
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 // Check if the left mouse button is pressed while the mouse is over the button
-                if (button.checkPress())
+                if (button.checkPress(window))
                 {
                     // std::cout << "Button clicked!" << std::endl;
                 }
@@ -65,11 +65,12 @@ int main()
         window.clear(sf::Color::White);
 
         // Draw the button
-        button.draw();
+        button.draw(window);
 
         window.display();
     }
 
     return 0;
 }
+
 */

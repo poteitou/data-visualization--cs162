@@ -72,6 +72,7 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
         }
     if (mButton[7].checkPress())
     {
+        mType = 0;
         mData = 0;
         mButton[7].reset();
         mDataPoint.clear();
@@ -224,7 +225,7 @@ void StaticArray::enter()
 
     for (int i = size; i < 9; i++)
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200, 0)));
+        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 255, 255, 0)));
     }
 
     inFile.close();

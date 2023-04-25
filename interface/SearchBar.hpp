@@ -2,20 +2,19 @@
 #define SEARCHBAR_HPP
 
 #include <SFML/Graphics.hpp>
+#include <string.h>
 
-class SearchBar
+struct SearchBar
 {
-public:
-    SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText);
+    SearchBar();
+    SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText);
 
-    void handleEvent(sf::Event event, int capacity);
-    void draw();
+    void handleEvent(sf::Event event, int capacity, sf::RenderWindow &mWindow);
+    void draw(sf::RenderWindow &mWindow);
 
     std::string getValue(); //const;
-    void reset();
+    void reset(std::string defaultText);
 
-private:
-    sf::RenderWindow &mWindow;
     sf::RectangleShape mRectangle;
     sf::Text mText;
     std::string mValue;
@@ -44,7 +43,8 @@ int main()
     }
 
     // Create a search bar
-    SearchBar searchBar = SearchBar(window, sf::Vector2f(50, 50), sf::Vector2f(300, 40), font, " ");
+    SearchBar searchBar;
+    searchBar = SearchBar(sf::Vector2f(50, 50), sf::Vector2f(300, 40), font, " ");
 
     // Main game loop
     while (window.isOpen()) {
@@ -53,11 +53,11 @@ int main()
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            searchBar.handleEvent(event);
+            searchBar.handleEvent(event, 20, window);
         }
 
         window.clear(sf::Color::White);
-        searchBar.draw();
+        searchBar.draw(window);
         window.display();
     }
 
