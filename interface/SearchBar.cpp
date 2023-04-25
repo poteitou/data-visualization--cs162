@@ -20,7 +20,7 @@ SearchBar::SearchBar(sf::RenderWindow &window, sf::Vector2f size, sf::Vector2f p
     mText.setPosition(position.x + 10, position.y + 10);
     mText.setFillColor(sf::Color::Black);
     mText.setString(defaultText);
-    mValue = "";
+    mValue = defaultText;
 
     mHovered = false;
     mSelected = false;

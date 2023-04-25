@@ -18,7 +18,6 @@ void Game::run()
 
     while (mWindow.isOpen())
     {
-        sf::Event event;
         float dt = clock.restart().asSeconds();
         processEvents(mScreen, dt);
 
