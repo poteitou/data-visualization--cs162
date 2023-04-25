@@ -25,10 +25,10 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     
     mDefaultText[4].setCharacterSize(22);
 
-    mDefaultText[0].setPosition(650, 70);
+    mDefaultText[0].setPosition(650, 40);
     mDefaultText[1].setPosition(1050, 450);
     mDefaultText[2].setPosition(1050, 500);
-    mDefaultText[3].setPosition(1050, 550);
+    mDefaultText[3].setPosition(1050, 600);
 
     mDefaultText[4].setPosition(250, 620 + 19);
 
@@ -38,7 +38,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 420), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22));
     mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22));
-    mButton.push_back(Button(mWindow, sf::Vector2f(250, 50), sf::Vector2f(1300, 150), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22));
+    mButton.push_back(Button(mWindow, sf::Vector2f(250, 50), sf::Vector2f(1050, 670), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22));
     
     mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(700, 770), sf::Color::Cyan, sf::Color::Blue, nameButton[8], font, 22));
 
@@ -54,7 +54,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, ""));
     mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, ""));
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 620 + 5), font, "8 4 22 9"));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(400, 50), sf::Vector2f(350, 620 + 5), font, "8 4 3 22 9 4"));
 
     array = new std::string[9];
     size = 0;
@@ -97,7 +97,7 @@ void StaticArray::handle(sf::Event event, int &mData)
         case 0:
             break;
         case 1: // Enter
-            mSearchBar[2].handleEvent(event, 20);
+            mSearchBar[2].handleEvent(event, 26);
 
             mButton[8].checkMouseOver();
 
@@ -137,7 +137,7 @@ void StaticArray::handle(sf::Event event, int &mData)
 
 void StaticArray::draw(float dt)
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 4; i++)
         mWindow.draw(mDefaultText[i]);
     for (int i = 0; i < 8; i++)
         mButton[i].draw();
