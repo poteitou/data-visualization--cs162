@@ -60,7 +60,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     size = 0;
 }
 
-void StaticArray::handle(sf::Event event, int &mData)
+void StaticArray::handle(sf::Event event, int &mData, float dt)
 {
     for (int i = 0; i < 8; i++)
         mButton[i].checkMouseOver();
@@ -133,6 +133,9 @@ void StaticArray::handle(sf::Event event, int &mData)
     default:
         break;
     }
+
+    for (int i = 0; i < mDataPoint.size(); i++)
+        mDataPoint[i].appear(dt);
 }
 
 void StaticArray::draw(float dt)
@@ -216,12 +219,12 @@ void StaticArray::enter()
     
     for (int i = 0; i < size; i++) 
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
+        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200)));
     }
 
     for (int i = size; i < 9; i++)
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
+        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200)));
     }
 
     inFile.close();

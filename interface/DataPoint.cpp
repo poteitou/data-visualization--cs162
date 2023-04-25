@@ -60,14 +60,14 @@ void DataPoint::setScale(sf::Vector2f scale)
 
 void DataPoint::appear(float dt)
 {
-    if (mAppearing)
+    // if (mAppearing)
     {
         sf::Color color = mRect.getFillColor();
         color.a += dt * 255.f;
         if (color.a >= 255.f)
         {
             color.a = 255;
-            mAppearing = false;
+            // mAppearing = false;
         }
         mRect.setFillColor(color);
         mTextIn.setFillColor(sf::Color(mTextIn.getFillColor().r, mTextIn.getFillColor().g, mTextIn.getFillColor().b, color.a));

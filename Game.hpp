@@ -13,7 +13,7 @@ public:
     void        run();
 
 private:
-    void        processEvents(Screen &mScreen);
+    void        processEvents(Screen &mScreen, float dt);
     void        update(Screen &screen, float dt);
     void        render(Screen &screen);
 

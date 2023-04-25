@@ -19,8 +19,8 @@ void Game::run()
     while (mWindow.isOpen())
     {
         sf::Event event;
-        processEvents(mScreen);
         float dt = clock.restart().asSeconds();
+        processEvents(mScreen, dt);
 
         mWindow.clear(sf::Color::White);
         mScreen.draw(dt);
@@ -44,7 +44,7 @@ void Game::run()
     } */
 }
 
-void Game::processEvents(Screen &mScreen)
+void Game::processEvents(Screen &mScreen, float dt)
 {
     sf::Event event;
     while (mWindow.pollEvent(event))
@@ -55,8 +55,10 @@ void Game::processEvents(Screen &mScreen)
             mWindow.close();
             break;
         default:
-            mScreen.handle(event);
+            mScreen.handle(event, dt);
             break;
         }
     }
+    sf::Event noEvent;
+    mScreen.handle(noEvent, dt);
 }

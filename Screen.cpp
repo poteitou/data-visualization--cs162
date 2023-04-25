@@ -6,7 +6,7 @@ Screen::Screen(sf::RenderWindow &window, sf::Font &font)
 
 }
 
-void Screen::handle(sf::Event event)
+void Screen::handle(sf::Event event, float dt)
 {
     switch(mData)
     {
@@ -14,7 +14,7 @@ void Screen::handle(sf::Event event)
         mMenu.handle(event, mData);
         break;
     case 1:
-        mStaticArray.handle(event, mData);
+        mStaticArray.handle(event, mData, dt);
         break;
     default:
         break;

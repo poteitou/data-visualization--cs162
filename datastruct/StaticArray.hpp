@@ -20,7 +20,7 @@ public:
     StaticArray(const StaticArray &other);
     ~StaticArray(); */
 
-    void handle(sf::Event event, int &mData);
+    void handle(sf::Event event, int &mData, float dt);
     void draw(float dt);
 
     void saveData(std::string fileName);
