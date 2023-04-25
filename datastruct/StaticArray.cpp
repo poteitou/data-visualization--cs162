@@ -11,29 +11,26 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     // Top right
     mDefaultText[0].setString("STATIC ARRAY");
-    mDefaultText[1].setString("Max size: 7");
+    mDefaultText[1].setString("Max size: 9");
     mDefaultText[2].setString("Value range: 0..99");
-    mDefaultText[3].setString("Implementation:");
-    mDefaultText[4].setString("Visualization:");
+    mDefaultText[3].setString("Color tone:");
 
     // Create Enter
-    mDefaultText[5].setString("Value");
+    mDefaultText[4].setString("Value");
 
     mDefaultText[0].setCharacterSize(45);
     mDefaultText[1].setCharacterSize(25);
     mDefaultText[2].setCharacterSize(25);
-    mDefaultText[3].setCharacterSize(30);
-    mDefaultText[4].setCharacterSize(30);
+    mDefaultText[3].setCharacterSize(25);
     
-    mDefaultText[5].setCharacterSize(22);
+    mDefaultText[4].setCharacterSize(22);
 
-    mDefaultText[0].setPosition(1100, 70);
-    mDefaultText[1].setPosition(950, 150);
-    mDefaultText[2].setPosition(950, 200);
-    mDefaultText[3].setPosition(1150, 275);
-    mDefaultText[4].setPosition(400, 70);
+    mDefaultText[0].setPosition(650, 70);
+    mDefaultText[1].setPosition(1050, 450);
+    mDefaultText[2].setPosition(1050, 500);
+    mDefaultText[3].setPosition(1050, 550);
 
-    mDefaultText[5].setPosition(250, 620 + 19);
+    mDefaultText[4].setPosition(250, 620 + 19);
 
     std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "OK"};
     for (int i = 0; i < 5; i++)
@@ -57,9 +54,9 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, ""));
     mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, ""));
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 620 + 5), font, ""));
+    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(300, 50), sf::Vector2f(350, 620 + 5), font, "8 4 22 9"));
 
-    array = new std::string[7];
+    array = new std::string[9];
     size = 0;
 }
 
@@ -106,7 +103,7 @@ void StaticArray::handle(sf::Event event, int &mData)
 
             if (mButton[8].checkPress())
             {
-                std::ofstream outFile("resources/data/create.data");
+                std::ofstream outFile("data/create.data");
                 outFile << mSearchBar[2].getValue();
                 outFile.close();
 
@@ -155,7 +152,7 @@ void StaticArray::draw(float dt)
         case 0:
             break;
         case 1: // Enter
-            mWindow.draw(mDefaultText[5]);
+            mWindow.draw(mDefaultText[4]);
             mSearchBar[2].draw();
             
             mButton[8].draw();
@@ -207,11 +204,11 @@ void StaticArray::saveData(std::string fileName) {
 
 void StaticArray::enter()
 {
-    array = new std::string[7];
+    array = new std::string[9];
     size = 0;
 
     mDataPoint.clear();
-    std::ifstream inFile("resources/data/create.data");
+    std::ifstream inFile("data/create.data");
 
     int id = 0;
     while (inFile >> array[id++])
@@ -219,12 +216,12 @@ void StaticArray::enter()
     
     for (int i = 0; i < size; i++) 
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(150 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
+        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
     }
 
-    for (int i = size; i < 7; i++)
+    for (int i = size; i < 9; i++)
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(150 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
+        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White));
     }
 
     inFile.close();
