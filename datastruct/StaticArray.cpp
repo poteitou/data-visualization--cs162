@@ -2,6 +2,12 @@
 
 StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(font), mType(0), mSmallType(0)
 {
+
+    mButton.resize(9);
+    mBCreate.resize(3);
+    mBInsert.resize(3);
+
+    mSearchBar.resize(3);
     mDefaultText.resize(7);
     for (int i = 0; i < 7; i++)
     {
@@ -34,27 +40,27 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "OK"};
     for (int i = 0; i < 5; i++)
-        mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(100, 570 + i * 55), sf::Color::Cyan, sf::Color::Blue, nameButton[i], font, 22));
+        mButton[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(100, 570 + i * 55), sf::Color::Cyan, sf::Color::Blue, nameButton[i], font, 22);
 
-    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 420), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22));
-    mButton.push_back(Button(mWindow, sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22));
-    mButton.push_back(Button(mWindow, sf::Vector2f(250, 50), sf::Vector2f(1050, 670), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22));
+    mButton[5] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 420), sf::Color::Cyan, sf::Color::Blue, nameButton[5], font, 22);
+    mButton[6] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22);
+    mButton[7] = Button(sf::Vector2f(250, 50), sf::Vector2f(1050, 670), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22);
     
-    mButton.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(700, 770), sf::Color::Cyan, sf::Color::Blue, nameButton[8], font, 22));
+    mButton[8] = Button(sf::Vector2f(100, 50), sf::Vector2f(700, 770), sf::Color::Cyan, sf::Color::Blue, nameButton[8], font, 22);
 
     std::string nameBCreate[] = {"Enter", "Random", "Data File"};
     for (int i = 0; i < 3; i++)
-        mBCreate.push_back(Button(mWindow, sf::Vector2f(100, 50), sf::Vector2f(300 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBCreate[i], font, 22));
+        mBCreate[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(300 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBCreate[i], font, 22);
 
     std::string nameBInsert[] = {"At The First", "At The Last", "At The Middle"};
     for (int i = 0; i < 3; i++)
     {
-        mBInsert.push_back(Button(mWindow, sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22));
+        mBInsert[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22);
     }
 
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, ""));
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, ""));
-    mSearchBar.push_back(SearchBar(mWindow, sf::Vector2f(400, 50), sf::Vector2f(350, 620 + 5), font, "8 4 3 22 9 4"));
+    mSearchBar[0] = SearchBar(sf::Vector2f(400, 50), sf::Vector2f(350, 620 + 5), font, "8 4 3 22 9 4");
+    mSearchBar[1] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, "");
+    mSearchBar[2] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, "");
 
     array = new std::string[9];
     size = 0;
@@ -63,14 +69,14 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 void StaticArray::handle(sf::Event event, int &mData, float dt)
 {
     for (int i = 0; i < 8; i++)
-        mButton[i].checkMouseOver();
+        mButton[i].checkMouseOver(mWindow);
     for (int i = 0; i < 5; i++)
-        if (mButton[i].checkPress())
+        if (mButton[i].checkPress(mWindow))
         {
             mType = i + 1;
             mSmallType = 0;
         }
-    if (mButton[7].checkPress())
+    if (mButton[7].checkPress(mWindow))
     {
         mType = 0;
         mData = 0;
@@ -87,10 +93,10 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
     {
     case 1: // Create
         for (int i = 0; i < 3; i++)
-            mBCreate[i].checkMouseOver();
+            mBCreate[i].checkMouseOver(mWindow);
         for (int i = 0; i < 3; i++)
         {
-            if (mBCreate[i].checkPress())
+            if (mBCreate[i].checkPress(mWindow))
                 mSmallType = i + 1;
         }
         switch (mSmallType)
@@ -98,14 +104,14 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
         case 0:
             break;
         case 1: // Enter
-            mSearchBar[2].handleEvent(event, 26);
+            mSearchBar[0].handleEvent(event, 26, mWindow);
 
-            mButton[8].checkMouseOver();
+            mButton[8].checkMouseOver(mWindow);
 
-            if (mButton[8].checkPress())
+            if (mButton[8].checkPress(mWindow))
             {
                 std::ofstream outFile("data/create.data");
-                outFile << mSearchBar[2].getValue();
+                outFile << mSearchBar[0].getValue();
                 outFile.close();
 
                 enter();
@@ -121,11 +127,11 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
         break;
     case 2: // Insert
         for (int i = 0; i < 3; i++)
-            mBInsert[i].checkMouseOver();
+            mBInsert[i].checkMouseOver(mWindow);
         break;
     case 3: // Remove
         for (int i = 0; i < 3; i++)
-            mBInsert[i].checkMouseOver();
+            mBInsert[i].checkMouseOver(mWindow);
         break;
     case 4: // Update
         break;
@@ -135,8 +141,8 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
         break;
     }
 
-    for (int i = 0; i < mDataPoint.size(); i++)
-        mDataPoint[i].appear(dt);
+    // for (int i = 0; i < mDataPoint.size(); i++)
+    //     mDataPoint[i].appear(dt);
 }
 
 void StaticArray::draw(float dt)
@@ -144,22 +150,22 @@ void StaticArray::draw(float dt)
     for (int i = 0; i < 4; i++)
         mWindow.draw(mDefaultText[i]);
     for (int i = 0; i < 8; i++)
-        mButton[i].draw();
+        mButton[i].draw(mWindow);
     
     switch (mType)
     {
     case 1: // Create
         for (int i = 0; i < 3; i++)
-            mBCreate[i].draw();
+            mBCreate[i].draw(mWindow);
         switch (mSmallType)
         {
         case 0:
             break;
         case 1: // Enter
             mWindow.draw(mDefaultText[4]);
-            mSearchBar[2].draw();
+            mSearchBar[0].draw(mWindow);
             
-            mButton[8].draw();
+            mButton[8].draw(mWindow);
             break;
         case 2:
             break;
@@ -171,11 +177,11 @@ void StaticArray::draw(float dt)
         break;
     case 2: // Insert
         for (int i = 0; i < 3; i++)
-            mBInsert[i].draw();
+            mBInsert[i].draw(mWindow);
         break;
     case 3: // Remove
         for (int i = 0; i < 3; i++)
-            mBInsert[i].draw();
+            mBInsert[i].draw(mWindow);
         break;
     case 4: // Update
         break;
@@ -185,8 +191,8 @@ void StaticArray::draw(float dt)
         break;
     }
 
-    for (int i = 0; i < mDataPoint.size(); i++)
-        mDataPoint[i].draw();
+    // for (int i = 0; i < mDataPoint.size(); i++)
+    //     mDataPoint[i].draw(mWindow);
 }
 
 void StaticArray::saveData(std::string fileName) {
@@ -217,15 +223,16 @@ void StaticArray::enter()
     int id = 0;
     while (inFile >> array[id++])
         ++size;
+    mDataPoint.resize(size);
     
     for (int i = 0; i < size; i++) 
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200, 0)));
+        mDataPoint[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200, 0));
     }
 
     for (int i = size; i < 9; i++)
     {
-        mDataPoint.push_back(DataPoint(mWindow, sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 255, 255, 0)));
+        mDataPoint[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 255, 255, 0));
     }
 
     inFile.close();

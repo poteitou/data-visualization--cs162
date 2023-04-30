@@ -6,15 +6,14 @@
 
 #include <fstream>
 
-class Menu
+struct Menu
 {
-public:
     Menu(sf::RenderWindow &window, sf::Font &font);
     void handle(sf::Event event, int &mData);
-    void draw();
+    void draw(sf::RenderWindow &mWindow);
 
-private:
     sf::RenderWindow &mWindow;
+    sf::Font &mFont;
     std::vector<Button> mButton;
 };
 

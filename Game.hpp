@@ -7,22 +7,17 @@
 #include "datastruct/StaticArray.hpp"
 #include "interface/Button.hpp"
 
-class Game
+struct Game
 {
-public:
                 Game();
     void        run();
 
-private:
     void        processEvents(Screen &mScreen, float dt);
-    void        update(Screen &screen, float dt);
-    void        render(Screen &screen);
+    void        update(Screen &mScreen, float dt);
+    void        render(Screen &mScreen);
 
-private:
     sf::RenderWindow mWindow;
     sf::Font mFont;
-
-
 };
 
 #endif // GAME_HPP

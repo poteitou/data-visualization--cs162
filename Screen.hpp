@@ -5,19 +5,17 @@
 #include "datastruct/StaticArray.hpp"
 #include "datastruct/Menu.hpp"
 
-class Screen
+struct Screen
 {
-public:
-    Screen(sf::RenderWindow& window, sf::Font& font);
+    Screen(sf::RenderWindow &window, sf::Font &font);
     void handle(sf::Event event, float dt);
     void draw(float dt);
 
-private:
-    sf::RenderWindow& mWindow;
-    sf::Font& mFont;
+    sf::RenderWindow &mWindow;
+    sf::Font &mFont;
     Menu mMenu;
     StaticArray mStaticArray;
-    int mData; 
+    int mData;
 };
 
 #endif // SCREEN_HPP

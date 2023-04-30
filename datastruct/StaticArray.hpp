@@ -11,9 +11,8 @@
 #include <ctime>
 #include <cstdlib>
 
-class StaticArray
+struct StaticArray
 {
-public:
     StaticArray(sf::RenderWindow &window, sf::Font &font);
     /* StaticArray(int size);
     StaticArray(int size, int *data);
@@ -36,7 +35,6 @@ public:
     int getElement(int index) const;
     void setElement(int index, int element); */
 
-private:
     sf::RenderWindow &mWindow;
     sf::Font &mFont;
     std::vector<Button> mButton;

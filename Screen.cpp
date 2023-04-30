@@ -1,7 +1,7 @@
 #include "Screen.hpp"
 
 Screen::Screen(sf::RenderWindow &window, sf::Font &font)
-    : mWindow(window), mFont(font), mData(0), mStaticArray(mWindow, mFont), mMenu(mWindow, mFont)
+    : mWindow(window), mFont(font), mData(0), mMenu(mWindow, mFont), mStaticArray(mWindow, mFont)
 {
 
 }
@@ -26,7 +26,7 @@ void Screen::draw(float dt)
     switch(mData)
     {
     case 0: // Menu
-        mMenu.draw();
+        mMenu.draw(mWindow);
         break;
     case 1:
         mStaticArray.draw(dt);

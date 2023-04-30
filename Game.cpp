@@ -18,10 +18,8 @@ void Game::run()
 
     while (mWindow.isOpen())
     {
-        sf::Event event;
         float dt = clock.restart().asSeconds();
         processEvents(mScreen, dt);
-
         mWindow.clear(sf::Color::White);
         mScreen.draw(dt);
         mWindow.display();
