@@ -9,13 +9,13 @@ struct SearchBar
     SearchBar();
     SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText);
 
-    void handleEvent(sf::Event event, int capacity, sf::RenderWindow &mWindow);
+    void update(bool mousePress, sf::Vector2i mousePosition, char keyPress, int capacity);
     void draw(sf::RenderWindow &mWindow);
 
     std::string getValue(); //const;
     void reset(std::string defaultText);
 
-    sf::RectangleShape mRectangle;
+    sf::RectangleShape mRect;
     sf::Text mText;
     std::string mValue;
     sf::Color mDefaultColor;

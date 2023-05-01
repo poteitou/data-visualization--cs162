@@ -14,7 +14,7 @@ struct Screen
     sf::RenderWindow &mWindow;
     sf::Font &mFont;
     Menu mMenu;
-    //StaticArray mStaticArray;
+    StaticArray mStaticArray;
     int mData;
 };
 

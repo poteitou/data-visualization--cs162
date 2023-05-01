@@ -6,12 +6,12 @@ SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, s
     : mValue(defaultText), mHovered(false), mSelected(false)
 {
     // Set up the rectangle shape
-    mRectangle.setPosition(position);
-    mRectangle.setSize(size);
+    mRect.setPosition(position);
+    mRect.setSize(size);
     mDefaultColor = sf::Color(200, 200, 200);
     mHoveredColor = sf::Color(255, 200, 200);
     mSelectedColor = sf::Color(255, 130, 130);
-    mRectangle.setFillColor(mDefaultColor);
+    mRect.setFillColor(mDefaultColor);
 
     // Set up the text object
     // sf::Font font;
@@ -24,77 +24,51 @@ SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, s
     mText.setString(defaultText);
 }
 
-void SearchBar::handleEvent(sf::Event event, int capacity, sf::RenderWindow &mWindow)
+void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char keyPress, int capacity)
 {
-    sf::Vector2i mousePosition;
-    char c;
-
-    switch (event.type)
+    sf::FloatRect bounds = mRect.getGlobalBounds();
+    if (mousePress)
     {
-    case sf::Event::MouseButtonPressed:
-        if (event.mouseButton.button == sf::Mouse::Left)
+        if (bounds.contains(static_cast<sf::Vector2f>(mousePosition)))
         {
-            mousePosition = sf::Mouse::getPosition(mWindow);
-            if (contains(sf::Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))))
-            {
-                mSelected = true;
-                mRectangle.setFillColor(mSelectedColor);
-            }
-            else
-            {
-                mSelected = false;
-                if (mHovered)
-                {
-                    mHovered = false;
-                    mRectangle.setFillColor(mDefaultColor);
-                }
-            }
-        }
-        break;
-    case sf::Event::MouseMoved:
-        mousePosition = sf::Mouse::getPosition(mWindow);
-        if (contains(sf::Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))))
-        {
-            if (!mHovered)
-            {
-                mHovered = true;
-                mRectangle.setFillColor(mHoveredColor);
-            }
+            mSelected = true;
+            mRect.setFillColor(mSelectedColor);
         }
         else
         {
-            if (!mSelected && mHovered)
+            mSelected = false;
+            if (mHovered)
             {
                 mHovered = false;
-                mRectangle.setFillColor(mDefaultColor);
+                mRect.setFillColor(mDefaultColor);
             }
         }
-        break;
-    case sf::Event::TextEntered:
+        return;
+    }
+    if (bounds.contains(static_cast<sf::Vector2f>(mousePosition)))
+    {
+        if (!mHovered)
+        {
+            mHovered = true;
+            mRect.setFillColor(mHoveredColor);
+        }
+    }
+    else
+    {
+        if (!mSelected && mHovered)
+        {
+            mHovered = false;
+            mRect.setFillColor(mDefaultColor);
+        }
+    }
+    if (keyPress != '$')
+    {
         if (!mSelected || (int)mValue.size() == capacity)
         {
-            break; // return;
+            keyPress = '$';
+            return;
         }
-        c = static_cast<char>(event.text.unicode);
-        if ((c >= '0' && c <= '9') || c == ' ')
-        {
-            if (c == ' ' && (mValue.empty() || mValue.back() == ' '))
-            {
-                // Do not allow the first character to be a space or 2 spaces
-                break; // return;
-            }
-            int mSize = (int)mValue.size();
-            if (c != ' ' && mSize >= 2 && mValue[mSize - 1] != ' ' && mValue[mSize - 2] != ' ')
-            {
-                // Do not allow 3-digit numbers
-                break;
-            }
-            mValue += c;
-            mText.setString(mValue);
-        }
-        break;
-    case sf::Event::KeyPressed:
-        if (event.key.code == sf::Keyboard::Backspace)
+        if (keyPress == '@')
         {
             if (!mValue.empty())
             {
@@ -102,15 +76,31 @@ void SearchBar::handleEvent(sf::Event event, int capacity, sf::RenderWindow &mWi
                 mText.setString(mValue);
             }
         }
-        break;
-    default:
-        break;
+        else
+        {
+            if (keyPress == ' ' && (mValue.empty() || mValue.back() == ' '))
+            {
+                // Do not allow the first character to be a space or 2 spaces
+                keyPress = '$';
+                return;
+            }
+            int mSize = (int)mValue.size();
+            if (keyPress != ' ' && mSize >= 2 && mValue[mSize - 1] != ' ' && mValue[mSize - 2] != ' ')
+            {
+                // Do not allow 3-digit numbers
+                keyPress = '$';
+                return;
+            }
+            mValue += keyPress;
+            mText.setString(mValue);
+        }
+        keyPress = '$';
     }
 }
 
 void SearchBar::draw(sf::RenderWindow &mWindow)
 {
-    mWindow.draw(mRectangle);
+    mWindow.draw(mRect);
     mWindow.draw(mText);
 }
 
@@ -121,7 +111,7 @@ std::string SearchBar::getValue()// const
 
 bool SearchBar::contains(sf::Vector2f point) const
 {
-    return mRectangle.getGlobalBounds().contains(point);
+    return mRect.getGlobalBounds().contains(point);
 }
 
 void SearchBar::reset(std::string defaultText)

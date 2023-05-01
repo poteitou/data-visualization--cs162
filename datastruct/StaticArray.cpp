@@ -3,8 +3,8 @@
 StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(font), mType(0), mSmallType(0)
 {
 
-    mButton.resize(9);
-    mBCreate.resize(3);
+    mButton.resize(8);
+    mBCreate.resize(2);
     mBInsert.resize(3);
 
     mSearchBar.resize(3);
@@ -38,7 +38,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     mDefaultText[4].setPosition(250, 620 + 19);
 
-    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "OK"};
+    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure"};
     for (int i = 0; i < 5; i++)
         mButton[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(100, 570 + i * 55), sf::Color::Cyan, sf::Color::Blue, nameButton[i], font, 22);
 
@@ -46,10 +46,8 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mButton[6] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color::Cyan, sf::Color::Blue, nameButton[6], font, 22);
     mButton[7] = Button(sf::Vector2f(250, 50), sf::Vector2f(1050, 670), sf::Color::Cyan, sf::Color::Blue, nameButton[7], font, 22);
     
-    mButton[8] = Button(sf::Vector2f(100, 50), sf::Vector2f(700, 770), sf::Color::Cyan, sf::Color::Blue, nameButton[8], font, 22);
-
-    std::string nameBCreate[] = {"Enter", "Random", "Data File"};
-    for (int i = 0; i < 3; i++)
+    std::string nameBCreate[] = {"Randomize", "Data File"};
+    for (int i = 0; i < 2; i++)
         mBCreate[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(300 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBCreate[i], font, 22);
 
     std::string nameBInsert[] = {"At The First", "At The Last", "At The Middle"};
@@ -66,17 +64,18 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     size = 0;
 }
 
-void StaticArray::handle(sf::Event event, int &mData, float dt)
+void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char keyPress, int &mData, float dt)
 {
     for (int i = 0; i < 8; i++)
-        mButton[i].checkMouseOver(mWindow);
+        mButton[i].setMouseOver(mousePosition);
     for (int i = 0; i < 5; i++)
-        if (mButton[i].checkPress(mWindow))
+        if (mousePress && mButton[i].mHovered)
         {
             mType = i + 1;
             mSmallType = 0;
         }
-    if (mButton[7].checkPress(mWindow))
+
+    if (mousePress && mButton[7].mHovered)
     {
         mType = 0;
         mData = 0;
@@ -88,27 +87,24 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
         outFile.close();
         return;
     }
+    /*
     
     switch (mType)
     {
     case 1: // Create
         for (int i = 0; i < 3; i++)
-            mBCreate[i].checkMouseOver(mWindow);
+            mBCreate[i].setMouseOver(mousePosition);
         for (int i = 0; i < 3; i++)
         {
-            if (mBCreate[i].checkPress(mWindow))
+            if (mousePress && mBCreate[i].mHovered)
                 mSmallType = i + 1;
         }
         switch (mSmallType)
         {
-        case 0:
-            break;
         case 1: // Enter
-            mSearchBar[0].handleEvent(event, 26, mWindow);
+            mSearchBar[0].update(mousePress, mousePosition, keyPress, 26);
 
-            mButton[8].checkMouseOver(mWindow);
-
-            if (mButton[8].checkPress(mWindow))
+            if (mousePress && mButton[6].mHovered)
             {
                 std::ofstream outFile("data/create.data");
                 outFile << mSearchBar[0].getValue();
@@ -127,11 +123,11 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
         break;
     case 2: // Insert
         for (int i = 0; i < 3; i++)
-            mBInsert[i].checkMouseOver(mWindow);
+            mBInsert[i].setMouseOver(mousePosition);
         break;
     case 3: // Remove
         for (int i = 0; i < 3; i++)
-            mBInsert[i].checkMouseOver(mWindow);
+            mBInsert[i].setMouseOver(mousePosition);
         break;
     case 4: // Update
         break;
@@ -143,6 +139,7 @@ void StaticArray::handle(sf::Event event, int &mData, float dt)
 
     // for (int i = 0; i < mDataPoint.size(); i++)
     //     mDataPoint[i].appear(dt);
+    */
 }
 
 void StaticArray::draw(float dt)
@@ -151,7 +148,7 @@ void StaticArray::draw(float dt)
         mWindow.draw(mDefaultText[i]);
     for (int i = 0; i < 8; i++)
         mButton[i].draw(mWindow);
-    
+    /*
     switch (mType)
     {
     case 1: // Create
@@ -159,13 +156,9 @@ void StaticArray::draw(float dt)
             mBCreate[i].draw(mWindow);
         switch (mSmallType)
         {
-        case 0:
-            break;
         case 1: // Enter
             mWindow.draw(mDefaultText[4]);
             mSearchBar[0].draw(mWindow);
-            
-            mButton[8].draw(mWindow);
             break;
         case 2:
             break;
@@ -193,6 +186,7 @@ void StaticArray::draw(float dt)
 
     // for (int i = 0; i < mDataPoint.size(); i++)
     //     mDataPoint[i].draw(mWindow);
+    */
 }
 
 void StaticArray::saveData(std::string fileName) {

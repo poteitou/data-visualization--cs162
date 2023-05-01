@@ -19,7 +19,7 @@ struct StaticArray
     StaticArray(const StaticArray &other);
     ~StaticArray(); */
 
-    void handle(sf::Event event, int &mData, float dt);
+    void update(bool mousePress, sf::Vector2i mousePosition, char keyPress, int &mData, float dt);
     void draw(float dt);
 
     void saveData(std::string fileName);

@@ -1,7 +1,7 @@
 #include "Screen.hpp"
 
 Screen::Screen(sf::RenderWindow &window, sf::Font &font)
-    : mWindow(window), mFont(font), mData(0), mMenu(mWindow, mFont)//, mStaticArray(mWindow, mFont)
+    : mWindow(window), mFont(font), mData(0), mMenu(mWindow, mFont), mStaticArray(mWindow, mFont)
 {
     
 }
@@ -14,7 +14,7 @@ void Screen::update(bool mousePress, sf::Vector2i mousePosition, char keyPress, 
         mMenu.update(mousePress, mousePosition, mData);
         break;
     case 1:
-        //mStaticArray.handle(event, mData, dt);
+        mStaticArray.update(mousePress, mousePosition, keyPress, mData, dt);
         break;
     default:
         break;
@@ -29,7 +29,7 @@ void Screen::draw(float dt)
         mMenu.draw(mWindow);
         break;
     case 1:
-        //mStaticArray.draw(dt);
+        mStaticArray.draw(dt);
         break;
     default:
         break;
