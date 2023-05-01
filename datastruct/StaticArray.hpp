@@ -7,7 +7,6 @@
 #include "../interface/DataPoint.hpp"
 #include "../interface/SearchBar.hpp"
 #include <string.h>
-#include <iostream>
 #include <fstream>
 #include <ctime>
 #include <cstdlib>

@@ -66,7 +66,6 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
 void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
 {
-    if (keyPress == '@') std::cout << keyPress << '-';
     for (int i = 0; i < 8; i++)
         mButton[i].setMouseOver(mousePosition);
     for (int i = 0; i < 5; i++)
@@ -92,12 +91,15 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     switch (mType)
     {
     case 1: // Create
-        for (int i = 0; i < 2; i++)
+        if (mBCreate[0].setMouseOver(mousePosition) && mousePress) // Randomize
         {
-            if (mBCreate[i].setMouseOver(mousePosition) && mousePress)
-            {
-                mSmallType = i + 1;
-            }
+            mSmallType = 1;
+            
+            
+        }
+        else if (mBCreate[0].setMouseOver(mousePosition) && mousePress) // Data file
+        {
+            smallType = 2;
         }
         switch (mSmallType)
         {
@@ -264,7 +266,7 @@ StaticArray::~StaticArray()
     delete[] array;
 }
 
-void StaticArray::randomize(int min = 0, int max = 100)
+void StaticArray::randomize(int min = 0, int max = 99)
 {
     srand(time(0));
     for (int i = 0; i < size; i++)

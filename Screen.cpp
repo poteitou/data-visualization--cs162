@@ -8,13 +8,12 @@ Screen::Screen(sf::RenderWindow &window, sf::Font &font)
 
 void Screen::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, float dt)
 {
-    if (keyPress == '@') std::cout << keyPress << '-';
     switch(mData)
     {
     case 0: // Menu
         mMenu.update(mousePress, mousePosition, mData);
         break;
-    case 1:
+    case 1: // Static array
         mStaticArray.update(mousePress, mousePosition, keyPress, mData, dt);
         break;
     default:
@@ -29,7 +28,7 @@ void Screen::draw(float dt)
     case 0: // Menu
         mMenu.draw(mWindow);
         break;
-    case 1:
+    case 1: // Static array
         mStaticArray.draw(dt);
         break;
     default:

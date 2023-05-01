@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include "../interface/Button.hpp"
 
-#include <fstream>
-
 struct Menu
 {
     Menu(sf::RenderWindow &window, sf::Font &font);

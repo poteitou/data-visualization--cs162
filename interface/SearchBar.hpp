@@ -12,7 +12,7 @@ struct SearchBar
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int capacity);
     void draw(sf::RenderWindow &mWindow);
 
-    std::string getValue(); // const;
+    std::string getValue();
     void reset(std::string defaultText);
 
     sf::RectangleShape mRect;
@@ -28,4 +28,3 @@ struct SearchBar
 };
 
 #endif
-

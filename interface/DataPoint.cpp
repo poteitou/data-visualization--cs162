@@ -2,7 +2,7 @@
 
 DataPoint::DataPoint() {}
 
-DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppearing(true), mDisappearing(false)
+DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(0), mDisappear(0)
 {
     // create rectangle
     mRect.setOrigin(sf::Vector2f(0.f, 0.f));
@@ -60,42 +60,33 @@ void DataPoint::setScale(sf::Vector2f scale)
     mScale = scale;
 }
 
-void DataPoint::appear(float dt)
+bool DataPoint::appear(float limit, float dt)
 {
-    if (mAppearing)
+    mAppearTime += limit * dt;
+    if (mAppearTime >= limit)
     {
-        sf::Color color = mRect.getFillColor();
-        color.a += dt * 255.f;
-        if (color.a >= 255)
-        {
-            color.a = 255;
-            std::cout << "oke";
-            mAppearing = false;
-        }
-        mRect.setFillColor(color);
-        mTextIn.setFillColor(sf::Color(mTextIn.getFillColor().r, mTextIn.getFillColor().g, mTextIn.getFillColor().b, color.a));
-        mTextOut.setFillColor(sf::Color(mTextOut.getFillColor().r, mTextOut.getFillColor().g, mTextOut.getFillColor().b, color.a));
+        mAppearTime = limit;
+        mAppear = true;
     }
+    return mAppear;
 }
 
-void DataPoint::disappear(float dt)
+void DataPoint::disappear(float limit, float dt)
 {
-    if (mDisappearing)
+    mRect.setFillColor(sf::Color::Transparent);
+    mRect.setOutlineColor(sf::Color::Transparent);
+    mTextIn.setFillColor(sf::Color::Transparent);
+    mTextOut.setFillColor(sf::Color::Transparent);
+    mDisappearTime += limit * dt;
+    if (mDisappearTime >= limit)
     {
-        sf::Color color = mRect.getFillColor();
-        color.a -= dt * 255.f;
-        if (color.a <= 0.f)
-        {
-            color.a = 0;
-            mDisappearing = false;
-        }
-        mRect.setFillColor(color);
-        mTextIn.setFillColor(sf::Color(mTextIn.getFillColor().r, mTextIn.getFillColor().g, mTextIn.getFillColor().b, color.a));
-        mTextOut.setFillColor(sf::Color(mTextOut.getFillColor().r, mTextOut.getFillColor().g, mTextOut.getFillColor().b, color.a));
+        mDisappearTime = limit;
+        mDisappear = true;
     }
+    return mDisappear;
 }
 
-void DataPoint::move(float dx, float dy)
+void DataPoint::move(float dx, float dy, float dt)
 {
     mRect.move(dx, dy);
     mTextIn.move(dx, dy);

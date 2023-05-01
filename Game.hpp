@@ -6,7 +6,6 @@
 #include "datastruct/Menu.hpp"
 #include "datastruct/StaticArray.hpp"
 #include "interface/Button.hpp"
-#include <iostream>
 
 struct Game
 {

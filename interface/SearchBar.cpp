@@ -52,7 +52,7 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPre
         mHovered = false;
         mRect.setFillColor(mDefaultColor);
     }
-    
+
     if (keyPress == '$' || !mSelected)
     {
         keyPress = '$';
@@ -94,7 +94,7 @@ void SearchBar::draw(sf::RenderWindow &mWindow)
     mWindow.draw(mText);
 }
 
-std::string SearchBar::getValue()// const
+std::string SearchBar::getValue()
 {
     return mValue;
 }
