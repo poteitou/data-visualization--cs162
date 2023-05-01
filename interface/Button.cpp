@@ -51,27 +51,8 @@ bool Button::setMouseOver(sf::Vector2i mousePosition)
     }
 }
 
-bool Button::checkPress(sf::RenderWindow &mWindow)
-{
-    // if (button.isMouseOver())
-    //         {
-    //             button.setHovered(true);
-
-    //             // Check if mouse is clicked on button
-    //             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) 
-    if (checkMouseOver(mWindow) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
 void Button::reset()
 {
     mHovered = false;
 }
-
 

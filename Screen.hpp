@@ -8,13 +8,13 @@
 struct Screen
 {
     Screen(sf::RenderWindow &window, sf::Font &font);
-    void handle(sf::Event event, float dt);
+    void update(bool mousePress, sf::Vector2i mousePosition, char keyPress, float dt);
     void draw(float dt);
 
     sf::RenderWindow &mWindow;
     sf::Font &mFont;
     Menu mMenu;
-    StaticArray mStaticArray;
+    //StaticArray mStaticArray;
     int mData;
 };
 

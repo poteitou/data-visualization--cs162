@@ -11,24 +11,9 @@ Menu::Menu(sf::RenderWindow &window, sf::Font &font)
     mButton[4] = Button(sf::Vector2f(400, 100), sf::Vector2f(600, 700), sf::Color::Cyan, sf::Color::Blue, "Circular Linked List", mFont, 30);
     mButton[5] = Button(sf::Vector2f(300, 100), sf::Vector2f(1100, 300), sf::Color::Cyan, sf::Color::Blue, "Stack", mFont, 30);
     mButton[6] = Button(sf::Vector2f(300, 100), sf::Vector2f(1100, 500), sf::Color::Cyan, sf::Color::Blue, "Queue", mFont, 30);
-
-    mousePress = false;
 }
 
-void Menu::handle(sf::Event event)
-{
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) 
-    {
-        mousePress = true;
-    }
-    else
-    {
-        mousePress = false;
-    }
-    mousePosition = sf::Mouse::getPosition(mWindow);
-}
-
-void Menu::update(int &mData)
+void Menu::update(bool mousePress, sf::Vector2i mousePosition, int &mData)
 {
     for (int i = 0; i < 7; i++)
     {
