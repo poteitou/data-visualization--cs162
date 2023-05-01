@@ -35,10 +35,9 @@ void Button::draw(sf::RenderWindow &mWindow)
     mWindow.draw(mText);
 }
 
-bool Button::checkMouseOver(sf::RenderWindow &mWindow)
+bool Button::setMouseOver(sf::Vector2i mousePosition)
 {
     sf::FloatRect bounds = mRect.getGlobalBounds();
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
 
     if (bounds.contains(static_cast<sf::Vector2f>(mousePosition)))
     {

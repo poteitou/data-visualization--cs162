@@ -9,7 +9,7 @@ struct Button
     Button(sf::Vector2f size, sf::Vector2f position, sf::Color color, sf::Color hoverColor, std::string textString, sf::Font &font, int sizeText);
 
     void draw(sf::RenderWindow &mWindow);
-    bool checkMouseOver(sf::RenderWindow &mWindow);
+    bool setMouseOver(sf::Vector2i mousePosition);
     bool checkPress(sf::RenderWindow &mWindow);
     void reset();
 

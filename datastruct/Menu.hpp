@@ -15,6 +15,9 @@ struct Menu
     sf::RenderWindow &mWindow;
     sf::Font &mFont;
     std::vector<Button> mButton;
+
+    bool mousePress;
+    sf::Vector2i mousePosition;
 };
 
 #endif // MENU_HPP

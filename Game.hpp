@@ -12,12 +12,15 @@ struct Game
                 Game();
     void        run();
 
-    void        processEvents(Screen &mScreen, float dt);
-    void        update(Screen &mScreen, float dt);
+    void        processEvents();
     void        render(Screen &mScreen);
 
     sf::RenderWindow mWindow;
     sf::Font mFont;
+
+    bool mousePress;
+    sf::Vector2i mousePosition;
+    char keyPress;
 };
 
 #endif // GAME_HPP

@@ -7,6 +7,9 @@ Game::Game()
     mWindow.setVerticalSyncEnabled(true);
     // to the refresh rate of the monitor, usually around 60Hz. This can avoid graphical artifacts such as screen tearing
     mWindow.setPosition(sf::Vector2i(200, 50));
+
+    mousePress = false;
+    keyPress = '$';
 }
 
 void Game::run()
@@ -19,7 +22,8 @@ void Game::run()
     while (mWindow.isOpen())
     {
         float dt = clock.restart().asSeconds();
-        processEvents(mScreen, dt);
+        processEvents();
+        mScreen.update(mousePress, mousePosition, keyPress, dt);
         mWindow.clear(sf::Color::White);
         mScreen.draw(dt);
         mWindow.display();
@@ -42,9 +46,10 @@ void Game::run()
     } */
 }
 
-void Game::processEvents(Screen &mScreen, float dt)
+void Game::processEvents()
 {
     sf::Event event;
+    char c;
     while (mWindow.pollEvent(event))
     {
         switch (event.type)
@@ -52,11 +57,30 @@ void Game::processEvents(Screen &mScreen, float dt)
         case sf::Event::Closed:
             mWindow.close();
             break;
+        case sf::Event::MouseButtonPressed:
+            if (event.mouseButton.button == sf::Mouse::Left)
+                mousePress = true;
+            break;
+        case sf::Event::MouseButtonReleased:
+            if (event.mouseButton.button == sf::Mouse::Left)
+                mousePress = false;
+            break;
+        case sf::Event::MouseMoved:
+            mousePosition = sf::Mouse::getPosition(mWindow);
+            break;
+        case sf::Event::TextEntered:
+            c = static_cast<char>(event.text.unicode);
+            if ((c >= '0' && c <= '9') || c == ' ')
+                keyPress = c;
+            break;
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::Backspace)
+                keyPress = '@';
+            break;
+        case sf::Event::KeyReleased:
+            keyPress = '$';
         default:
-            mScreen.handle(event, dt);
             break;
         }
     }
-    sf::Event noEvent;
-    mScreen.handle(noEvent, dt);
 }
