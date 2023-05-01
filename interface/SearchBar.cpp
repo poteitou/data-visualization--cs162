@@ -24,7 +24,7 @@ SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, s
     mText.setString(defaultText);
 }
 
-void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char keyPress, int capacity)
+void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int capacity)
 {
     sf::FloatRect bounds = mRect.getGlobalBounds();
     if (mousePress)
@@ -37,65 +37,57 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char keyPres
         else
         {
             mSelected = false;
-            if (mHovered)
-            {
-                mHovered = false;
-                mRect.setFillColor(mDefaultColor);
-            }
+            mHovered = false;
+            mRect.setFillColor(mDefaultColor);
         }
         return;
     }
-    if (bounds.contains(static_cast<sf::Vector2f>(mousePosition)))
+    if (!mSelected && bounds.contains(static_cast<sf::Vector2f>(mousePosition)))
     {
-        if (!mHovered)
+        mHovered = true;
+        mRect.setFillColor(mHoveredColor);
+    }
+    else if (!mSelected)
+    {
+        mHovered = false;
+        mRect.setFillColor(mDefaultColor);
+    }
+    
+    if (keyPress == '$') return;
+
+    if (!mSelected || (int)mValue.size() == capacity)
+    {
+        keyPress = '$';
+        return;
+    }
+    if (keyPress == '@')
+    {
+        if (!mValue.empty())
         {
-            mHovered = true;
-            mRect.setFillColor(mHoveredColor);
+            mValue.pop_back();
+            mText.setString(mValue);
         }
     }
     else
     {
-        if (!mSelected && mHovered)
+        if (keyPress == ' ' && (mValue.empty() || mValue.back() == ' '))
         {
-            mHovered = false;
-            mRect.setFillColor(mDefaultColor);
-        }
-    }
-    if (keyPress != '$')
-    {
-        if (!mSelected || (int)mValue.size() == capacity)
-        {
+            // Do not allow the first character to be a space or 2 spaces
             keyPress = '$';
             return;
         }
-        if (keyPress == '@')
+        int mSize = (int)mValue.size();
+        if (keyPress != ' ' && mSize >= 2 && mValue[mSize - 1] != ' ' && mValue[mSize - 2] != ' ')
         {
-            if (!mValue.empty())
-            {
-                mValue.pop_back();
-                mText.setString(mValue);
-            }
+            // Do not allow 3-digit numbers
+            keyPress = '$';
+            return;
         }
-        else
-        {
-            if (keyPress == ' ' && (mValue.empty() || mValue.back() == ' '))
-            {
-                // Do not allow the first character to be a space or 2 spaces
-                keyPress = '$';
-                return;
-            }
-            int mSize = (int)mValue.size();
-            if (keyPress != ' ' && mSize >= 2 && mValue[mSize - 1] != ' ' && mValue[mSize - 2] != ' ')
-            {
-                // Do not allow 3-digit numbers
-                keyPress = '$';
-                return;
-            }
-            mValue += keyPress;
-            mText.setString(mValue);
-        }
-        keyPress = '$';
+        mValue += keyPress;
+        mText.setString(mValue);
     }
+
+    keyPress = '$';
 }
 
 void SearchBar::draw(sf::RenderWindow &mWindow)

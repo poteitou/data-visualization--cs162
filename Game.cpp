@@ -69,16 +69,16 @@ void Game::processEvents()
             mousePosition = sf::Mouse::getPosition(mWindow);
             break;
         case sf::Event::TextEntered:
-            c = static_cast<char>(event.text.unicode);
-            if ((c >= '0' && c <= '9') || c == ' ')
-                keyPress = c;
-            break;
-        case sf::Event::KeyPressed:
-            if (event.key.code == sf::Keyboard::Backspace)
+            if (event.text.unicode == 8) // Backspace
                 keyPress = '@';
+            else if ((event.text.unicode >= 48 && event.text.unicode <= 57) || event.text.unicode == 32) // 0 -> 9 or space
+                keyPress = static_cast<char>(event.text.unicode);
+            else
+                keyPress = '$';
             break;
         case sf::Event::KeyReleased:
             keyPress = '$';
+            break;
         default:
             break;
         }

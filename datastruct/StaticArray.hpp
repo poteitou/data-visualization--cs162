@@ -7,6 +7,7 @@
 #include "../interface/DataPoint.hpp"
 #include "../interface/SearchBar.hpp"
 #include <string.h>
+#include <iostream>
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
@@ -19,7 +20,7 @@ struct StaticArray
     StaticArray(const StaticArray &other);
     ~StaticArray(); */
 
-    void update(bool mousePress, sf::Vector2i mousePosition, char keyPress, int &mData, float dt);
+    void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void draw(float dt);
 
     void saveData(std::string fileName);

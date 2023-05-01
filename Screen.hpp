@@ -8,7 +8,7 @@
 struct Screen
 {
     Screen(sf::RenderWindow &window, sf::Font &font);
-    void update(bool mousePress, sf::Vector2i mousePosition, char keyPress, float dt);
+    void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, float dt);
     void draw(float dt);
 
     sf::RenderWindow &mWindow;

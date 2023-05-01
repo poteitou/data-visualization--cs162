@@ -6,8 +6,9 @@ Screen::Screen(sf::RenderWindow &window, sf::Font &font)
     
 }
 
-void Screen::update(bool mousePress, sf::Vector2i mousePosition, char keyPress, float dt)
+void Screen::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, float dt)
 {
+    if (keyPress == '@') std::cout << keyPress << '-';
     switch(mData)
     {
     case 0: // Menu
