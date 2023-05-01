@@ -53,9 +53,7 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPre
         mRect.setFillColor(mDefaultColor);
     }
     
-    if (keyPress == '$') return;
-
-    if (!mSelected || (int)mValue.size() == capacity)
+    if (keyPress == '$' || !mSelected)
     {
         keyPress = '$';
         return;
@@ -68,7 +66,7 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPre
             mText.setString(mValue);
         }
     }
-    else
+    else if ((int)mValue.size() < capacity)
     {
         if (keyPress == ' ' && (mValue.empty() || mValue.back() == ' '))
         {
