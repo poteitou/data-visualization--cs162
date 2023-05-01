@@ -2,7 +2,7 @@
 
 DataPoint::DataPoint() {}
 
-DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(0), mDisappear(0)
+DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White, float appearTime = 0, float disappearTime = 0) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(appearTime), mDisappear(disappearTime)
 {
     // create rectangle
     mRect.setOrigin(sf::Vector2f(0.f, 0.f));

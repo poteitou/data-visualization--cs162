@@ -24,7 +24,8 @@ struct StaticArray
 
     void saveData(std::string fileName);
     void enter();
-    /* void randomize(int min = 0, int max = 100);
+    void randomize();
+    /*
     void add(int element);
     void insert(int index, int element);
     void remove(int index);
@@ -47,7 +48,7 @@ struct StaticArray
 
     std::vector<SearchBar> mSearchBar;
 
-    std::vector<DataPoint> mDataPoint;
+    std::vector<std::vector<DataPoint> > mDataPoint;
     std::string *array;
     int size;
     int mType;

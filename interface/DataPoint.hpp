@@ -6,7 +6,7 @@
 struct DataPoint
 {
     DataPoint();
-    DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize, int outSize, sf::Color inColor, sf::Color outColor, sf::Color Color);
+    DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize, int outSize, sf::Color inColor, sf::Color outColor, sf::Color Color, float appearTime, float disappearTime);
     void setText(std::string textIn, std::string textOut);
     void setTextColor(sf::Color inColor, sf::Color outColor);
     void setBackgroundColor(sf::Color Color);

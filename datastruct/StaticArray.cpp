@@ -2,7 +2,6 @@
 
 StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(font), mType(0), mSmallType(0)
 {
-
     mButton.resize(8);
     mBCreate.resize(2);
     mBInsert.resize(3);
@@ -94,8 +93,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         if (mBCreate[0].setMouseOver(mousePosition) && mousePress) // Randomize
         {
             mSmallType = 1;
-            
-            
+            randomize();
         }
         else if (mBCreate[0].setMouseOver(mousePosition) && mousePress) // Data file
         {
@@ -139,8 +137,12 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         break;
     }
 
-    // for (int i = 0; i < mDataPoint.size(); i++)
-    //     mDataPoint[i].appear(dt);
+    for (int i = 0; i < mDataPoint.size(); i++)
+    {
+
+        mDataPoint[i].appear(dt);
+
+    }
 }
 
 void StaticArray::draw(float dt)
@@ -228,6 +230,39 @@ void StaticArray::enter()
 
     inFile.close();
 }
+
+void StaticArray::randomize()
+{
+    mDataPoint.clear();
+    std::ofstream outFile("data/randomize.data");
+
+    srand(time(NULL));
+    array = new std::string[9];
+    size = rand() % 10;
+
+    for (int i = 0; i < size; i++)
+    {
+        array[i] = rand() % 100;
+        outFile << array[i] << ' ';
+    }
+
+    std::vector<DataPoint> temp(9);
+    
+    for (int i = 0; i < 9; i++)
+    {
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, i == 8 ? 100.f : 0, 0);
+    }
+
+    mDataPoint.push_back(temp);
+    
+    for (int i = 0; i < size; i++) 
+    {
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200, 0), 0, 0);
+    }
+
+    outFile.close();
+}
+
 /*
 void StaticArray::random(int size)
 {
@@ -264,15 +299,6 @@ StaticArray::StaticArray(const StaticArray &other)
 StaticArray::~StaticArray()
 {
     delete[] array;
-}
-
-void StaticArray::randomize(int min = 0, int max = 99)
-{
-    srand(time(0));
-    for (int i = 0; i < size; i++)
-    {
-        array[i] = rand() % (max - min + 1) + min;
-    }
 }
 
 void StaticArray::add(int element)

@@ -9,7 +9,7 @@ SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, s
     mRect.setPosition(position);
     mRect.setSize(size);
     mDefaultColor = sf::Color(200, 200, 200);
-    mHoveredColor = sf::Color(255, 200, 200);
+    mHoveredColor = sf::Color(180, 225, 255);
     mSelectedColor = sf::Color(255, 130, 130);
     mRect.setFillColor(mDefaultColor);
 
