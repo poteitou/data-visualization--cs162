@@ -140,15 +140,16 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     if (step != -1)
         for (int i = 0; i < mDataPoint.size(); i++)
         {
+            bool drawn = false;
             for (int j = 0; j < mDataPoint[i].size(); j++)
             {
                 if (!mDataPoint[i][j].appear(100.f, dt))
                 {
                     step = i;
-                    i = 1000;
-                    break;
+                    drawn = true;
                 }
             }
+            if (drawn) break;
         }
 }
 
@@ -387,7 +388,7 @@ void StaticArray::create(std::string filename)
 {
     if (firstTime == false) return;
     firstTime = false;
-    
+
     std::ifstream inFile(filename);
     if (!inFile)
     {
@@ -473,7 +474,7 @@ void StaticArray::insert(int index, std::string element)
         }
 
         temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
-        temp[i - 1] = DataPoint(sf::Vector2f(350 + (i - 1) * 100, 150), sf::Vector2f(50, 50), array[i - 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
+        temp[i - 1] = DataPoint(sf::Vector2f(350 + (i - 1) * 100, 150), sf::Vector2f(50, 50), array[i - 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 100.f, 0);
         mDataPoint.push_back(temp);
 
         array[i] = array[i - 1];
