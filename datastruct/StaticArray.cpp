@@ -99,6 +99,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
 
     if (mousePress && mButton[7].mHovered)
     {
+        step = -1;
         mType = 0;
         mData = 0;
         mButton[7].reset();
@@ -399,23 +400,19 @@ void StaticArray::create(std::string filename)
     }
     mDataPoint.push_back(temp);
 
-    for (int i = size; i < 9; i++)
-    {
-        temp[i].mAppearTime = 100.f;
-    }
+    for (int i = size; i < 9; i++) temp[i].mAppearTime = 100.f;
     for (int i = 0; i < size; i++)
     {
         if (i > 0)
         {
-            temp[i - 1].setBackgroundColor(sf::Color(255, 200, 200));
-            temp[i - 1].mAppearTime = 100.f;
+            temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
             temp[i - 1].mAppear = true;
         }
         temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
         mDataPoint.push_back(temp);
+        temp[i].setBackgroundColor(sf::Color(255, 200, 200));
+        mDataPoint.push_back(temp);
     }
-
-    temp[size - 1].setBackgroundColor(sf::Color(255, 200, 200));
     mDataPoint.push_back(temp);
     inFile.close();
 }
@@ -436,47 +433,47 @@ void StaticArray::insert(int index, std::string element)
             temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, i < 8 ? 100.f : 0, 0);
         }
         mDataPoint.push_back(temp);
+
+        ++size;
+        for (int i = size; i < 9; i++) temp[i].mAppearTime = 100.f;
         array[0] = element;
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, 0, 0);
-    }
-    else
-    {
-        for (int i = 0; i < 9; i++)
-        {
-            temp[i] = mDataPoint.back()[i];
-        }
-        temp[size - 1].setBackgroundColor(sf::Color(255, 200, 200));
-        temp[size - 1].mAppearTime = 0;
-        temp[size - 1].mAppear = false;
-        mDataPoint.clear();
+        temp[0] = DataPoint(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(50, 50), array[0], "0", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
         mDataPoint.push_back(temp);
+
+        temp[0].setBackgroundColor(sf::Color(255, 200, 200));
+        mDataPoint.push_back(temp);
+        return;
     }
+    for (int i = 0; i < 9; i++)
+    {
+        mDataPoint.back()[i].reset();
+        temp[i] = mDataPoint.back()[i];
+    }
+    mDataPoint.clear();
+    mDataPoint.push_back(temp);
     
     ++size;
     for (int i = size - 1; i > index; i--)
     {
+        if (i < size - 1)
+        {
+            temp[i + 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
+            temp[i + 1].mAppear = true;
+        }
         array[i] = array[i - 1];
 
         temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
+        temp[i - 1] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
+        mDataPoint.push_back(temp);
+        temp[i].setBackgroundColor(sf::Color(255, 200, 200));
+        temp[i - 1].setBackgroundColor(sf::Color(255, 200, 200));
         mDataPoint.push_back(temp);
     }
     array[index] = element;
-    for (int i = 0; i < size; i++)
-    {
-        if (i > 0)
-        {
-            temp[i - 1].setBackgroundColor(sf::Color(255, 200, 200));
-            temp[i - 1].mAppearTime = 100.f;
-            temp[i - 1].mAppear = true;
-        }
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
-        mDataPoint.push_back(temp);
-    }
-
-    temp[size - 1].setBackgroundColor(sf::Color(255, 200, 200));
+    temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
     mDataPoint.push_back(temp);
-    inFile.close();
-    return true;
+    temp[index].setBackgroundColor(sf::Color(255, 200, 200));
+    mDataPoint.push_back(temp);
 }
 
 /*

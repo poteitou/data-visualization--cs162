@@ -60,7 +60,7 @@ void DataPoint::setScale(sf::Vector2f scale)
     mScale = scale;
 }
 
-void reset()
+void DataPoint::reset()
 {
     mAppearTime = mDefaultAppear;
     mDisappearTime = mDefaultDisappear;
