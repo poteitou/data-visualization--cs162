@@ -60,6 +60,7 @@ struct StaticArray
     int mType;
     int mSmallType;
     bool nosuchfile;
+    bool firstTime;
 };
 
 #endif // STATICARRAY_HPP
