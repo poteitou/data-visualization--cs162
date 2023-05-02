@@ -384,6 +384,7 @@ void StaticArray::create(std::string filename)
         nosuchfile = true;
         return;
     }
+    nosuchfile = false;
     step = 0; // activate
     mDataPoint.clear();
     std::vector<DataPoint> temp(9);
@@ -421,11 +422,6 @@ void StaticArray::create(std::string filename)
 void StaticArray::insert(int index, std::string element)
 {
     if (firstTime == false) return;
-    if (index > size || index >= 9)
-    {
-        nosuchfile = true;
-        return;
-    }
 
     firstTime = false;
     std::vector<DataPoint> temp(9);
@@ -448,6 +444,13 @@ void StaticArray::insert(int index, std::string element)
         mDataPoint.clear();
         mDataPoint.push_back(temp);
     }
+
+    if (index > size || index >= 9)
+    {
+        nosuchfile = true;
+        return;
+    }
+    nosuchfile = false;
 
     step = 0; // activate
     ++size;
