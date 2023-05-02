@@ -16,10 +16,6 @@
 struct StaticArray
 {
     StaticArray(sf::RenderWindow &window, sf::Font &font);
-    /* StaticArray(int size);
-    StaticArray(int size, int *data);
-    StaticArray(const StaticArray &other);
-    ~StaticArray(); */
 
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);

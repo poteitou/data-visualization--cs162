@@ -166,7 +166,6 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
     {
         mSearchBar[1].reset("datafile");
         mSmallType = 2;
-        step = -1;
         nosuchfile = false;
         firstTime = true;
     }
@@ -490,48 +489,6 @@ void StaticArray::insert(int index, std::string element)
 }
 
 /*
-void StaticArray::random(int size)
-{
-    array = new int[size];
-    this->size = size;
-}
-
-void StaticArray::dataFile(int size)
-{
-    array = new int[size];
-    this->size = size;
-} */
-
-/* StaticArray::StaticArray(int size, int *data)
-{
-    array = new int[size];
-    this->size = size;
-    for (int i = 0; i < size; i++)
-    {
-        array[i] = data[i];
-    }
-}
-
-StaticArray::StaticArray(const StaticArray &other)
-{
-    array = new int[other.size];
-    size = other.size;
-    for (int i = 0; i < size; i++)
-    {
-        array[i] = other.array[i];
-    }
-}
-
-StaticArray::~StaticArray()
-{
-    delete[] array;
-}
-
-void StaticArray::add(int element)
-{
-    expandArray();
-    array[size - 1] = element;
-}
 
 void StaticArray::remove(int index)
 {
