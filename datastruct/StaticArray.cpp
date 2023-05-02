@@ -389,9 +389,10 @@ void StaticArray::create(std::string filename)
     std::vector<DataPoint> temp(9);
 
     size = 0;
-    while (size < 9 && inFile >> array[size++])
-        ;
+    while (size < 9 && inFile >> array[size++]);
     --size;
+    for (int i = size; i < 9; i++)
+        array[i] = "";
 
     for (int i = 0; i < 9; i++)
     {
@@ -457,19 +458,20 @@ void StaticArray::insert(int index, std::string element)
             temp[i + 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
             temp[i + 1].mAppear = true;
         }
-        array[i] = array[i - 1];
 
         temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
-        temp[i - 1] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
+        temp[i - 1] = DataPoint(sf::Vector2f(350 + (i - 1) * 100, 150), sf::Vector2f(50, 50), array[i - 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
         mDataPoint.push_back(temp);
-        temp[i].setBackgroundColor(sf::Color(255, 200, 200));
+
+        array[i] = array[i - 1];
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200), 0, 0);
         temp[i - 1].setBackgroundColor(sf::Color(255, 200, 200));
         mDataPoint.push_back(temp);
     }
-    array[index] = element;
     temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
     mDataPoint.push_back(temp);
-    temp[index].setBackgroundColor(sf::Color(255, 200, 200));
+    array[index] = element;
+    temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200), 0, 0);
     mDataPoint.push_back(temp);
 }
 
