@@ -30,7 +30,7 @@ DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, st
 
     mTextOut.setCharacterSize(outSize);
     mTextOut.setPosition(mPos.x + (mSize.x - mTextOut.getLocalBounds().width) / 2, mPos.y + (mSize.y - outSize) / 2 + mSize.y);
-    mTextOut.setFillColor(inColor);
+    mTextOut.setFillColor(outColor);
 }
 
 void DataPoint::setText(std::string textIn, std::string textOut)

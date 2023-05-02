@@ -107,10 +107,6 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         mData = 0;
         mButton[7].reset();
         mDataPoint.clear();
-
-        std::ofstream outFile("data/create.data");
-        outFile << "";
-        outFile.close();
         return;
     }
 
@@ -338,32 +334,6 @@ void StaticArray::saveData(std::string fileName)
     outFile.close();
 }
 
-/* void StaticArray::enter()
-{
-    array = new std::string[9];
-    size = 0;
-
-    mDataPoint.clear();
-    std::ifstream inFile("data/create.data");
-
-    int id = 0;
-    while (inFile >> array[id++])
-        ++size;
-    mDataPoint.resize(size);
-
-    for (int i = 0; i < size; i++)
-    {
-        mDataPoint[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200, 0));
-    }
-
-    for (int i = size; i < 9; i++)
-    {
-        mDataPoint[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 255, 255, 0));
-    }
-
-    inFile.close();
-} */
-
 void StaticArray::randomize()
 {
     std::ofstream outFile("data/randomize.data");
@@ -420,8 +390,9 @@ void StaticArray::create(std::string filename)
             temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
             temp[i - 1].mAppear = true;
         }
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
         mDataPoint.push_back(temp);
+        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
         temp[i].setBackgroundColor(sf::Color(255, 200, 200));
         mDataPoint.push_back(temp);
     }
@@ -472,16 +443,17 @@ void StaticArray::insert(int index, std::string element)
             temp[i + 1].mAppear = true;
         }
 
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
-        temp[i - 1] = DataPoint(sf::Vector2f(350 + (i - 1) * 100, 150), sf::Vector2f(50, 50), array[i - 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 100.f, 0);
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
+        temp[i - 1] = DataPoint(sf::Vector2f(350 + (i - 1) * 100, 150), sf::Vector2f(50, 50), array[i - 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 100.f, 0);
         mDataPoint.push_back(temp);
 
         array[i] = array[i - 1];
         temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200), 0, 0);
+        temp[i - 1].setTextColor(sf::Color::Black, sf::Color::Black);
         temp[i - 1].setBackgroundColor(sf::Color(255, 200, 200));
         mDataPoint.push_back(temp);
     }
-    temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 105, 105), 0, 0);
+    temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
     mDataPoint.push_back(temp);
     array[index] = element;
     temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200), 0, 0);

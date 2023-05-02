@@ -23,7 +23,6 @@ struct StaticArray
     void draw(float dt);
 
     void saveData(std::string fileName);
-    // void enter();
     void randomize();
     void create(std::string fileName);
     void insert(int index, std::string element);
