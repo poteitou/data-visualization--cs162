@@ -22,7 +22,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     // Create randomize, data file
     mDefaultText[4].setString("Value:");
-    mDefaultText[5].setString("Directory: data/                      .data");
+    mDefaultText[5].setString("Directory: data/                                         .data");
 
     mDefaultText[0].setCharacterSize(45);
     mDefaultText[1].setCharacterSize(25);
@@ -30,6 +30,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[3].setCharacterSize(25);
     
     mDefaultText[4].setCharacterSize(22);
+    mDefaultText[5].setCharacterSize(22);
 
     mDefaultText[0].setPosition(650, 40);
     mDefaultText[1].setPosition(1050, 450);
@@ -57,8 +58,8 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
         mBInsert[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22);
     }
 
-    mSearchBar[0] = SearchBar(sf::Vector2f(360, 50), sf::Vector2f(350, 620 + 5), font, "", false);
-    mSearchBar[1] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, "datafile", true);
+    mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 620 + 5), font, "", false);
+    mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(410, 620 + 5), font, "datafile", true);
     mSearchBar[2] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, "", false);
 
     array = new std::string[9];
@@ -122,7 +123,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
 
             if (mousePress && mButton[6].mHovered)
             {
-                create("data/" + mSearchBar.mValue + ".data");
+                create("data/" + mSearchBar[1].mValue + ".data");
             }
             break;
         default:
