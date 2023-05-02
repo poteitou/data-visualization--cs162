@@ -11,6 +11,8 @@
 #include <ctime>
 #include <cstdlib>
 
+#include <iostream>
+
 struct StaticArray
 {
     StaticArray(sf::RenderWindow &window, sf::Font &font);
@@ -23,8 +25,9 @@ struct StaticArray
     void draw(float dt);
 
     void saveData(std::string fileName);
-    void enter();
+    // void enter();
     void randomize();
+    void create();
     /*
     void add(int element);
     void insert(int index, int element);
@@ -48,8 +51,9 @@ struct StaticArray
 
     std::vector<SearchBar> mSearchBar;
 
-    std::vector<std::vector<DataPoint> > mDataPoint;
+    std::vector<std::vector<DataPoint>> mDataPoint;
     std::string *array;
+    int step;
     int size;
     int mType;
     int mSmallType;
