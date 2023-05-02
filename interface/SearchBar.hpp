@@ -7,12 +7,10 @@
 struct SearchBar
 {
     SearchBar();
-    SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText);
+    SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText, bool alphabet);
 
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int capacity);
     void draw(sf::RenderWindow &mWindow);
-
-    std::string getValue();
     void reset(std::string defaultText);
 
     sf::RectangleShape mRect;
@@ -21,10 +19,9 @@ struct SearchBar
     sf::Color mDefaultColor;
     sf::Color mHoveredColor;
     sf::Color mSelectedColor;
+    bool mAlphabet;
     bool mHovered;
     bool mSelected;
-
-    bool contains(sf::Vector2f point) const;
 };
 
 #endif

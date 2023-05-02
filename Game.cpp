@@ -71,7 +71,7 @@ void Game::processEvents()
         case sf::Event::TextEntered:
             if (event.text.unicode == 8) // Backspace
                 keyPress = '@';
-            else if ((event.text.unicode >= 48 && event.text.unicode <= 57) || event.text.unicode == 32) // 0 -> 9 or space
+            else if ((event.text.unicode >= 48 && event.text.unicode <= 57) || (event.text.unicode >= 97 && event.text.unicode <= 122) || (event.text.unicode >= 65 && event.text.unicode <= 90) || event.text.unicode == 32) // 0 -> 9 or space
                 keyPress = static_cast<char>(event.text.unicode);
             else
                 keyPress = '$';

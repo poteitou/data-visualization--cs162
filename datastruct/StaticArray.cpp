@@ -7,7 +7,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mBInsert.resize(3);
 
     mSearchBar.resize(3);
-    mDefaultText.resize(7);
+    mDefaultText.resize(8);
     for (int i = 0; i < 7; i++)
     {
         mDefaultText[i].setFont(font);
@@ -20,8 +20,9 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[2].setString("Value range: 0..99");
     mDefaultText[3].setString("Color tone:");
 
-    // Create Enter
-    mDefaultText[4].setString("Value");
+    // Create randomize, data file
+    mDefaultText[4].setString("Value:");
+    mDefaultText[5].setString("Directory: data/                      .data");
 
     mDefaultText[0].setCharacterSize(45);
     mDefaultText[1].setCharacterSize(25);
@@ -36,6 +37,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[3].setPosition(1050, 600);
 
     mDefaultText[4].setPosition(250, 620 + 19);
+    mDefaultText[5].setPosition(250, 620 + 19);
 
     std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure"};
     for (int i = 0; i < 5; i++)
@@ -55,9 +57,9 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
         mBInsert[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22);
     }
 
-    mSearchBar[0] = SearchBar(sf::Vector2f(370, 50), sf::Vector2f(350, 620 + 5), font, "");
-    mSearchBar[1] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, "");
-    mSearchBar[2] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, "");
+    mSearchBar[0] = SearchBar(sf::Vector2f(360, 50), sf::Vector2f(350, 620 + 5), font, "", false);
+    mSearchBar[1] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 5), font, "datafile", true);
+    mSearchBar[2] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, "", false);
 
     array = new std::string[9];
     size = 0;
@@ -81,6 +83,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         mData = 0;
         mButton[7].reset();
         mDataPoint.clear();
+        mSearchBar[1].reset("datafile");
 
         std::ofstream outFile("data/create.data");
         outFile << "";
@@ -91,7 +94,6 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     switch (mType)
     {
     case 1: // Create
-
         if (mBCreate[0].setMouseOver(mousePosition) && mousePress) // Randomize
         {
             mSmallType = 1;
@@ -100,6 +102,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         else if (mBCreate[1].setMouseOver(mousePosition) && mousePress) // Data file
         {
             mSmallType = 2;
+            step = -1;
         }
         switch (mSmallType)
         {
@@ -114,9 +117,13 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
                 create("data/randomize.data");
             }
             break;
-        case 2:
-            break;
-        case 3:
+        case 2: // Data file
+            mSearchBar[1].update(mousePress, mousePosition, keyPress, 10);
+
+            if (mousePress && mButton[6].mHovered)
+            {
+                create("data/" + mSearchBar.mValue + ".data");
+            }
             break;
         default:
             break;
@@ -170,7 +177,9 @@ void StaticArray::draw(float dt)
             mWindow.draw(mDefaultText[4]);
             mSearchBar[0].draw(mWindow);
             break;
-        case 2:
+        case 2: // Data file
+            mWindow.draw(mDefaultText[5]);
+            mSearchBar[1].draw(mWindow);
             break;
         default:
             break;
@@ -252,7 +261,6 @@ void StaticArray::randomize()
     size = rand() % 9 + 1;
     step = -1;
     std::string temp = "";
-    std::cout << size << ' ';
     for (int i = 0; i < size; i++)
     {
         array[i] = std::to_string(rand() % 100);

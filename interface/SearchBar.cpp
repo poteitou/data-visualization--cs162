@@ -2,8 +2,8 @@
 
 SearchBar::SearchBar() {}
 
-SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText)
-    : mValue(defaultText), mHovered(false), mSelected(false)
+SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, std::string defaultText, bool alphabet)
+    : mValue(defaultText), mHovered(false), mSelected(false), mAlphabet(alphabet)
 {
     // Set up the rectangle shape
     mRect.setPosition(position);
@@ -68,14 +68,14 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPre
     }
     else if ((int)mValue.size() < capacity)
     {
-        if (keyPress == ' ' && (mValue.empty() || mValue.back() == ' '))
+        if (keyPress == ' ' && (mAlphabet || mValue.empty() || mValue.back() == ' '))
         {
-            // Do not allow the first character to be a space or 2 spaces
+            // Do not allow the first character to be a space or 2 spaces, space in alphabet mode
             keyPress = '$';
             return;
         }
         int mSize = (int)mValue.size();
-        if (keyPress != ' ' && mSize >= 2 && mValue[mSize - 1] != ' ' && mValue[mSize - 2] != ' ')
+        if (!mAlphabet && keyPress != ' ' && mSize >= 2 && mValue[mSize - 1] != ' ' && mValue[mSize - 2] != ' ')
         {
             // Do not allow 3-digit numbers
             keyPress = '$';
@@ -94,17 +94,8 @@ void SearchBar::draw(sf::RenderWindow &mWindow)
     mWindow.draw(mText);
 }
 
-std::string SearchBar::getValue()
-{
-    return mValue;
-}
-
-bool SearchBar::contains(sf::Vector2f point) const
-{
-    return mRect.getGlobalBounds().contains(point);
-}
-
 void SearchBar::reset(std::string defaultText)
 {
     mValue = defaultText;
+    mText.setString(mValue);
 }
