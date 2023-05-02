@@ -72,9 +72,9 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPre
     }
     else if ((int)mValue.size() < capacity)
     {
-        if (keyPress == ' ' && (mAlphabet || mValue.empty() || mValue.back() == ' '))
+        if (keyPress == ' ' && (mAlphabet || capacity <= 2 || mValue.empty() || mValue.back() == ' '))
         {
-            // Do not allow the first character to be a space or 2 spaces, space in alphabet mode
+            // Do not allow the first character to be a space or 2 spaces, space in alphabet mode, space in 2-digit mode
             keyPress = '$';
             return;
         }

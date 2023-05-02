@@ -22,17 +22,17 @@ struct StaticArray
     ~StaticArray(); */
 
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
-    void create(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
-    void insert(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
+    void updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
+    void updateInsert(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
     void draw(float dt);
 
     void saveData(std::string fileName);
     // void enter();
     void randomize();
-    bool createData(std::string fileName);
+    void create(std::string fileName);
+    void insert(int index, int element);
     /*
     void add(int element);
-    void insert(int index, int element);
     void remove(int index);
     void update(int index, int element);
     int search(int element) const;
@@ -60,8 +60,6 @@ struct StaticArray
     int mType;
     int mSmallType;
     bool nosuchfile;
-
-    /* void expandArray(); */
 };
 
 #endif // STATICARRAY_HPP
