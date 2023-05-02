@@ -262,7 +262,7 @@ void StaticArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, char
     case 2: // At the last
         mBInsert[1].mHovered = true;
         if (mousePress && mButton[6].mHovered)
-            remove(size);
+            remove(size - 1);
         else firstTime = true;
         break;
     case 3: // At the middle
@@ -317,18 +317,17 @@ void StaticArray::draw(float dt)
         case 2: // At the last
             mWindow.draw(mDefaultText[4]);
             mSearchBar[2].draw(mWindow);
-            if (nosuchfile) mWindow.draw(mDefaultText[9]);
             break;
         case 3: // At the middle
             mWindow.draw(mDefaultText[7]);
             mWindow.draw(mDefaultText[8]);
             mSearchBar[2].draw(mWindow);
             mSearchBar[3].draw(mWindow);
-            if (nosuchfile) mWindow.draw(mDefaultText[9]);
             break;
         default:
             break;
         }
+        if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
     case 3: // Remove
         for (int i = 0; i < 3; i++)
@@ -338,11 +337,11 @@ void StaticArray::draw(float dt)
         case 3: // At the middle
             mWindow.draw(mDefaultText[7]);
             mSearchBar[2].draw(mWindow);
-            if (nosuchfile) mWindow.draw(mDefaultText[9]);
             break;
         default:
             break;
         }
+        if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
     case 4: // Update
         break;
@@ -511,7 +510,7 @@ void StaticArray::remove(int index)
 {
     if (firstTime == false) return;
     firstTime = false;
-    if (index >= size)
+    if (mDataPoint.empty() || index < 0 || index >= size)
     {
         nosuchfile = true;
         return;
@@ -548,7 +547,7 @@ void StaticArray::remove(int index)
     }
     --size;
     
-    temp[size] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[size], std::to_string(index), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
+    temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), array[size], std::to_string(size), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
     mDataPoint.push_back(temp);
     array[size] = "";
     temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), array[size], "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, 0, 0);
