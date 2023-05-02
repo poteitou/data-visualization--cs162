@@ -420,13 +420,13 @@ void StaticArray::create(std::string filename)
 
 void StaticArray::insert(int index, std::string element)
 {
+    if (firstTime == false) return;
     if (index > size || index >= 9)
     {
         nosuchfile = true;
         return;
     }
 
-    if (firstTime == false) return;
     firstTime = false;
     std::vector<DataPoint> temp(9);
     if (mDataPoint.empty())
