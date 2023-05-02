@@ -27,7 +27,7 @@ struct StaticArray
     void saveData(std::string fileName);
     // void enter();
     void randomize();
-    void create(std::string fileName);
+    bool create(std::string fileName);
     /*
     void add(int element);
     void insert(int index, int element);
@@ -57,6 +57,7 @@ struct StaticArray
     int size;
     int mType;
     int mSmallType;
+    bool nosuchfile;
 
     /* void expandArray(); */
 };

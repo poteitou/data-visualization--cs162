@@ -11,10 +11,10 @@ sf::Color
     sf::Color transparent = sf::Color::Transparent;
 
     light orange pastel:    255, 200, 200 - 255, 105, 105
-    purple pastel:  200, 200, 255
+    purple pastel:  200, 200, 255 - 130, 130, 255
     grey:           200, 200, 200
 
-    light blue pastel:          180, 225, 255 - 100, 180, 255
+    light blue pastel:          160, 220, 255 - 50, 140, 200
     little dark blue pastel:    120, 190, 235
     orange pastel:   255, 130, 130
 }

@@ -9,8 +9,8 @@ SearchBar::SearchBar(sf::Vector2f size, sf::Vector2f position, sf::Font &font, s
     mRect.setPosition(position);
     mRect.setSize(size);
     mDefaultColor = sf::Color(200, 200, 200);
-    mHoveredColor = sf::Color(180, 225, 255);
-    mSelectedColor = sf::Color(100, 180, 255);
+    mHoveredColor = sf::Color(200, 200, 255);
+    mSelectedColor = sf::Color(130, 130, 255);
     mRect.setFillColor(mDefaultColor);
 
     // Set up the text object
@@ -33,12 +33,14 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPre
         {
             mSelected = true;
             mRect.setFillColor(mSelectedColor);
+            mText.setFillColor(sf::Color::White);
         }
         else
         {
             mSelected = false;
             mHovered = false;
             mRect.setFillColor(mDefaultColor);
+            mText.setFillColor(sf::Color::Black);
         }
         return;
     }
@@ -46,11 +48,13 @@ void SearchBar::update(bool mousePress, sf::Vector2i mousePosition, char &keyPre
     {
         mHovered = true;
         mRect.setFillColor(mHoveredColor);
+        mText.setFillColor(sf::Color::Black);
     }
     else if (!mSelected)
     {
         mHovered = false;
         mRect.setFillColor(mDefaultColor);
+        mText.setFillColor(sf::Color::Black);
     }
 
     if (keyPress == '$' || !mSelected)
