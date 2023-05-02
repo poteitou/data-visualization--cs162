@@ -249,10 +249,10 @@ void StaticArray::randomize()
     std::ofstream outFile("data/randomize.data");
 
     srand(time(NULL));
-    size = rand() % 10;
+    size = rand() % 9 + 1;
     step = -1;
     std::string temp = "";
-
+    std::cout << size << ' ';
     for (int i = 0; i < size; i++)
     {
         array[i] = std::to_string(rand() % 100);
@@ -273,7 +273,7 @@ void StaticArray::create(std::string filename)
 
     size = 0;
     while (size < 9 && inFile >> array[size++]);
-    std::cout << size;
+    --size;
     
     for (int i = 0; i < 9; i++)
     {
