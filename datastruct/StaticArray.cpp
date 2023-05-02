@@ -37,8 +37,8 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[2].setPosition(1050, 500);
     mDefaultText[3].setPosition(1050, 600);
 
-    mDefaultText[4].setPosition(250, 620 + 19);
-    mDefaultText[5].setPosition(250, 620 + 19);
+    mDefaultText[4].setPosition(250, 630 + 19);
+    mDefaultText[5].setPosition(250, 630 + 19);
 
     std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure"};
     for (int i = 0; i < 5; i++)
@@ -58,9 +58,9 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
         mBInsert[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color::Cyan, sf::Color::Blue, nameBInsert[i], font, 22);
     }
 
-    mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 620 + 5), font, "", false);
-    mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(410, 620 + 5), font, "datafile", true);
-    mSearchBar[2] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 620 + 50 + 10), font, "", false);
+    mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 630 + 5), font, "", false);
+    mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(410, 630 + 5), font, "datafile", true);
+    mSearchBar[2] = SearchBar(sf::Vector2f(100, 50), sf::Vector2f(350, 630 + 50 + 10), font, "", false);
 
     array = new std::string[9];
     size = 0;
