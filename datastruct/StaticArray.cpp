@@ -537,7 +537,7 @@ void StaticArray::remove(int index)
         }
 
         temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
-        temp[i + 1] = DataPoint(sf::Vector2f(350 + (i + 1) * 100, 150), sf::Vector2f(50, 50), array[i + 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 100.f, 0);
+        temp[i + 1] = DataPoint(sf::Vector2f(350 + (i + 1) * 100, 150), sf::Vector2f(50, 50), array[i + 1], std::to_string(i + 1), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 100.f, 0);
         mDataPoint.push_back(temp);
 
         array[i] = array[i + 1];
