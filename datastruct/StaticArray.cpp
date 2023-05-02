@@ -159,6 +159,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
     {
         mSmallType = 1;
         randomize();
+        firstTime = true;
     }
     else if (mBCreate[1].setMouseOver(mousePosition) && mousePress) // Data file
     {
@@ -166,6 +167,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
         mSmallType = 2;
         step = -1;
         nosuchfile = false;
+        firstTime = true;
     }
     switch (mSmallType)
     {
@@ -180,6 +182,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
             outFile.close();
             create("data/randomize.data");
         }
+        else firstTime = true;
         break;
     case 2: // Data file
         mBCreate[1].mHovered = true;
@@ -189,6 +192,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
             nosuchfile = false;
             create("data/" + mSearchBar[1].mValue + ".data");
         }
+        else firstTime = true;
         break;
     default:
         break;
@@ -197,6 +201,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
 
 void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
 {
+    char tempkeyPress;
     mButton[1].mHovered = true;
     for (int i = 0; i < 3; i++)
     {
@@ -206,6 +211,7 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
             nosuchfile = false;
             mSearchBar[2].reset("1");
             mSearchBar[3].reset("9");
+            firstTime = true;
         }
     }
     switch (mSmallType)
@@ -227,8 +233,9 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
         break;
     case 3: // At the middle
         mBInsert[2].mHovered = true;
-        mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-        mSearchBar[3].update(mousePress, mousePosition, keyPress, 2);
+        tempkeyPress = keyPress;
+        mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
+        mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
         if (mousePress && mButton[6].mHovered && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
             insert(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
         else firstTime = true;
@@ -378,6 +385,9 @@ void StaticArray::randomize()
 
 void StaticArray::create(std::string filename)
 {
+    if (firstTime == false) return;
+    firstTime = false;
+    
     std::ifstream inFile(filename);
     if (!inFile)
     {
