@@ -12,6 +12,7 @@ struct DataPoint
     void setBackgroundColor(sf::Color Color);
     void setPosition(sf::Vector2f pos);
     void setScale(sf::Vector2f scale);
+    void reset();
     bool appear(float limit, float dt);
     bool disappear(float limit, float dt);
     void move(float dx, float dy, float dt);
@@ -28,6 +29,9 @@ struct DataPoint
     float mDisappearTime;
     bool mAppear;
     bool mDisappear;
+
+    float mDefaultAppear;
+    float mDefaultDisappear;
 };
 
 #endif

@@ -2,7 +2,7 @@
 
 DataPoint::DataPoint() {}
 
-DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White, float appearTime = 0, float disappearTime = 0) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(appearTime), mDisappearTime(disappearTime)
+DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White, float appearTime = 0, float disappearTime = 0) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(appearTime), mDefaultAppear(appearTime), mDisappearTime(disappearTime), mDefaultDisappear(disappearTime)
 {
     // create rectangle
     mRect.setOrigin(sf::Vector2f(0.f, 0.f));
@@ -58,6 +58,13 @@ void DataPoint::setPosition(sf::Vector2f pos)
 void DataPoint::setScale(sf::Vector2f scale)
 {
     mScale = scale;
+}
+
+void reset()
+{
+    mAppearTime = mDefaultAppear;
+    mDisappearTime = mDefaultDisappear;
+    mAppear = mDisappear = false;
 }
 
 bool DataPoint::appear(float limit, float dt)
