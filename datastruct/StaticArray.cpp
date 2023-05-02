@@ -119,9 +119,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         updateInsert(mousePress, mousePosition, keyPress, mData, dt);
         break;
     case 3: // Remove
-        mButton[2].mHovered = true;
-        for (int i = 0; i < 3; i++)
-            mBInsert[i].setMouseOver(mousePosition);
+        updateRemove(mousePress, mousePosition, keyPress, mData, dt);
         break;
     case 4: // Update
         mButton[3].mHovered = true;
@@ -215,7 +213,6 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
     case 1: // At the first
         mBInsert[0].mHovered = true;
         mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
-
         if (mousePress && mButton[6].mHovered && mSearchBar[2].mValue != "")
             insert(0, mSearchBar[2].mValue);
         else firstTime = true;
@@ -234,6 +231,45 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
         mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
         if (mousePress && mButton[6].mHovered && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
             insert(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
+        else firstTime = true;
+        break;
+    default:
+        break;
+    }
+}
+
+void StaticArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
+{
+    mButton[2].mHovered = true;
+    for (int i = 0; i < 3; i++)
+    {
+        if (mBInsert[i].setMouseOver(mousePosition) && mousePress)
+        {
+            mSmallType = i + 1;
+            nosuchfile = false;
+            mSearchBar[2].reset("1");
+            firstTime = true;
+        }
+    }
+    switch (mSmallType)
+    {
+    case 1: // At the first
+        mBInsert[0].mHovered = true;
+        if (mousePress && mButton[6].mHovered)
+            remove(0);
+        else firstTime = true;
+        break;
+    case 2: // At the last
+        mBInsert[1].mHovered = true;
+        if (mousePress && mButton[6].mHovered)
+            remove(size);
+        else firstTime = true;
+        break;
+    case 3: // At the middle
+        mBInsert[2].mHovered = true;
+        mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
+        if (mousePress && mButton[6].mHovered && mSearchBar[2].mValue != "")
+            remove(stoi(mSearchBar[2].mValue));
         else firstTime = true;
         break;
     default:
@@ -299,20 +335,9 @@ void StaticArray::draw(float dt)
             mBInsert[i].draw(mWindow);
         switch (mSmallType)
         {
-        case 1: // At the first
-            mWindow.draw(mDefaultText[4]);
-            mSearchBar[2].draw(mWindow);
-            break;
-        case 2: // At the last
-            mWindow.draw(mDefaultText[4]);
-            mSearchBar[2].draw(mWindow);
-            if (nosuchfile) mWindow.draw(mDefaultText[9]);
-            break;
         case 3: // At the middle
             mWindow.draw(mDefaultText[7]);
-            mWindow.draw(mDefaultText[8]);
             mSearchBar[2].draw(mWindow);
-            mSearchBar[3].draw(mWindow);
             if (nosuchfile) mWindow.draw(mDefaultText[9]);
             break;
         default:
@@ -430,7 +455,6 @@ void StaticArray::insert(int index, std::string element)
     std::vector<DataPoint> temp(9);
     if (mDataPoint.empty())
     {
-        std::cout << mDataPoint.size();
         for (int i = 0; i < 9; i++)
         {
             temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, i < 8 ? 100.f : 0, 0);
@@ -461,7 +485,7 @@ void StaticArray::insert(int index, std::string element)
     {
         if (i < size - 1)
         {
-            temp[i + 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
+            temp[i + 1].mAppearTime = temp[i + 1].mDefaultAppear = 100.f;
             temp[i + 1].mAppear = true;
         }
 
@@ -475,6 +499,7 @@ void StaticArray::insert(int index, std::string element)
         temp[i - 1].setBackgroundColor(sf::Color(255, 200, 200));
         mDataPoint.push_back(temp);
     }
+
     temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
     mDataPoint.push_back(temp);
     array[index] = element;
@@ -482,28 +507,54 @@ void StaticArray::insert(int index, std::string element)
     mDataPoint.push_back(temp);
 }
 
-/*
-
 void StaticArray::remove(int index)
 {
-    if (index < 0 || index >= size)
+    if (firstTime == false) return;
+    firstTime = false;
+    if (index >= size)
     {
-        throw std::out_of_range("Index out of range");
+        nosuchfile = true;
+        return;
     }
+    nosuchfile = false;
+
+    std::vector<DataPoint> temp(9);
+    for (int i = 0; i < 9; i++)
+    {
+        mDataPoint.back()[i].reset();
+        temp[i] = mDataPoint.back()[i];
+    }
+    mDataPoint.clear();
+    mDataPoint.push_back(temp);
+
+    step = 0; // activate
     for (int i = index; i < size - 1; i++)
     {
-        array[i] = array[i + 1];
-    }
-    size--;
-    int *temp = new int[size];
-    for (int i = 0; i < size; i++)
-    {
-        temp[i] = array[i];
-    }
-    delete[] array;
-    array = temp;
-}
+        if (i > index)
+        {
+            temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
+            temp[i - 1].mAppear = true;
+        }
 
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
+        temp[i + 1] = DataPoint(sf::Vector2f(350 + (i + 1) * 100, 150), sf::Vector2f(50, 50), array[i + 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 100.f, 0);
+        mDataPoint.push_back(temp);
+
+        array[i] = array[i + 1];
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200), 0, 0);
+        temp[i + 1].setTextColor(sf::Color::Black, sf::Color::Black);
+        temp[i + 1].setBackgroundColor(sf::Color(255, 200, 200));
+        mDataPoint.push_back(temp);
+    }
+    --size;
+    
+    temp[size] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[size], std::to_string(index), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
+    mDataPoint.push_back(temp);
+    array[size] = "";
+    temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), array[size], "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, 0, 0);
+    mDataPoint.push_back(temp);
+}
+/*
 void StaticArray::update(int index, int element)
 {
     if (index < 0 || index >= size)

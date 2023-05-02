@@ -20,15 +20,15 @@ struct StaticArray
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateInsert(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
+    void updateRemove(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void draw(float dt);
 
     void saveData(std::string fileName);
     void randomize();
     void create(std::string fileName);
     void insert(int index, std::string element);
-    /*
-    void add(int element);
     void remove(int index);
+    /*
     void update(int index, int element);
     int search(int element) const;
 
