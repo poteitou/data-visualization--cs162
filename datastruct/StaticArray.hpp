@@ -22,12 +22,14 @@ struct StaticArray
     ~StaticArray(); */
 
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
+    void create(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
+    void insert(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
     void draw(float dt);
 
     void saveData(std::string fileName);
     // void enter();
     void randomize();
-    bool create(std::string fileName);
+    bool createData(std::string fileName);
     /*
     void add(int element);
     void insert(int index, int element);
