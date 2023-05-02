@@ -27,7 +27,7 @@ struct StaticArray
     void saveData(std::string fileName);
     // void enter();
     void randomize();
-    void create();
+    void create(std::string fileName);
     /*
     void add(int element);
     void insert(int index, int element);

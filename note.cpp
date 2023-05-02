@@ -14,7 +14,7 @@ sf::Color
     purple pastel:  200, 200, 255
     grey:           200, 200, 200
 
-    light blue pastel:          180, 225, 255 - 115, 200, 255
+    light blue pastel:          180, 225, 255 - 100, 180, 255
     little dark blue pastel:    120, 190, 235
     orange pastel:   255, 130, 130
 }
