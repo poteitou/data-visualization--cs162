@@ -55,7 +55,7 @@ struct StaticArray
     int speed;
     bool nosuchfile;
     bool firstTime;
-    int run;
+    bool firstStep;
     int runOption;
 };
 

@@ -100,7 +100,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     size = 0;
     step = -1;
     speed = 0;
-    firstTime = true;
+    firstTime = firstStep = true;
     runOption = -1; // no mode:-1       step:0      once:1
 }
 
@@ -121,7 +121,6 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     {
         runOption = 0;
         mButton[5].mHovered = true;
-        mButton[6].mHovered = false;
         for (int i = 0; i < 4; i++) mBOnce[i].mHovered = false;
         for (int i = 0; i < 3; i++)
             mBStep[i].setMouseOver(mousePosition);
@@ -136,26 +135,43 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     else if (runOption == 0) // Run step-by-step
     {
         mButton[5].mHovered = true;
-        mButton[6].mHovered = false;
 
         if (mBStep[0].setMouseOver(mousePosition) && mousePress)
         {
-            if (step > 0) --step;
+            if (step > 0 && firstStep) 
+            {
+                --step;
+                for (int i = 0; i < mDataPoint[step].size(); i++)
+                    mDataPoint[step][i].reset();
+            }
+            firstStep = false;
         }
         else if (mBStep[1].setMouseOver(mousePosition) && mousePress)
         {
-            if (step + 1 < (int)mDataPoint.size()) ++step;
+            if (step + 1 < (int)mDataPoint.size() && firstStep) 
+            {
+                ++step;
+                for (int i = 0; i < mDataPoint[step].size(); i++)
+                    mDataPoint[step][i].reset();
+            }
+            firstStep = false;
         }
         else if (mBStep[2].setMouseOver(mousePosition) && mousePress)
-            step = (int)mDataPoint.size() - 1;
-        for (int i = 0; i < mDataPoint[step].size(); i++)
-            mDataPoint[step][i].reset();
+        {
+            if (firstStep) 
+            {
+                step = (int)mDataPoint.size() - 1;
+                for (int i = 0; i < mDataPoint[step].size(); i++)
+                    mDataPoint[step][i].reset();
+            }
+            firstStep = false;
+        }
+        else firstStep = true;
     }
     if ((runOption == 0 && mousePress && mButton[6].mHovered) || runOption == 1) // Run at-once
     {
         runOption = 1;
         mButton[6].mHovered = true;
-        mButton[5].mHovered = false;
         for (int i = 0; i < 4; i++)
         {
             if (speed == 0) speed = 1; // auto 1x speed
@@ -171,13 +187,12 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
             }
             if (speed == (1 << i)) mBOnce[i].mHovered = true;
         }
-        
     }
 
     if (mousePress && mButton[7].mHovered)
     {
-        firstTime = true;
-        runOption = run = step = -1;
+        firstTime = firstStep = true;
+        runOption = step = -1;
         speed = mType = mData = 0;
         mButton[7].reset();
         mDataPoint.clear();
@@ -676,7 +691,7 @@ void StaticArray::draw()
         for (int i = 0; i < 3; i++)
             mBStep[i].draw(mWindow);
     }
-    if (runOption != -1)
+    if (runOption == 1)
     {
         for (int i = 0; i < 4; i++)
             mBOnce[i].draw(mWindow);
