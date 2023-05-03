@@ -702,7 +702,7 @@ void DynamicArray::setColor()
 {
     for (int i = 0; i < mDataPoint.size(); i++)
     {
-        for (int j = 0; j < mDataPoint[i].size(); j++) if (mDataPoint[i][j].mText != "")
+        for (int j = 0; j < mDataPoint[i].size(); j++) if (mDataPoint[i][j].mColor != sf::Color::White)
         {
             if (mDataPoint[i][j].mInColor == sf::Color::Black)
             {

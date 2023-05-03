@@ -2,7 +2,7 @@
 
 DataPoint::DataPoint() {}
 
-DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White, float appearTime = 0, float disappearTime = 0) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(appearTime), mDefaultAppear(appearTime), mDisappearTime(disappearTime), mDefaultDisappear(disappearTime), mInColor(inColor), mText(textOut)
+DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White, float appearTime = 0, float disappearTime = 0) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(appearTime), mDefaultAppear(appearTime), mDisappearTime(disappearTime), mDefaultDisappear(disappearTime), mInColor(inColor), mColor(Color)
 {
     // create rectangle
     mRect.setOrigin(sf::Vector2f(0.f, 0.f));
@@ -35,7 +35,6 @@ DataPoint::DataPoint(sf::Vector2f pos, sf::Vector2f size, std::string textIn, st
 
 void DataPoint::setText(std::string textIn, std::string textOut)
 {
-    mText = textOut;
     mTextIn.setString(textIn);
     mTextOut.setString(textOut);
 }
@@ -49,6 +48,7 @@ void DataPoint::setTextColor(sf::Color inColor, sf::Color outColor)
 
 void DataPoint::setBackgroundColor(sf::Color Color)
 {
+    mColor = Color;
     mRect.setFillColor(Color);
 }
 
