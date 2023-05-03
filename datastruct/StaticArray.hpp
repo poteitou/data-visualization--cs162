@@ -10,6 +10,7 @@
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
+#include <utility> 
 
 #include <iostream>
 
@@ -57,6 +58,8 @@ struct StaticArray
     bool firstTime;
     bool firstStep;
     int runOption;
+    std::pair<sf::Color, sf::Color> pallete[3];
+    sf::RectangleShape mRect[2];
 };
 
 #endif // STATICARRAY_HPP

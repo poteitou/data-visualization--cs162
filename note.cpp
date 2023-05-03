@@ -10,7 +10,9 @@ sf::Color
     sf::Color cyan        = sf::Color::Cyan;
     sf::Color transparent = sf::Color::Transparent;
 
+    yellow:                 255, 255, 200 - 240, 255, 95
     light orange pastel:    255, 200, 200 - 255, 95, 95
+    green:                  200, 255, 225 - 95, 255, 150
     purple pastel:  200, 200, 255 - 130, 130, 255
     grey:           200, 200, 200
 

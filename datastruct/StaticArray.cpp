@@ -46,8 +46,8 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[9].setCharacterSize(25);
 
     mDefaultText[0].setPosition(650, 40);
-    mDefaultText[1].setPosition(1050, 450);
-    mDefaultText[2].setPosition(1050, 500);
+    mDefaultText[1].setPosition(1050, 420);
+    mDefaultText[2].setPosition(1050, 470);
     mDefaultText[3].setPosition(1050, 600);
 
     mDefaultText[4].setPosition(250, 630 + 19);
@@ -61,13 +61,20 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mDefaultText[9].setFillColor(sf::Color::Red);
     mDefaultText[9].setPosition(350, 630 + 50 + 19);
 
-    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "", "", "", "OK"};
+    std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "R", "G", "B", "OK"};
     for (int i = 0; i < 5; i++)
         mButton[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(100, 570 + i * 55), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[i], font, 22);
 
     mButton[5] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 420), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[5], font, 22);
     mButton[6] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[6], font, 22);
     mButton[7] = Button(sf::Vector2f(250, 50), sf::Vector2f(1050, 670), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[7], font, 22);
+
+    pallete[0] = {sf::Color(255, 200, 200), sf::Color(255, 95, 95)};
+    pallete[1] = {sf::Color(180, 255, 215), sf::Color(30, 190, 90)};
+    pallete[2] = {sf::Color(150, 225, 255), sf::Color(0, 180, 240)};
+
+    for (int i = 8; i < 11; i++)
+        mButton[i] = Button(sf::Vector2f(50, 50), sf::Vector2f(1200 + (i - 8) * 70, 590), pallete[i - 8].first, pallete[i - 8].second, nameButton[i], font, 22);
 
     mButton[11] = Button(sf::Vector2f(50, 50), sf::Vector2f(800, 630 + 5), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[11], font, 22);
 
@@ -96,6 +103,19 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mSearchBar[2] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(350, 630 + 5), font, "2", false);
     mSearchBar[3] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(560, 630 + 5), font, "9", false);
 
+    for (int i = 0; i < 2; i++)
+    {
+        mRect[i].setOrigin(sf::Vector2f(0.f, 0.f));
+        mRect[i].setFillColor(sf::Color::Transparent);
+        mRect[i].setOutlineThickness(2.f);
+        mRect[i].setOutlineColor(sf::Color::Black);
+    }
+    mRect[0].setSize(sf::Vector2f(900, 500));
+    mRect[0].setPosition(sf::Vector2f(50, 380));
+
+    mRect[1].setSize(sf::Vector2f(550, 500));
+    mRect[1].setPosition(sf::Vector2f(1000, 380));
+
     array = new std::string[9];
     size = 0;
     step = -1;
@@ -106,7 +126,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
 void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 11; i++)
         mButton[i].setMouseOver(mousePosition);
     for (int i = 0; i < 5; i++)
         if (mousePress && mButton[i].mHovered)
@@ -682,9 +702,11 @@ void StaticArray::search(std::string element)
 
 void StaticArray::draw()
 {
+    mWindow.draw(mRect[0]);
+    mWindow.draw(mRect[1]);
     for (int i = 0; i < 4; i++)
         mWindow.draw(mDefaultText[i]);
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 11; i++)
         mButton[i].draw(mWindow);
     if (runOption == 0)
     {
@@ -804,5 +826,4 @@ void StaticArray::draw()
             mDataPoint[step][i].draw(mWindow);
     }
 }
-
 
