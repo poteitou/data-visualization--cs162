@@ -100,6 +100,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
             mType = i + 1;
             mSmallType = 0;
             nosuchfile = false;
+            mSearchBar[2].reset("2");
         }
 
     if (mousePress && mButton[7].mHovered)
@@ -321,7 +322,6 @@ void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char
 void StaticArray::updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
 {
     mButton[4].mHovered = true;
-    mSearchBar[2].reset("2");
     firstTime = true;
     
     mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
