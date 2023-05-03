@@ -6,7 +6,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     mBCreate.resize(2);
     mBInsert.resize(3);
     mBUpdate.resize(2);
-    mBOnce.resize(3);
+    mBOnce.resize(4);
 
     mSearchBar.resize(10);
     mDefaultText.resize(20);
@@ -80,8 +80,8 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     for (int i = 0; i < 2; i++)
         mBUpdate[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBUpdate[i], font, 22);
 
-    std::string nameBOnce[] = {"1x", "2x", "4x"};
-    for (int i = 0; i < 3; i++)
+    std::string nameBOnce[] = {"1x", "2x", "4x", "8x"};
+    for (int i = 0; i < 4; i++)
         mBOnce[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(350 + i * 150, 475), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBOnce[i], font, 22);
 
     mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 630 + 5), font, "", false);
@@ -118,7 +118,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     if (runOption == 1)
     {
         mButton[6].mHovered = true;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (mBOnce[i].setMouseOver(mousePosition) && mousePress)
             {
@@ -626,7 +626,7 @@ void StaticArray::draw()
         mButton[i].draw(mWindow);
     if (runOption == 1)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
             mBOnce[i].draw(mWindow);
     }
     switch (mType)
