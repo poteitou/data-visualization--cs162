@@ -253,9 +253,9 @@ void DynamicArray::update(bool mousePress, sf::Vector2i mousePosition, char &key
 
     if (runOption == 1)
     {
+        bool drawn = false;
         for (int i = 0; i < mDataPoint.size(); i++)
         {
-            bool drawn = false;
             for (int j = 0; j < mDataPoint[i].size(); j++)
             {
                 if (!mDataPoint[i][j].appear(100.f, speed * dt))
@@ -266,6 +266,8 @@ void DynamicArray::update(bool mousePress, sf::Vector2i mousePosition, char &key
             }
             if (drawn) break;
         }
+        if (drawn == false)
+            step = (int)mDataPoint.size() - 1;
     }
 }
 
@@ -831,7 +833,7 @@ void DynamicArray::draw()
         break;
     }
 
-    if (runOption != -1)
+    if (runOption != -1 && step != -1)
     {
         for (int i = 0; i < mDataPoint[step].size(); i++)
             mDataPoint[step][i].draw(mWindow);
