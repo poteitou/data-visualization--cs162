@@ -56,6 +56,7 @@ struct StaticArray
     bool nosuchfile;
     bool firstTime;
     bool run;
+    int runstate;
 };
 
 #endif // STATICARRAY_HPP

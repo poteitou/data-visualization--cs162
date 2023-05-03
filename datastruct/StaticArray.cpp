@@ -82,7 +82,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     std::string nameBOnce[] = {"1x", "2x", "4x"};
     for (int i = 0; i < 3; i++)
-        mBOnce[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(350 + i * 105, 475), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBOnce[i], font, 22);
+        mBOnce[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(350 + i * 150, 475), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBOnce[i], font, 22);
 
     mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 630 + 5), font, "", false);
     mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(410, 630 + 5), font, "datafile", true);
@@ -92,9 +92,10 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     array = new std::string[9];
     size = 0;
     step = -1;
-    speed = -1;
+    speed = 0;
     firstTime = true;
     run = false;
+    runstate = -1;
 }
 
 void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
@@ -111,32 +112,35 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         }
     if (mousePress && mButton[5].mHovered) // Run step-by-step
     {
-        speed = -1;
+        runstate = 0;
+        run = false;
     }
     else if (mousePress && mButton[6].mHovered) // Run at-once
     {
-        speed = 0;
-        for (int i = 0; i < 3; i++)
-            mBOnce[i].setMouseOver(mousePosition);
+        runstate = 1;
+        run = false;
     }
-    run = false;
-    if (speed >= 0 && mousePress)
+
+    if (runstate == 1 && run == false)
     {
-        for (int i = 0; i < 3; i++) 
-            if (mBOnce[i].mHovered)
+        mButton[6].mHovered = true;
+        for (int i = 0; i < 3; i++)
+        {
+            if (mBOnce[i].setMouseOver(mousePosition) && mousePress)
             {
                 speed = 1 << i;
                 run = true;
             }
+        }
     }
 
     if (mousePress && mButton[7].mHovered)
     {
         firstTime = true;
+        runstate = -1;
+        run = false;
         step = -1;
-        speed = -1;
-        mType = 0;
-        mData = 0;
+        speed = mType = mData = 0;
         mButton[7].reset();
         mDataPoint.clear();
         return;
@@ -623,7 +627,7 @@ void StaticArray::draw()
         mWindow.draw(mDefaultText[i]);
     for (int i = 0; i < 8; i++)
         mButton[i].draw(mWindow);
-    if (speed >= 0)
+    if (runstate == 1 && run == false)
     {
         for (int i = 0; i < 3; i++)
             mBOnce[i].draw(mWindow);
