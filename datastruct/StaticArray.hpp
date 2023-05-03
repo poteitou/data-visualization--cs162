@@ -40,8 +40,8 @@ struct StaticArray
     std::vector<Button> mBInsert;
     std::vector<Button> mBUpdate;
 
-    std::vector<Button> mBOnce;
     std::vector<Button> mBStep;
+    std::vector<Button> mBOnce;
     
     std::vector<sf::Text> mDefaultText;
     std::vector<SearchBar> mSearchBar;

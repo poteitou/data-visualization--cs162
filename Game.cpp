@@ -24,7 +24,7 @@ void Game::run()
         float dt = clock.restart().asSeconds();
         processEvents();
         mScreen.update(mousePress, mousePosition, keyPress, dt);
-        mWindow.clear(sf::Color::White);
+        mWindow.clear(sf::Color(220, 240, 255));
         mScreen.draw(dt);
         mWindow.display();
     }
