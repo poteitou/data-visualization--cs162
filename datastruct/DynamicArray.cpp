@@ -19,30 +19,30 @@ DynamicArray::DynamicArray(sf::RenderWindow &window, sf::Font &font) : mWindow(w
 
     // Top right
     mDefaultText[0].setString("DYNAMIC ARRAY");
-    mDefaultText[1].setString("Max size: 9");
+    mDefaultText[1].setString("Maximum capacity: 9");
     mDefaultText[2].setString("Value range: 0..99");
     mDefaultText[3].setString("Color tone:");
 
     // Create randomize, data file
     mDefaultText[4].setString("Value:");
-    mDefaultText[5].setString("Directory: data/                                         .data");
-    mDefaultText[6].setString("No such file or directory!");
+    mDefaultText[5].setString("Directory: data/                                   .data");
+    mDefaultText[6].setString("Error: No such file or directory!");
 
-    mDefaultText[7].setString("Position:");
+    mDefaultText[7].setString("Index:");
     mDefaultText[8].setString("Value:");
-    mDefaultText[9].setString("Index out of range!");
+    mDefaultText[9].setString("Error: Index out of range or reaching capacity!");
 
     mDefaultText[0].setCharacterSize(45);
     mDefaultText[1].setCharacterSize(25);
     mDefaultText[2].setCharacterSize(25);
     mDefaultText[3].setCharacterSize(25);
 
-    mDefaultText[4].setCharacterSize(22);
-    mDefaultText[5].setCharacterSize(22);
+    mDefaultText[4].setCharacterSize(25);
+    mDefaultText[5].setCharacterSize(25);
     mDefaultText[6].setCharacterSize(25);
 
-    mDefaultText[7].setCharacterSize(22);
-    mDefaultText[8].setCharacterSize(22);
+    mDefaultText[7].setCharacterSize(25);
+    mDefaultText[8].setCharacterSize(25);
     mDefaultText[9].setCharacterSize(25);
 
     mDefaultText[0].setPosition(650, 40);
@@ -50,16 +50,16 @@ DynamicArray::DynamicArray(sf::RenderWindow &window, sf::Font &font) : mWindow(w
     mDefaultText[2].setPosition(1050, 470);
     mDefaultText[3].setPosition(1050, 600);
 
-    mDefaultText[4].setPosition(250, 630 + 19);
-    mDefaultText[5].setPosition(250, 630 + 19);
+    mDefaultText[4].setPosition(250, 630 + 15);
+    mDefaultText[5].setPosition(250, 630 + 15);
 
-    mDefaultText[7].setPosition(250, 630 + 19);
-    mDefaultText[8].setPosition(480, 630 + 19);
+    mDefaultText[7].setPosition(250, 630 + 15);
+    mDefaultText[8].setPosition(480, 630 + 15);
 
     mDefaultText[6].setFillColor(sf::Color::Red);
-    mDefaultText[6].setPosition(350, 630 + 50 + 19);
+    mDefaultText[6].setPosition(350, 630 + 50 + 15);
     mDefaultText[9].setFillColor(sf::Color::Red);
-    mDefaultText[9].setPosition(350, 630 + 50 + 19);
+    mDefaultText[9].setPosition(350, 630 + 50 + 15);
 
     std::string nameButton[] = {"Create", "Insert", "Remove", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "R", "G", "B", "OK"};
     for (int i = 0; i < 5; i++)
@@ -99,8 +99,8 @@ DynamicArray::DynamicArray(sf::RenderWindow &window, sf::Font &font) : mWindow(w
         mBOnce[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(350 + i * 150, 475), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBOnce[i], font, 22);
 
     mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 630 + 5), font, "", false);
-    mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(410, 630 + 5), font, "datafile", true);
-    mSearchBar[2] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(350, 630 + 5), font, "2", false);
+    mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(430, 630 + 5), font, "datafile", true);
+    mSearchBar[2] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(330, 630 + 5), font, "2", false);
     mSearchBar[3] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(560, 630 + 5), font, "9", false);
 
     for (int i = 0; i < 2; i++)
@@ -515,7 +515,7 @@ void DynamicArray::insert(int index, std::string element)
     if (firstTime == false) return;
 
     firstTime = false;
-    if (index > size || index >= 9)
+    if (size == 9 || index > size || index >= 9)
     {
         nosuchfile = true;
         return;
