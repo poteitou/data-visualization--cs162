@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "datastruct/StaticArray.hpp"
+#include "datastruct/DynamicArray.hpp"
 #include "datastruct/Menu.hpp"
 
 struct Screen
@@ -15,6 +16,7 @@ struct Screen
     sf::Font &mFont;
     Menu mMenu;
     StaticArray mStaticArray;
+    DynamicArray mDynamicArray;
     int mData;
 };
 

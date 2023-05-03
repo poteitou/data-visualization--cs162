@@ -1,5 +1,5 @@
-#ifndef STATICARRAY_HPP
-#define STATICARRAY_HPP
+#ifndef DYNAMICARRAY_HPP
+#define DYNAMICARRAY_HPP
 
 #include <SFML/Graphics.hpp>
 #include "../interface/Arrow.hpp"
@@ -14,9 +14,9 @@
 
 #include <iostream>
 
-struct StaticArray
+struct DynamicArray
 {
-    StaticArray(sf::RenderWindow &window, sf::Font &font);
+    DynamicArray(sf::RenderWindow &window, sf::Font &font);
 
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress);
@@ -64,4 +64,4 @@ struct StaticArray
     int color;
 };
 
-#endif // STATICARRAY_HPP
+#endif // DYNAMICARRAY_HPP

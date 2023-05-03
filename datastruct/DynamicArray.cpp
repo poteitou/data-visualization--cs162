@@ -1,6 +1,6 @@
-#include "StaticArray.hpp"
+#include "DynamicArray.hpp"
 
-StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(font), mType(0), mSmallType(0)
+DynamicArray::DynamicArray(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(font), mType(0), mSmallType(0)
 {
     mButton.resize(12);
     mBCreate.resize(2);
@@ -18,7 +18,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     }
 
     // Top right
-    mDefaultText[0].setString("STATIC ARRAY");
+    mDefaultText[0].setString("DYNAMIC ARRAY");
     mDefaultText[1].setString("Max size: 9");
     mDefaultText[2].setString("Value range: 0..99");
     mDefaultText[3].setString("Color tone:");
@@ -125,7 +125,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     color = 0;
 }
 
-void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
+void DynamicArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
 {
     for (int i = 0; i < 8; i++)
         mButton[i].setMouseOver(mousePosition);
@@ -269,7 +269,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     }
 }
 
-void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
+void DynamicArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[0].mHovered = true;
     if (mBCreate[0].setMouseOver(mousePosition) && mousePress) // Randomize
@@ -314,7 +314,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
     }
 }
 
-void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
+void DynamicArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     char tempkeyPress;
     mButton[1].mHovered = true;
@@ -359,7 +359,7 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
     }
 }
 
-void StaticArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
+void DynamicArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[2].mHovered = true;
     for (int i = 0; i < 3; i++)
@@ -396,7 +396,7 @@ void StaticArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, char
     }
 }
 
-void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
+void DynamicArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     char tempkeyPress;
     mButton[3].mHovered = true;
@@ -434,7 +434,7 @@ void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char
     }
 }
 
-void StaticArray::updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
+void DynamicArray::updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[4].mHovered = true;
     firstTime = true;
@@ -445,7 +445,7 @@ void StaticArray::updateSearch(bool mousePress, sf::Vector2i mousePosition, char
     else firstTime = true;
 }
 
-void StaticArray::randomize()
+void DynamicArray::randomize()
 {
     std::ofstream outFile("data/randomize.data");
 
@@ -463,9 +463,8 @@ void StaticArray::randomize()
     outFile.close();
 }
 
-void StaticArray::create(std::string filename)
+void DynamicArray::create(std::string filename)
 {
-
     std::ifstream inFile(filename);
     if (!inFile)
     {
@@ -479,22 +478,19 @@ void StaticArray::create(std::string filename)
     runOption = 1;
     step = 0; // activate
     mDataPoint.clear();
-    std::vector<DataPoint> temp(9);
 
     size = 0;
-    while (size < 9 && inFile >> array[size++]);
-    --size;
+    while (size < 9 && inFile >> array[size]) ++size;
     for (int i = size; i < 9; i++)
         array[i] = "";
 
-    for (int i = 0; i < 9; i++)
+    std::vector<DataPoint> temp(size);
+    for (int i = 0; i < size; i++)
     {
         temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, i < 8 ? 100.f : 0, 0);
     }
     mDataPoint.push_back(temp);
 
-    for (int i = size; i < 9; i++)
-        temp[i].mAppearTime = 100.f;
     for (int i = 0; i < size; i++)
     {
         if (i > 0)
@@ -512,7 +508,7 @@ void StaticArray::create(std::string filename)
     inFile.close();
 }
 
-void StaticArray::insert(int index, std::string element)
+void DynamicArray::insert(int index, std::string element)
 {
     if (firstTime == false) return;
 
@@ -578,7 +574,7 @@ void StaticArray::insert(int index, std::string element)
     mDataPoint.push_back(temp);
 }
 
-void StaticArray::remove(int index)
+void DynamicArray::remove(int index)
 {
     if (firstTime == false) return;
     firstTime = false;
@@ -632,7 +628,7 @@ void StaticArray::remove(int index)
     mDataPoint.push_back(temp);
 }
 
-void StaticArray::modify(int index, std::string element)
+void DynamicArray::modify(int index, std::string element)
 {
     if (firstTime == false) return;
 
@@ -671,7 +667,7 @@ void StaticArray::modify(int index, std::string element)
     }
 }
 
-void StaticArray::search(std::string element) 
+void DynamicArray::search(std::string element) 
 {
     if (firstTime == false || mDataPoint.empty()) return;
     firstTime = false;
@@ -711,7 +707,7 @@ void StaticArray::search(std::string element)
     }
 }
 
-void StaticArray::setColor()
+void DynamicArray::setColor()
 {
     for (int i = 0; i < mDataPoint.size(); i++)
     {
@@ -730,7 +726,7 @@ void StaticArray::setColor()
     }
 }
 
-void StaticArray::draw()
+void DynamicArray::draw()
 {
     mWindow.draw(mRect[0]);
     mWindow.draw(mRect[1]);
