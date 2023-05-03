@@ -465,7 +465,6 @@ void StaticArray::randomize()
 
 void StaticArray::create(std::string filename)
 {
-
     std::ifstream inFile(filename);
     if (!inFile)
     {
@@ -482,8 +481,7 @@ void StaticArray::create(std::string filename)
     std::vector<DataPoint> temp(9);
 
     size = 0;
-    while (size < 9 && inFile >> array[size++]);
-    --size;
+    while (size < 9 && inFile >> array[size]) ++size;
     for (int i = size; i < 9; i++)
         array[i] = "";
 
