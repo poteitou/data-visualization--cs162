@@ -55,8 +55,8 @@ struct StaticArray
     int speed;
     bool nosuchfile;
     bool firstTime;
-    bool run;
-    int runstate;
+    int run;
+    int runOption;
 };
 
 #endif // STATICARRAY_HPP

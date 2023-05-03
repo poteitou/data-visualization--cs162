@@ -94,8 +94,8 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     step = -1;
     speed = 0;
     firstTime = true;
-    run = false;
-    runstate = -1;
+    run = -1; // not yet:-1     start run:0     running:1
+    runOption = -1; // no mode:-1       step:0      once:1
 }
 
 void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
@@ -111,17 +111,11 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
             mSearchBar[2].reset("2");
         }
     if (mousePress && mButton[5].mHovered) // Run step-by-step
-    {
-        runstate = 0;
-        run = false;
-    }
+        runOption = 0;
     else if (mousePress && mButton[6].mHovered) // Run at-once
-    {
-        runstate = 1;
-        run = false;
-    }
+        runOption = 1;
 
-    if (runstate == 1 && run == false)
+    if (runOption == 1)
     {
         mButton[6].mHovered = true;
         for (int i = 0; i < 3; i++)
@@ -129,7 +123,8 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
             if (mBOnce[i].setMouseOver(mousePosition) && mousePress)
             {
                 speed = 1 << i;
-                run = true;
+                run = 0;
+                mButton[6].mHovered = false;
             }
         }
     }
@@ -137,9 +132,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
     if (mousePress && mButton[7].mHovered)
     {
         firstTime = true;
-        runstate = -1;
-        run = false;
-        step = -1;
+        runOption = run = step = -1;
         speed = mType = mData = 0;
         mButton[7].reset();
         mDataPoint.clear();
@@ -167,6 +160,12 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         break;
     }
 
+    if (run == 0)
+    {
+        runOption = -1;
+        if (mDataPoint.empty()) run = -1;
+        else run = 1;
+    }
     if (step != -1)
         for (int i = 0; i < mDataPoint.size(); i++)
         {
@@ -204,8 +203,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
     case 1: // Randomize
         mBCreate[0].mHovered = true;
         mSearchBar[0].update(mousePress, mousePosition, keyPress, 26);
-
-        if (run)
+        if (run == 0)
         {
             std::ofstream outFile("data/randomize.data");
             outFile << mSearchBar[0].mValue;
@@ -217,7 +215,7 @@ void StaticArray::updateCreate(bool mousePress, sf::Vector2i mousePosition, char
     case 2: // Data file
         mBCreate[1].mHovered = true;
         mSearchBar[1].update(mousePress, mousePosition, keyPress, 10);
-        if (run)
+        if (run == 0)
         {
             nosuchfile = false;
             create("data/" + mSearchBar[1].mValue + ".data");
@@ -249,14 +247,14 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
     case 1: // At the first
         mBInsert[0].mHovered = true;
         mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
-        if (run && mSearchBar[2].mValue != "")
+        if (run == 0 && mSearchBar[2].mValue != "")
             insert(0, mSearchBar[2].mValue);
         else firstTime = true;
         break;
     case 2: // At the last
         mBInsert[1].mHovered = true;
         mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
-        if (run && mSearchBar[2].mValue != "")
+        if (run == 0 && mSearchBar[2].mValue != "")
             insert(size, mSearchBar[2].mValue);
         else firstTime = true;
         break;
@@ -265,7 +263,7 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
         tempkeyPress = keyPress;
         mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
         mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
-        if (run && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
+        if (run == 0 && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
             insert(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
         else firstTime = true;
         break;
@@ -291,18 +289,18 @@ void StaticArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, char
     {
     case 1: // At the first
         mBInsert[0].mHovered = true;
-        if (run) remove(0);
+        if (run == 0) remove(0);
         else firstTime = true;
         break;
     case 2: // At the last
         mBInsert[1].mHovered = true;
-        if (run) remove(size - 1);
+        if (run == 0) remove(size - 1);
         else firstTime = true;
         break;
     case 3: // At the middle
         mBInsert[2].mHovered = true;
         mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-        if (run && mSearchBar[2].mValue != "")
+        if (run == 0 && mSearchBar[2].mValue != "")
             remove(stoi(mSearchBar[2].mValue));
         else firstTime = true;
         break;
@@ -331,7 +329,7 @@ void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char
     case 1: // Access
         mBUpdate[0].mHovered = true;
         mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-        if (run && mSearchBar[2].mValue != "")
+        if (run == 0 && mSearchBar[2].mValue != "")
             modify(stoi(mSearchBar[2].mValue), "");
         else firstTime = true;
         break;
@@ -340,7 +338,7 @@ void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char
         tempkeyPress = keyPress;
         mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
         mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
-        if (run && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
+        if (run == 0 && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
             modify(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
         else firstTime = true;
         break;
@@ -355,7 +353,7 @@ void StaticArray::updateSearch(bool mousePress, sf::Vector2i mousePosition, char
     firstTime = true;
     
     mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
-    if (run && mSearchBar[2].mValue != "")
+    if (run == 0 && mSearchBar[2].mValue != "")
         search(mSearchBar[2].mValue);
     else firstTime = true;
 }
@@ -627,7 +625,7 @@ void StaticArray::draw()
         mWindow.draw(mDefaultText[i]);
     for (int i = 0; i < 8; i++)
         mButton[i].draw(mWindow);
-    if (runstate == 1 && run == false)
+    if (runOption == 1)
     {
         for (int i = 0; i < 3; i++)
             mBOnce[i].draw(mWindow);
