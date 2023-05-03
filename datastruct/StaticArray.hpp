@@ -22,6 +22,7 @@ struct StaticArray
     void updateInsert(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateRemove(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
+    void updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void draw();
 
     void randomize();
@@ -29,7 +30,7 @@ struct StaticArray
     void insert(int index, std::string element);
     void remove(int index);
     void modify(int index, std::string element);
-    void search(int element) const;
+    void search(std::string element);
     /*
 
     int getSize() const;
@@ -42,7 +43,6 @@ struct StaticArray
     std::vector<Button> mBCreate;
     std::vector<Button> mBInsert;
     std::vector<Button> mBUpdate;
-    std::vector<Button> mBSearch;
 
     std::vector<sf::Text> mDefaultText;
 

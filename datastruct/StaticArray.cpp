@@ -128,7 +128,7 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         updateModify(mousePress, mousePosition, keyPress, mData, dt);
         break;
     case 5: // Search
-        mButton[4].mHovered = true;
+        updateSearch(mousePress, mousePosition, keyPress, mData, dt);
         break;
     default:
         break;
@@ -318,6 +318,18 @@ void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char
     }
 }
 
+void StaticArray::updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
+{
+    mButton[4].mHovered = true;
+    mSearchBar[2].reset("2");
+    firstTime = true;
+    
+    mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
+    if (mousePress && mButton[6].mHovered && mSearchBar[2].mValue != "")
+        search(mSearchBar[2].mValue);
+    else firstTime = true;
+}
+
 void StaticArray::draw()
 {
     for (int i = 0; i < 4; i++)
@@ -405,6 +417,8 @@ void StaticArray::draw()
         if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
     case 5: // Search
+        mWindow.draw(mDefaultText[4]);
+        mSearchBar[2].draw(mWindow);
         break;
     default:
         break;
@@ -629,6 +643,7 @@ void StaticArray::modify(int index, std::string element)
     }
     mDataPoint.clear();
     mDataPoint.push_back(temp);
+    step = 0;
 
     temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
     mDataPoint.push_back(temp);
@@ -640,16 +655,43 @@ void StaticArray::modify(int index, std::string element)
     }
 }
 
-void StaticArray::search(int element) 
+void StaticArray::search(std::string element) 
 {
-    for (int i = 0; i < size; i++)
+    if (firstTime == false || mDataPoint.empty()) return;
+    firstTime = false;
+
+    std::vector<DataPoint> temp(9);
+    for (int i = 0; i < 9; i++)
     {
-        if (array[i] == element)
+        mDataPoint.back()[i].reset();
+        temp[i] = mDataPoint.back()[i];
+        if (array[i] != "")
         {
-            return i;
+            temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
+            temp[i].setBackgroundColor(sf::Color(255, 200, 200));
         }
     }
-    return -1;
+    mDataPoint.clear();
+    mDataPoint.push_back(temp);
+
+    step = 0; 
+    for (int i = 0; i < size; i++)
+    {
+        if (i > 0)
+        {
+            temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
+            temp[i - 1].mAppear = true;
+        }
+
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, sf::Color(255, 95, 95), sf::Color(255, 95, 95), 0, 0);
+        mDataPoint.push_back(temp);
+
+        if (array[i] == element)
+            return;
+
+        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color(255, 200, 200), 0, 0);
+        mDataPoint.push_back(temp);
+    }
 }
 
 /*
