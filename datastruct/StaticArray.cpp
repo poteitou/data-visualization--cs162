@@ -364,7 +364,6 @@ void StaticArray::randomize()
 
     srand(time(NULL));
     int randSize = rand() % 9 + 1;
-    step = -1;
     std::string temp = "";
     for (int i = 0; i < randSize; i++)
     {
