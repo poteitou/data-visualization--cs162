@@ -32,6 +32,8 @@ struct DataPoint
 
     float mDefaultAppear;
     float mDefaultDisappear;
+    sf::Color mInColor;
+    std::string mText;
 };
 
 #endif

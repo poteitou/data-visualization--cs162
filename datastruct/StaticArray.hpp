@@ -32,6 +32,7 @@ struct StaticArray
     void modify(int index, std::string element);
     void search(std::string element);
 
+    void setColor();
     void draw();
 
     sf::RenderWindow &mWindow;
@@ -60,6 +61,7 @@ struct StaticArray
     int runOption;
     std::pair<sf::Color, sf::Color> pallete[3];
     sf::RectangleShape mRect[2];
+    int color;
 };
 
 #endif // STATICARRAY_HPP
