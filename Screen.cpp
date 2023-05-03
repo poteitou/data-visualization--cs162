@@ -27,7 +27,7 @@ void Screen::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress,
     }
 }
 
-void Screen::draw(float dt)
+void Screen::draw()
 {
     switch(mData)
     {

@@ -25,7 +25,7 @@ void Game::run()
         processEvents();
         mScreen.update(mousePress, mousePosition, keyPress, dt);
         mWindow.clear(sf::Color(220, 240, 255));
-        mScreen.draw(dt);
+        mScreen.draw();
         mWindow.display();
     }
     /* while (mWindow.isOpen())
@@ -63,7 +63,7 @@ void Game::processEvents()
             break;
         case sf::Event::MouseButtonReleased:
             if (event.mouseButton.button == sf::Mouse::Left)
-                mousePress = false;
+                mousePress = true;
             break;
         case sf::Event::MouseMoved:
             mousePosition = sf::Mouse::getPosition(mWindow);

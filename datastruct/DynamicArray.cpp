@@ -221,12 +221,14 @@ void DynamicArray::update(bool mousePress, sf::Vector2i mousePosition, char &key
 
     if (mousePress && mButton[7].mHovered)
     {
+        size = 0;
         firstTime = firstStep = true;
         runOption = step = -1;
         speed = mType = mData = 0;
         color = 0;
         mButton[7].reset();
         mDataPoint.clear();
+        delete[] array;
         return;
     }
 
