@@ -525,11 +525,8 @@ void DynamicArray::insert(int index, std::string element)
     {
         mDataPoint.back()[i].reset();
         temp[i] = mDataPoint.back()[i];
-        if (array[i] != "")
-        {
-            temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-            temp[i].setBackgroundColor(pallete[color].first);
-        }
+        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
+        temp[i].setBackgroundColor(pallete[color].first);
     }
     temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), "", std::to_string(size), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, 0, 0);
 
@@ -576,16 +573,13 @@ void DynamicArray::remove(int index)
     }
     nosuchfile = false;
 
-    std::vector<DataPoint> temp(9);
-    for (int i = 0; i < 9; i++)
+    std::vector<DataPoint> temp(size);
+    for (int i = 0; i < size; i++)
     {
         mDataPoint.back()[i].reset();
         temp[i] = mDataPoint.back()[i];
-        if (array[i] != "")
-        {
-            temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-            temp[i].setBackgroundColor(pallete[color].first);
-        }
+        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
+        temp[i].setBackgroundColor(pallete[color].first);
     }
     mDataPoint.clear();
     mDataPoint.push_back(temp);
@@ -615,7 +609,7 @@ void DynamicArray::remove(int index)
     temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), array[size], std::to_string(size), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
     mDataPoint.push_back(temp);
     array[size] = "";
-    temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), array[size], "", mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, 0, 0);
+    temp.pop_back();
     mDataPoint.push_back(temp);
 }
 
