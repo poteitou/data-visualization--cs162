@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "datastruct/StaticArray.hpp"
 #include "datastruct/DynamicArray.hpp"
+#include "datastruct/SinglyLinkedList.hpp"
 #include "datastruct/Menu.hpp"
 
 struct Screen
@@ -17,6 +18,7 @@ struct Screen
     Menu mMenu;
     StaticArray mStaticArray;
     DynamicArray mDynamicArray;
+    SinglyLinkedList mSinglyLinkedList;
     int mData;
 };
 
