@@ -81,7 +81,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
 
     mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 630 + 5), font, "", false);
     mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(410, 630 + 5), font, "datafile", true);
-    mSearchBar[2] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(350, 630 + 5), font, "1", false);
+    mSearchBar[2] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(350, 630 + 5), font, "2", false);
     mSearchBar[3] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(560, 630 + 5), font, "9", false);
 
     array = new std::string[9];
@@ -206,7 +206,7 @@ void StaticArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, char
         {
             mSmallType = i + 1;
             nosuchfile = false;
-            mSearchBar[2].reset("1");
+            mSearchBar[2].reset("2");
             mSearchBar[3].reset("9");
             firstTime = true;
         }
@@ -250,7 +250,7 @@ void StaticArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, char
         {
             mSmallType = i + 1;
             nosuchfile = false;
-            mSearchBar[2].reset("1");
+            mSearchBar[2].reset("2");
             firstTime = true;
         }
     }
@@ -290,7 +290,7 @@ void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char
         {
             mSmallType = i + 1;
             nosuchfile = false;
-            mSearchBar[2].reset("1");
+            mSearchBar[2].reset("2");
             mSearchBar[3].reset("9");
             firstTime = true;
         }
@@ -393,7 +393,7 @@ void StaticArray::draw(float dt)
             mWindow.draw(mDefaultText[7]);
             mSearchBar[2].draw(mWindow);
             break;
-        case 3: // Modify
+        case 2: // Modify
             mWindow.draw(mDefaultText[7]);
             mWindow.draw(mDefaultText[8]);
             mSearchBar[2].draw(mWindow);
