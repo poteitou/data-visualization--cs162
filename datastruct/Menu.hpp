@@ -8,7 +8,7 @@ struct Menu
 {
     Menu(sf::RenderWindow &window, sf::Font &font);
     void update(bool mousePress, sf::Vector2i mousePosition, int &mData);
-    void draw(sf::RenderWindow &mWindow);
+    void draw();
 
     sf::RenderWindow &mWindow;
     sf::Font &mFont;

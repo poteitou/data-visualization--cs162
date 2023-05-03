@@ -25,7 +25,7 @@ void Menu::update(bool mousePress, sf::Vector2i mousePosition, int &mData)
     }
 }
 
-void Menu::draw(sf::RenderWindow &mWindow)
+void Menu::draw()
 {
     for (int i = 0; i < 7; i++)
         mButton[i].draw(mWindow);

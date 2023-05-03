@@ -26,10 +26,10 @@ void Screen::draw(float dt)
     switch(mData)
     {
     case 0: // Menu
-        mMenu.draw(mWindow);
+        mMenu.draw();
         break;
     case 1: // Static array
-        mStaticArray.draw(dt);
+        mStaticArray.draw();
         break;
     default:
         break;

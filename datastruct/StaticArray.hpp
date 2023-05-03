@@ -22,16 +22,15 @@ struct StaticArray
     void updateInsert(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateRemove(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
-    void draw(float dt);
+    void draw();
 
-    void saveData(std::string fileName);
     void randomize();
     void create(std::string fileName);
     void insert(int index, std::string element);
     void remove(int index);
     void modify(int index, std::string element);
+    void search(int element) const;
     /*
-    int search(int element) const;
 
     int getSize() const;
     int getElement(int index) const;

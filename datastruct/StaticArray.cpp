@@ -318,7 +318,7 @@ void StaticArray::updateModify(bool mousePress, sf::Vector2i mousePosition, char
     }
 }
 
-void StaticArray::draw(float dt)
+void StaticArray::draw()
 {
     for (int i = 0; i < 4; i++)
         mWindow.draw(mDefaultText[i]);
@@ -417,25 +417,6 @@ void StaticArray::draw(float dt)
             mDataPoint[step][j].draw(mWindow);
         }
     }
-}
-
-void StaticArray::saveData(std::string fileName)
-{
-    std::ofstream outFile(fileName.c_str());
-
-    // if (!outFile) {
-    //     std::cout << "Unable to open file." << endl;
-    //     return;
-    // }
-
-    outFile << size << std::endl;
-
-    for (int i = 0; i < size; i++)
-    {
-        outFile << array[i] << " ";
-    }
-
-    outFile.close();
 }
 
 void StaticArray::randomize()
@@ -659,8 +640,7 @@ void StaticArray::modify(int index, std::string element)
     }
 }
 
-/*
-int StaticArray::search(int element) const
+void StaticArray::search(int element) 
 {
     for (int i = 0; i < size; i++)
     {
@@ -672,6 +652,7 @@ int StaticArray::search(int element) const
     return -1;
 }
 
+/*
 int StaticArray::getSize() const
 {
     return size;
