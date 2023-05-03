@@ -76,7 +76,7 @@ DynamicArray::DynamicArray(sf::RenderWindow &window, sf::Font &font) : mWindow(w
     for (int i = 8; i < 11; i++)
         mButton[i] = Button(sf::Vector2f(50, 50), sf::Vector2f(1200 + (i - 8) * 70, 590), pallete[i - 8].first, pallete[i - 8].second, nameButton[i], font, 22);
 
-    mButton[11] = Button(sf::Vector2f(50, 50), sf::Vector2f(800, 630 + 5), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[11], font, 22);
+    mButton[11] = Button(sf::Vector2f(75, 50), sf::Vector2f(750, 630 + 5), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[11], font, 22);
 
     std::string nameBCreate[] = {"Randomize", "Data File"};
     for (int i = 0; i < 2; i++)
@@ -656,16 +656,13 @@ void DynamicArray::search(std::string element)
     if (firstTime == false || mDataPoint.empty()) return;
     firstTime = false;
 
-    std::vector<DataPoint> temp(9);
-    for (int i = 0; i < 9; i++)
+    std::vector<DataPoint> temp(size);
+    for (int i = 0; i < size; i++)
     {
         mDataPoint.back()[i].reset();
         temp[i] = mDataPoint.back()[i];
-        if (array[i] != "")
-        {
-            temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-            temp[i].setBackgroundColor(pallete[color].first);
-        }
+        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
+        temp[i].setBackgroundColor(pallete[color].first);
     }
     mDataPoint.clear();
     mDataPoint.push_back(temp);

@@ -76,7 +76,7 @@ StaticArray::StaticArray(sf::RenderWindow &window, sf::Font &font) : mWindow(win
     for (int i = 8; i < 11; i++)
         mButton[i] = Button(sf::Vector2f(50, 50), sf::Vector2f(1200 + (i - 8) * 70, 590), pallete[i - 8].first, pallete[i - 8].second, nameButton[i], font, 22);
 
-    mButton[11] = Button(sf::Vector2f(50, 50), sf::Vector2f(800, 630 + 5), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[11], font, 22);
+    mButton[11] = Button(sf::Vector2f(75, 50), sf::Vector2f(750, 630 + 5), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[11], font, 22);
 
     std::string nameBCreate[] = {"Randomize", "Data File"};
     for (int i = 0; i < 2; i++)
