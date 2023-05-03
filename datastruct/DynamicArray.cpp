@@ -627,16 +627,13 @@ void DynamicArray::modify(int index, std::string element)
     }
     nosuchfile = false;
     
-    std::vector<DataPoint> temp(9);
-    for (int i = 0; i < 9; i++)
+    std::vector<DataPoint> temp(size);
+    for (int i = 0; i < size; i++)
     {
         mDataPoint.back()[i].reset();
         temp[i] = mDataPoint.back()[i];
-        if (array[i] != "")
-        {
-            temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-            temp[i].setBackgroundColor(pallete[color].first);
-        }
+        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
+        temp[i].setBackgroundColor(pallete[color].first);
     }
     mDataPoint.clear();
     mDataPoint.push_back(temp);
