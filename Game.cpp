@@ -63,7 +63,7 @@ void Game::processEvents()
             break;
         case sf::Event::MouseButtonReleased:
             if (event.mouseButton.button == sf::Mouse::Left)
-                mousePress = true;
+                mousePress = false;
             break;
         case sf::Event::MouseMoved:
             mousePosition = sf::Mouse::getPosition(mWindow);

@@ -24,7 +24,8 @@ struct DynamicArray
     void updateRemove(bool mousePress, sf::Vector2i mousePosition, char &keyPress);
     void updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress);
     void updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress);
-
+    
+    int Rand(int MAX);
     void randomize();
     void create(std::string fileName);
     void insert(int index, std::string element);

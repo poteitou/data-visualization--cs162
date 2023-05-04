@@ -100,8 +100,8 @@ DynamicArray::DynamicArray(sf::RenderWindow &window, sf::Font &font) : mWindow(w
 
     mSearchBar[0] = SearchBar(sf::Vector2f(350, 50), sf::Vector2f(350, 630 + 5), font, "", false);
     mSearchBar[1] = SearchBar(sf::Vector2f(230, 50), sf::Vector2f(430, 630 + 5), font, "datafile", true);
-    mSearchBar[2] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(330, 630 + 5), font, "2", false);
-    mSearchBar[3] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(560, 630 + 5), font, "9", false);
+    mSearchBar[2] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(330, 630 + 5), font, std::to_string(Rand(9)), false);
+    mSearchBar[3] = SearchBar(sf::Vector2f(80, 50), sf::Vector2f(560, 630 + 5), font, std::to_string(Rand(99)), false);
 
     for (int i = 0; i < 2; i++)
     {
@@ -144,7 +144,7 @@ void DynamicArray::update(bool mousePress, sf::Vector2i mousePosition, char &key
             mType = i + 1;
             mSmallType = 0;
             nosuchfile = false;
-            mSearchBar[2].reset("2");
+            mSearchBar[2].reset(std::to_string(Rand(i < 4 ? 9 : 99)));
         }
 
     if (runOption == 1 && mousePress && mButton[5].mHovered)
@@ -328,8 +328,8 @@ void DynamicArray::updateInsert(bool mousePress, sf::Vector2i mousePosition, cha
         {
             mSmallType = i + 1;
             nosuchfile = false;
-            mSearchBar[2].reset("2");
-            mSearchBar[3].reset("9");
+            mSearchBar[2].reset(std::to_string(Rand(i < 2 ? 99 : 9)));
+            mSearchBar[3].reset(std::to_string(Rand(99)));
             firstTime = true;
         }
     }
@@ -372,7 +372,7 @@ void DynamicArray::updateRemove(bool mousePress, sf::Vector2i mousePosition, cha
         {
             mSmallType = i + 1;
             nosuchfile = false;
-            mSearchBar[2].reset("2");
+            mSearchBar[2].reset(std::to_string(Rand(9)));
             firstTime = true;
         }
     }
@@ -410,8 +410,8 @@ void DynamicArray::updateModify(bool mousePress, sf::Vector2i mousePosition, cha
         {
             mSmallType = i + 1;
             nosuchfile = false;
-            mSearchBar[2].reset("2");
-            mSearchBar[3].reset("9");
+            mSearchBar[2].reset(std::to_string(Rand(9)));
+            mSearchBar[3].reset(std::to_string(Rand(99)));
             firstTime = true;
         }
     }
@@ -447,6 +447,12 @@ void DynamicArray::updateSearch(bool mousePress, sf::Vector2i mousePosition, cha
     if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
         search(mSearchBar[2].mValue);
     else firstTime = true;
+}
+
+int DynamicArray::Rand(int MAX)
+{
+    srand(time(NULL));
+    return rand() % MAX;
 }
 
 void DynamicArray::randomize()
