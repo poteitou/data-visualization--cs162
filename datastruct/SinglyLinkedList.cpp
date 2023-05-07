@@ -5,7 +5,6 @@ SinglyLinkedList::SinglyLinkedList(sf::RenderWindow &window, sf::Font &font) : m
     mButton.resize(12);
     mBCreate.resize(2);
     mBInsert.resize(3);
-    mBUpdate.resize(2);
     mBStep.resize(3);
     mBOnce.resize(4);
 
@@ -86,10 +85,6 @@ SinglyLinkedList::SinglyLinkedList(sf::RenderWindow &window, sf::Font &font) : m
     for (int i = 0; i < 3; i++)
         mBInsert[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBInsert[i], font, 22);
 
-    std::string nameBUpdate[] = {"Access", "Modify"};
-    for (int i = 0; i < 2; i++)
-        mBUpdate[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBUpdate[i], font, 22);
-
     std::string nameBStep[] = {"Previous", "Next", "Final"};
     for (int i = 0; i < 3; i++)
         mBStep[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(350 + i * 150, 420), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBStep[i], font, 22);
@@ -152,6 +147,7 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             mSmallType = 0;
             nosuchfile = false;
             mSearchBar[2].reset(std::to_string(Rand(i < 4 ? 9 : 99)));
+            mSearchBar[3].reset(std::to_string(Rand(99)));
         }
 
     if (runOption == 1 && mousePress && mButton[5].mHovered)
@@ -416,40 +412,17 @@ void SinglyLinkedList::updateRemove(bool mousePress, sf::Vector2i mousePosition,
 
 void SinglyLinkedList::updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
-    char tempkeyPress;
     mButton[3].mHovered = true;
-    for (int i = 0; i < 2; i++)
-    {
-        if (mBUpdate[i].setMouseOver(mousePosition) && mousePress)
-        {
-            mSmallType = i + 1;
-            nosuchfile = false;
-            mSearchBar[2].reset(std::to_string(Rand(9)));
-            mSearchBar[3].reset(std::to_string(Rand(99)));
-            firstTime = true;
-        }
-    }
-    switch (mSmallType)
-    {
-    case 1: // Access
-        mBUpdate[0].mHovered = true;
-        mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
-            modify(stoi(mSearchBar[2].mValue), "");
-        else firstTime = true;
-        break;
-    case 2: // Modify
-        mBUpdate[1].mHovered = true;
-        tempkeyPress = keyPress;
-        mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-        mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
-            modify(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
-        else firstTime = true;
-        break;
-    default:
-        break;
-    }
+
+    nosuchfile = false;
+    firstTime = true;
+
+    char tempkeyPress = keyPress;
+    mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
+    mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
+    if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
+        modify(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
+    else firstTime = true;
 }
 
 void SinglyLinkedList::updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
@@ -734,7 +707,6 @@ void SinglyLinkedList::remove(int index)
 
 void SinglyLinkedList::modify(int index, std::string element)
 {
-    /*
     if (firstTime == false) return;
 
     firstTime = false;
@@ -746,28 +718,37 @@ void SinglyLinkedList::modify(int index, std::string element)
     nosuchfile = false;
     
     std::vector<DataNode> temp(size);
-    for (int i = 0; i < size; i++)
-    {
-        mDataNode.back()[i].reset();
-        temp[i] = mDataNode.back()[i];
-        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-        temp[i].setBackgroundColor(pallete[color].first);
-    }
+    Node *tmp = head;
+    setPos(temp, 0, 350, tmp);
     mDataNode.clear();
     mDataNode.push_back(temp);
-    
-    runOption = 1;
-    step = 0;
 
-    temp[index] = DataNode(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
-    mDataNode.push_back(temp);
-    if (element != "")
+    runOption = 1;
+    step = 0; // activate
+    tmp = head;
+    temp[0].mAppear = false;
+    temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
+
+    for (int i = 0; i <= index; i++)
     {
-        array[index] = element;
-        temp[index] = DataNode(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0);
+        if (i > 0)
+        {
+            temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+        }
+        temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
         mDataNode.push_back(temp);
+
+        if (i < index)
+        {
+            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+            mDataNode.push_back(temp);
+            tmp = tmp->next;
+        }
     }
-    */
+    tmp->data = element;
+    tmp = head;
+    setPos(temp, 0, 350, tmp);
+    mDataNode.push_back(temp);
 }
 
 void SinglyLinkedList::search(std::string element) 
@@ -919,25 +900,11 @@ void SinglyLinkedList::draw()
         if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
     case 4: // Update
-        for (int i = 0; i < 2; i++)
-            mBUpdate[i].draw(mWindow);
-        switch (mSmallType)
-        {
-        case 1: // Access
-            mWindow.draw(mDefaultText[7]);
-            mSearchBar[2].draw(mWindow);
-            mButton[11].draw(mWindow);
-            break;
-        case 2: // Modify
-            mWindow.draw(mDefaultText[7]);
-            mWindow.draw(mDefaultText[8]);
-            mSearchBar[2].draw(mWindow);
-            mSearchBar[3].draw(mWindow);
-            mButton[11].draw(mWindow);
-            break;
-        default:
-            break;
-        }
+        mWindow.draw(mDefaultText[7]);
+        mWindow.draw(mDefaultText[8]);
+        mSearchBar[2].draw(mWindow);
+        mSearchBar[3].draw(mWindow);
+        mButton[11].draw(mWindow);
         if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
     case 5: // Search

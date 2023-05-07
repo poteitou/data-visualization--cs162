@@ -51,7 +51,6 @@ struct SinglyLinkedList
     std::vector<Button> mButton;
     std::vector<Button> mBCreate;
     std::vector<Button> mBInsert;
-    std::vector<Button> mBUpdate;
 
     std::vector<Button> mBStep;
     std::vector<Button> mBOnce;
