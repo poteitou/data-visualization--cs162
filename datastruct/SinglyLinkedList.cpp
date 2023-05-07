@@ -235,6 +235,13 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
         color = 0;
         mButton[7].reset();
         mDataNode.clear();
+        Node *tmp;
+        while (head != nullptr)
+        {
+            tmp = head;
+            head = head->next;
+            delete tmp;
+        }
         delete[] array;
         return;
     }
@@ -480,9 +487,19 @@ void SinglyLinkedList::randomize()
     outFile.close();
 }
 
+void SinglyLinkedList::setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp)
+{
+    if (tmp == nullptr)
+        return;
+    for (int i = id; i < size; i++)
+    {
+        temp[i] = DataNode(sf::Vector2f(start + i * 100, 150), sf::Vector2f(start + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(start + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == 0 ? "head-0" : std::to_string(i), mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
+        tmp = tmp->next;
+    }
+}
+
 void SinglyLinkedList::create(std::string filename)
 {
-    /*
     std::ifstream inFile(filename);
     if (!inFile)
     {
@@ -496,47 +513,46 @@ void SinglyLinkedList::create(std::string filename)
     runOption = 1;
     step = 0; // activate
     mDataNode.clear();
+    Node *tmp;
+    while (head != nullptr)
+    {
+        tmp = head;
+        head = head->next;
+        delete tmp;
+    }
 
     size = 0;
     while (size < 9 && inFile >> array[size]) ++size;
-    for (int i = size; i < 9; i++)
-        array[i] = "";
-
-    std::vector<DataNode> temp(size);
-    for (int i = 0; i < size; i++)
+    if (size == 0)
     {
-        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, i < 8 ? 100.f : 0);
+        inFile.close();
+        return;
     }
+    
+    std::vector<DataNode> temp;
+    head = new Node(array[0]);
+    Node *cur = head;
+
+    temp.push_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), head->data, "head-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
     mDataNode.push_back(temp);
 
-    for (int i = 0; i < size; i++)
+    for (int i = 1; i < size; i++)
     {
-        if (i > 0)
-        {
-            temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
-            temp[i - 1].mAppear = true;
-        }
-        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
+        temp[i - 1].mNext = true;
         mDataNode.push_back(temp);
-        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-        temp[i].setBackgroundColor(pallete[color].first);
+        tmp = new Node(array[i]);
+        cur->next = tmp;
+        cur = cur->next;
+
+        temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
+        temp[i - 1].mAppear = true;
+        temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+        temp.push_back(DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
         mDataNode.push_back(temp);
     }
+    temp[size - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
     mDataNode.push_back(temp);
     inFile.close();
-    */
-}
-
-void SinglyLinkedList::setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp)
-{
-    if (tmp == nullptr)
-        return;
-    for (int i = id; i < size; i++)
-    {
-        temp[i] = DataNode(sf::Vector2f(start + i * 100, 150), sf::Vector2f(start + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(start + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == 0 ? "head-0" : std::to_string(i), mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
-        tmp = tmp->next;
-    }
-    delete tmp;
 }
 
 void SinglyLinkedList::insert(int index, std::string element)
