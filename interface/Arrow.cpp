@@ -2,53 +2,44 @@
 
 Arrow::Arrow() {}
 
-Arrow::Arrow(sf::Vector2f pos, sf::Vector2f size, float triangleSize = 20.f, sf::Color Color = sf::Color::Black)
-    : mPos(pos), mAngle(0.f), mScale(1.f, 1.f), mSize(size), mTriangleSize(triangleSize)
+Arrow::Arrow(sf::Vector2f posBegin, sf::Vector2f posEnd, sf::Color Color = sf::Color::Black)
+    : mPosBegin(sf::Vector2f(posBegin.x, posBegin.y - 2.f)), mPosEnd(sf::Vector2f(posEnd.x, posEnd.y - 2.f)), mAngle(0.f), mTriangleSize(14.f)
 {
-    mRect.setOrigin(sf::Vector2f(0.f, mSize.y / 2.f));
-    mRect.setSize(sf::Vector2f(mSize.x - mTriangleSize, mSize.y));
-    mRect.setPosition(sf::Vector2f(0.f, mTriangleSize / 2.f));
+    mLength = std::sqrt((mPosEnd.x - mPosBegin.x) * (mPosEnd.x - mPosBegin.x) + (mPosEnd.y - mPosBegin.y) * (mPosEnd.y - mPosBegin.y));
+    mAngle = std::atan2(mPosEnd.y - mPosBegin.y, mPosEnd.x - mPosBegin.x) * 180.f / std::acos(-1);
+    mRect.setSize(sf::Vector2f(mLength - mTriangleSize, 4.f));
     mRect.setFillColor(Color);
 
-    mTriangle.setOrigin(sf::Vector2f(0.f, mTriangleSize / 2.f));
     mTriangle.setPointCount(3);
-    mTriangle.setPoint(0, sf::Vector2f(mSize.x - mTriangleSize, 0.f + mTriangleSize / 2.f));
-    mTriangle.setPoint(1, sf::Vector2f(mSize.x, mTriangleSize / 2.f + mTriangleSize / 2.f));
-    mTriangle.setPoint(2, sf::Vector2f(mSize.x - mTriangleSize, mTriangleSize + mTriangleSize / 2.f));
+    mTriangle.setPoint(0, sf::Vector2f(mLength - mTriangleSize, -mTriangleSize / 2 + 2));
+    mTriangle.setPoint(1, sf::Vector2f(mLength, 2));
+    mTriangle.setPoint(2, sf::Vector2f(mLength - mTriangleSize, mTriangleSize / 2 + 2));
     mTriangle.setFillColor(Color);
+}
+
+void Arrow::setPosition(sf::Vector2f posBegin, sf::Vector2f posEnd)
+{
+    mPosBegin = sf::Vector2f(posBegin.x, posBegin.y - 2.f);
+    mPosEnd = sf::Vector2f(posEnd.x, posEnd.y - 2.f);
+    mLength = std::sqrt((mPosEnd.x - mPosBegin.x) * (mPosEnd.x - mPosBegin.x) + (mPosEnd.y - mPosBegin.y) * (mPosEnd.y - mPosBegin.y));
+    mAngle = std::atan2(mPosEnd.y - mPosBegin.y, mPosEnd.x - mPosBegin.x) * 180.f / std::acos(-1);
+    mRect.setSize(sf::Vector2f(mLength - mTriangleSize, 4.f));
+    mTriangle.setPoint(0, sf::Vector2f(mLength - mTriangleSize, -mTriangleSize / 2 + 2));
+    mTriangle.setPoint(1, sf::Vector2f(mLength, 2));
+    mTriangle.setPoint(2, sf::Vector2f(mLength - mTriangleSize, mTriangleSize / 2 + 2));
 }
 
 void Arrow::setColor(sf::Color Color)
 {
-    mTriangle.setFillColor(Color);
     mRect.setFillColor(Color);
+    mTriangle.setFillColor(Color);
 }
 
 void Arrow::draw(sf::RenderWindow &mWindow)
 {
     sf::Transform transform;
-    transform.translate(mPos);
+    transform.translate(mPosBegin);
     transform.rotate(mAngle);
-    transform.scale(mScale);
     mWindow.draw(mRect, transform);
     mWindow.draw(mTriangle, transform);
-}
-
-void Arrow::update(float dt)
-{
-    // TODO: Implement arrow updates here
-    mPos.x += 100.f * dt; // Move the arrow to the right at a speed of 100 pixels per second
-}
-
-void Arrow::makeLonger(float length, float dt)
-{
-    if (mSize.x < length)
-    {
-        mSize.x += 25.f * dt; // 100.f Move the arrow to the right at a speed of 100 pixels per second
-        mRect.setSize(sf::Vector2f(mSize.x - mTriangleSize, mSize.y));
-        mTriangle.setPoint(0, sf::Vector2f(mSize.x - mTriangleSize, 0.f + mTriangleSize / 2.f));
-        mTriangle.setPoint(1, sf::Vector2f(mSize.x, mTriangleSize / 2.f + mTriangleSize / 2.f));
-        mTriangle.setPoint(2, sf::Vector2f(mSize.x - mTriangleSize, mTriangleSize + mTriangleSize / 2.f));
-        mSize.x = std::min(mSize.x, length);
-    }
 }

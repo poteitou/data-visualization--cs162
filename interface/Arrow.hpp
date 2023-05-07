@@ -3,21 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 #include <algorithm>
+#include <math.h>
 
 struct Arrow
 {
     Arrow();
-    Arrow(sf::Vector2f pos, sf::Vector2f size, float triangleSize, sf::Color Color);
+    Arrow(sf::Vector2f posBegin, sf::Vector2f posEnd, sf::Color Color);
+    void setPosition(sf::Vector2f posBegin, sf::Vector2f posEnd);
     void setColor(sf::Color Color);
     void draw(sf::RenderWindow &mWindow);
-    void update(float dt);
-    void makeLonger(float length, float dt);
 
     sf::RectangleShape mRect;
     sf::ConvexShape mTriangle;
-    sf::Vector2f mPos;
-    sf::Vector2f mSize;
-    sf::Vector2f mScale;
+    sf::Vector2f mPosBegin, mPosEnd;
+    float mLength;
     float mAngle;
     float mTriangleSize;
 };
