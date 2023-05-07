@@ -148,6 +148,8 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             nosuchfile = false;
             if (i >= 3)
                 firstTime = true;
+            if (i == 3)
+                nosuchfile = false;
             mSearchBar[2].reset(std::to_string(Rand(i < 4 ? 9 : 99)));
             mSearchBar[3].reset(std::to_string(Rand(99)));
         }
@@ -415,7 +417,6 @@ void SinglyLinkedList::updateRemove(bool mousePress, sf::Vector2i mousePosition,
 void SinglyLinkedList::updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[3].mHovered = true;
-    nosuchfile = false;
 
     char tempkeyPress = keyPress;
     mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
@@ -752,41 +753,44 @@ void SinglyLinkedList::modify(int index, std::string element)
 
 void SinglyLinkedList::search(std::string element) 
 {
-    /*
     if (firstTime == false || mDataNode.empty()) return;
     firstTime = false;
 
+    if (size == 0)
+        return;
     std::vector<DataNode> temp(size);
-    for (int i = 0; i < size; i++)
-    {
-        mDataNode.back()[i].reset();
-        temp[i] = mDataNode.back()[i];
-        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-        temp[i].setBackgroundColor(pallete[color].first);
-    }
+    Node *tmp = head;
+    setPos(temp, 0, 350, tmp);
     mDataNode.clear();
     mDataNode.push_back(temp);
 
     runOption = 1;
-    step = 0; 
+    step = 0; // activate
+    tmp = head;
+    temp[0].mAppear = false;
+    temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
     for (int i = 0; i < size; i++)
     {
         if (i > 0)
         {
-            temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
-            temp[i - 1].mAppear = true;
+            temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
         }
-
-        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
+        temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
         mDataNode.push_back(temp);
 
-        if (array[i] == element)
+        if (tmp->data == element)
             return;
 
-        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0);
-        mDataNode.push_back(temp);
+        if (i < size - 1)
+        {
+            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+            mDataNode.push_back(temp);
+            tmp = tmp->next;
+        }
     }
-    */
+    tmp = head;
+    setPos(temp, 0, 350, tmp);
+    mDataNode.push_back(temp);
 }
 
 void SinglyLinkedList::setColor()
