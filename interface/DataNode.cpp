@@ -55,6 +55,9 @@ void DataNode::setPosition(sf::Vector2f pos, sf::Vector2f posPrev, sf::Vector2f 
     mPos = pos;
     mPosPrev = posPrev;
     mPosNext = posNext;
+    mRect.setPosition(mPos);
+    mTextIn.setPosition(mPos.x + (50.f - mTextIn.getLocalBounds().width) / 2, mPos.y + (50.f - 22) / 2);
+    mTextOut.setPosition(mPos.x + (50.f - mTextOut.getLocalBounds().width) / 2, mPos.y + (50.f - 22) / 2 + 50.f);
     mPrevArrow.setPosition(sf::Vector2f(mPos.x, mPos.y + 23), sf::Vector2f(mPosPrev.x + 50, mPosPrev.y + 23));
     mNextArrow.setPosition(sf::Vector2f(mPos.x + 50, mPos.y + 27), sf::Vector2f(mPosNext.x, mPosNext.y + 27));
 }
