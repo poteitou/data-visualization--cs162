@@ -17,7 +17,7 @@ DoublyLinkedList::DoublyLinkedList(sf::RenderWindow &window, sf::Font &font) : m
     }
 
     // Top right
-    mDefaultText[0].setString("SINGLY LINKED LIST ");
+    mDefaultText[0].setString("DOUBLY LINKED LIST ");
     mDefaultText[1].setString("Maximum capacity: 9");
     mDefaultText[2].setString("Value range: 0..99");
     mDefaultText[3].setString("Color tone:");
