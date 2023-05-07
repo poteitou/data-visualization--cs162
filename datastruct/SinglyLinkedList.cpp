@@ -146,6 +146,8 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             mType = i + 1;
             mSmallType = 0;
             nosuchfile = false;
+            if (i >= 3)
+                firstTime = true;
             mSearchBar[2].reset(std::to_string(Rand(i < 4 ? 9 : 99)));
             mSearchBar[3].reset(std::to_string(Rand(99)));
         }
@@ -413,9 +415,7 @@ void SinglyLinkedList::updateRemove(bool mousePress, sf::Vector2i mousePosition,
 void SinglyLinkedList::updateModify(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[3].mHovered = true;
-
     nosuchfile = false;
-    firstTime = true;
 
     char tempkeyPress = keyPress;
     mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
@@ -428,7 +428,6 @@ void SinglyLinkedList::updateModify(bool mousePress, sf::Vector2i mousePosition,
 void SinglyLinkedList::updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[4].mHovered = true;
-    firstTime = true;
     
     mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
     if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
