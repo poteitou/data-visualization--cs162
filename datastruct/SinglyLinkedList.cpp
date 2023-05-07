@@ -117,12 +117,19 @@ SinglyLinkedList::SinglyLinkedList(sf::RenderWindow &window, sf::Font &font) : m
     mRect[1].setPosition(sf::Vector2f(1000, 380));
 
     array = new std::string[9];
+    head = nullptr;
     size = 0;
     step = -1;
     speed = 0;
     firstTime = firstStep = true;
     runOption = -1; // no mode:-1       step:0      once:1
     color = 0;
+}
+
+SinglyLinkedList::Node::Node(std::string data)
+{
+    this->data = data;
+    this->next = nullptr;
 }
 
 void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
@@ -156,10 +163,10 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             mBStep[i].setMouseOver(mousePosition);
         speed = 0;
         step = 0;
-        for (int i = 0; i < mDataPoint.size(); i++)
+        for (int i = 0; i < mDataNode.size(); i++)
         {
-            for (int j = 0; j < mDataPoint[i].size(); j++)
-                mDataPoint[i][j].reset();
+            for (int j = 0; j < mDataNode[i].size(); j++)
+                mDataNode[i][j].reset();
         }
     }
     else if (runOption == 0) // Run step-by-step
@@ -171,18 +178,18 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             if (step > 0 && firstStep) 
             {
                 --step;
-                for (int i = 0; i < mDataPoint[step].size(); i++)
-                    mDataPoint[step][i].reset();
+                for (int i = 0; i < mDataNode[step].size(); i++)
+                    mDataNode[step][i].reset();
             }
             firstStep = false;
         }
         else if (mBStep[1].setMouseOver(mousePosition) && mousePress)
         {
-            if (step + 1 < (int)mDataPoint.size() && firstStep) 
+            if (step + 1 < (int)mDataNode.size() && firstStep) 
             {
                 ++step;
-                for (int i = 0; i < mDataPoint[step].size(); i++)
-                    mDataPoint[step][i].reset();
+                for (int i = 0; i < mDataNode[step].size(); i++)
+                    mDataNode[step][i].reset();
             }
             firstStep = false;
         }
@@ -190,9 +197,9 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
         {
             if (firstStep) 
             {
-                step = (int)mDataPoint.size() - 1;
-                for (int i = 0; i < mDataPoint[step].size(); i++)
-                    mDataPoint[step][i].reset();
+                step = (int)mDataNode.size() - 1;
+                for (int i = 0; i < mDataNode[step].size(); i++)
+                    mDataNode[step][i].reset();
             }
             firstStep = false;
         }
@@ -209,10 +216,10 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             {
                 speed = 1 << i;
                 mBOnce[i].mHovered = true;
-                for (int i = 0; i < mDataPoint.size(); i++)
+                for (int i = 0; i < mDataNode.size(); i++)
                 {
-                    for (int j = 0; j < mDataPoint[i].size(); j++)
-                        mDataPoint[i][j].reset();
+                    for (int j = 0; j < mDataNode[i].size(); j++)
+                        mDataNode[i][j].reset();
                 }
             }
             if (speed == (1 << i)) mBOnce[i].mHovered = true;
@@ -227,7 +234,7 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
         speed = mType = mData = 0;
         color = 0;
         mButton[7].reset();
-        mDataPoint.clear();
+        mDataNode.clear();
         delete[] array;
         return;
     }
@@ -256,11 +263,11 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
     if (runOption == 1)
     {
         bool drawn = false;
-        for (int i = 0; i < mDataPoint.size(); i++)
+        for (int i = 0; i < mDataNode.size(); i++)
         {
-            for (int j = 0; j < mDataPoint[i].size(); j++)
+            for (int j = 0; j < mDataNode[i].size(); j++)
             {
-                if (!mDataPoint[i][j].appear(100.f, speed * dt))
+                if (!mDataNode[i][j].appear(100.f, speed * dt))
                 {
                     step = i;
                     drawn = true;
@@ -269,7 +276,7 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             if (drawn) break;
         }
         if (drawn == false)
-            step = (int)mDataPoint.size() - 1;
+            step = (int)mDataNode.size() - 1;
     }
 }
 
@@ -475,6 +482,7 @@ void SinglyLinkedList::randomize()
 
 void SinglyLinkedList::create(std::string filename)
 {
+    /*
     std::ifstream inFile(filename);
     if (!inFile)
     {
@@ -487,19 +495,19 @@ void SinglyLinkedList::create(std::string filename)
     firstTime = false;
     runOption = 1;
     step = 0; // activate
-    mDataPoint.clear();
+    mDataNode.clear();
 
     size = 0;
     while (size < 9 && inFile >> array[size]) ++size;
     for (int i = size; i < 9; i++)
         array[i] = "";
 
-    std::vector<DataPoint> temp(size);
+    std::vector<DataNode> temp(size);
     for (int i = 0; i < size; i++)
     {
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, i < 8 ? 100.f : 0, 0);
+        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), "", std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, i < 8 ? 100.f : 0);
     }
-    mDataPoint.push_back(temp);
+    mDataNode.push_back(temp);
 
     for (int i = 0; i < size; i++)
     {
@@ -508,14 +516,25 @@ void SinglyLinkedList::create(std::string filename)
             temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
             temp[i - 1].mAppear = true;
         }
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
-        mDataPoint.push_back(temp);
+        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
+        mDataNode.push_back(temp);
         temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
         temp[i].setBackgroundColor(pallete[color].first);
-        mDataPoint.push_back(temp);
+        mDataNode.push_back(temp);
     }
-    mDataPoint.push_back(temp);
+    mDataNode.push_back(temp);
     inFile.close();
+    */
+}
+
+void SinglyLinkedList::setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp)
+{
+    for (int i = 0; i < size; i++)
+    {
+        temp[i] = DataNode(sf::Vector2f(start + i * 100, 150), sf::Vector2f(start + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(start + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == 0 ? "head-0" : std::to_string(i), mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
+        tmp = tmp->next;
+    }
+    delete tmp;
 }
 
 void SinglyLinkedList::insert(int index, std::string element)
@@ -530,69 +549,98 @@ void SinglyLinkedList::insert(int index, std::string element)
     }
     nosuchfile = false;
 
-    std::vector<DataPoint> temp(size + 1);
-    for (int i = 0; i < size; i++)
-    {
-        mDataPoint.back()[i].reset();
-        temp[i] = mDataPoint.back()[i];
-        temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
-        temp[i].setBackgroundColor(pallete[color].first);
-    }
-    temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), "", std::to_string(size), mFont, 22, 22, sf::Color::Black, sf::Color::Black, sf::Color::White, 0, 0);
-
-    mDataPoint.clear();
-    mDataPoint.push_back(temp);
+    std::vector<DataNode> temp(size + 1);
+    Node *tmp = head;
+    setPos(temp, 0, 350, tmp);
+    mDataNode.clear();
+    mDataNode.push_back(temp);
 
     runOption = 1;
     step = 0; // activate
-    ++size;
-    for (int i = size - 1; i > index; i--)
+    Node *newNode = new Node(element);
+    temp[size] = DataNode(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), newNode->data, "", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 0, false, newNode->next != nullptr);
+    mDataNode.push_back(temp);
+
+    if (index == 0)
     {
-        if (i < size - 1)
+        temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+
+        tmp = head;
+        setPos(temp, 0, 450, tmp);
+        mDataNode.push_back(temp);
+
+        newNode->next = head;
+        temp[size].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(450 + 0 * 100, 150));
+        temp[size].mNext = newNode->next != nullptr;
+        mDataNode.push_back(temp);
+
+        head = newNode;
+    }
+    else
+    {
+        Node *previous = head;
+
+        for (int i = 0; i < index - 1; i++)
         {
-            temp[i + 1].mAppearTime = temp[i + 1].mDefaultAppear = 100.f;
-            temp[i + 1].mAppear = true;
+            if (i > 0)
+            {
+                temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+            }
+            temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), previous->data, i == 0 ? "head-0" : std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black, 100.f, false, previous->next != nullptr);
+            mDataNode.push_back(temp);
+
+            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+            mDataNode.push_back(temp);
+            previous = previous->next;
         }
 
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
-        temp[i - 1] = DataPoint(sf::Vector2f(350 + (i - 1) * 100, 150), sf::Vector2f(50, 50), array[i - 1], std::to_string(i - 1), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 100.f, 0);
-        mDataPoint.push_back(temp);
+        temp[index - 1] = DataNode(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 < size - 1 ? index : index - 1) * 100, 150), previous->data, index - 1 == 0 ? "head-0" : std::to_string(index - 1), mFont, sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black, 0, false, previous->next != nullptr);
+        mDataNode.push_back(temp);
 
-        array[i] = array[i - 1];
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0, 0);
-        temp[i - 1].setTextColor(sf::Color::Black, sf::Color::Black);
-        temp[i - 1].setBackgroundColor(pallete[color].first);
-        mDataPoint.push_back(temp);
+        temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+
+        tmp = previous->next;
+        setPos(temp, index + 1, 450, tmp);
+        newNode->next = previous->next;
+        temp[size].setPosition(sf::Vector2f(350 + size * 100, 250), sf::Vector2f(350 + size * 100, 250), sf::Vector2f(450 + (index + 1) * 100, 150));
+        temp[size].mNext = newNode->next != nullptr;
+        mDataNode.push_back(temp);
+
+        previous->next = newNode;
+        temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(350 + index * 100, 250));
+        temp[index - 1].mNext = previous->next != nullptr;
+        mDataNode.push_back(temp);
     }
-
-    temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
-    mDataPoint.push_back(temp);
-    array[index] = element;
-    temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0, 0);
-    mDataPoint.push_back(temp);
+    ++size;
+    tmp = head;
+    setPos(temp, 0, 350, tmp);
+    mDataNode.push_back(temp);
 }
 
 void SinglyLinkedList::remove(int index)
 {
+    /*
     if (firstTime == false) return;
     firstTime = false;
-    if (mDataPoint.empty() || index < 0 || index >= size)
+    if (mDataNode.empty() || index < 0 || index >= size)
     {
         nosuchfile = true;
         return;
     }
     nosuchfile = false;
 
-    std::vector<DataPoint> temp(size);
+    std::vector<DataNode> temp(size);
     for (int i = 0; i < size; i++)
     {
-        mDataPoint.back()[i].reset();
-        temp[i] = mDataPoint.back()[i];
+        mDataNode.back()[i].reset();
+        temp[i] = mDataNode.back()[i];
         temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
         temp[i].setBackgroundColor(pallete[color].first);
     }
-    mDataPoint.clear();
-    mDataPoint.push_back(temp);
+    mDataNode.clear();
+    mDataNode.push_back(temp);
 
     runOption = 1;
     step = 0; // activate
@@ -604,76 +652,80 @@ void SinglyLinkedList::remove(int index)
             temp[i - 1].mAppear = true;
         }
 
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
-        temp[i + 1] = DataPoint(sf::Vector2f(350 + (i + 1) * 100, 150), sf::Vector2f(50, 50), array[i + 1], std::to_string(i + 1), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 100.f, 0);
-        mDataPoint.push_back(temp);
+        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
+        temp[i + 1] = DataNode(sf::Vector2f(350 + (i + 1) * 100, 150), sf::Vector2f(50, 50), array[i + 1], std::to_string(i + 1), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 100.f, 0);
+        mDataNode.push_back(temp);
 
         array[i] = array[i + 1];
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0, 0);
+        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0);
         temp[i + 1].setTextColor(sf::Color::Black, sf::Color::Black);
         temp[i + 1].setBackgroundColor(pallete[color].first);
-        mDataPoint.push_back(temp);
+        mDataNode.push_back(temp);
     }
     --size;
     
-    temp[size] = DataPoint(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), array[size], std::to_string(size), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
-    mDataPoint.push_back(temp);
+    temp[size] = DataNode(sf::Vector2f(350 + size * 100, 150), sf::Vector2f(50, 50), array[size], std::to_string(size), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
+    mDataNode.push_back(temp);
     array[size] = "";
     temp.pop_back();
-    mDataPoint.push_back(temp);
+    mDataNode.push_back(temp);
+    */
 }
 
 void SinglyLinkedList::modify(int index, std::string element)
 {
+    /*
     if (firstTime == false) return;
 
     firstTime = false;
-    if (mDataPoint.empty() || index >= size)
+    if (mDataNode.empty() || index >= size)
     {
         nosuchfile = true;
         return;
     }
     nosuchfile = false;
     
-    std::vector<DataPoint> temp(size);
+    std::vector<DataNode> temp(size);
     for (int i = 0; i < size; i++)
     {
-        mDataPoint.back()[i].reset();
-        temp[i] = mDataPoint.back()[i];
+        mDataNode.back()[i].reset();
+        temp[i] = mDataNode.back()[i];
         temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
         temp[i].setBackgroundColor(pallete[color].first);
     }
-    mDataPoint.clear();
-    mDataPoint.push_back(temp);
+    mDataNode.clear();
+    mDataNode.push_back(temp);
     
     runOption = 1;
     step = 0;
 
-    temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
-    mDataPoint.push_back(temp);
+    temp[index] = DataNode(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
+    mDataNode.push_back(temp);
     if (element != "")
     {
         array[index] = element;
-        temp[index] = DataPoint(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0, 0);
-        mDataPoint.push_back(temp);
+        temp[index] = DataNode(sf::Vector2f(350 + index * 100, 150), sf::Vector2f(50, 50), array[index], std::to_string(index), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0);
+        mDataNode.push_back(temp);
     }
+    */
 }
 
 void SinglyLinkedList::search(std::string element) 
 {
-    if (firstTime == false || mDataPoint.empty()) return;
+    /*
+    if (firstTime == false || mDataNode.empty()) return;
     firstTime = false;
 
-    std::vector<DataPoint> temp(size);
+    std::vector<DataNode> temp(size);
     for (int i = 0; i < size; i++)
     {
-        mDataPoint.back()[i].reset();
-        temp[i] = mDataPoint.back()[i];
+        mDataNode.back()[i].reset();
+        temp[i] = mDataNode.back()[i];
         temp[i].setTextColor(sf::Color::Black, sf::Color::Black);
         temp[i].setBackgroundColor(pallete[color].first);
     }
-    mDataPoint.clear();
-    mDataPoint.push_back(temp);
+    mDataNode.clear();
+    mDataNode.push_back(temp);
 
     runOption = 1;
     step = 0; 
@@ -685,35 +737,37 @@ void SinglyLinkedList::search(std::string element)
             temp[i - 1].mAppear = true;
         }
 
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0, 0);
-        mDataPoint.push_back(temp);
+        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::White, pallete[color].second, pallete[color].second, 0);
+        mDataNode.push_back(temp);
 
         if (array[i] == element)
             return;
 
-        temp[i] = DataPoint(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0, 0);
-        mDataPoint.push_back(temp);
+        temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(50, 50), array[i], std::to_string(i), mFont, 22, 22, sf::Color::Black, sf::Color::Black, pallete[color].first, 0);
+        mDataNode.push_back(temp);
     }
+    */
 }
 
 void SinglyLinkedList::setColor()
 {
-    for (int i = 0; i < mDataPoint.size(); i++)
+    for (int i = 0; i < mDataNode.size(); i++)
     {
-        for (int j = 0; j < mDataPoint[i].size(); j++) if (mDataPoint[i][j].mColor != sf::Color::White)
+        for (int j = 0; j < mDataNode[i].size(); j++) if (mDataNode[i][j].mColor != sf::Color::White)
         {
-            if (mDataPoint[i][j].mInColor == sf::Color::Black)
+            if (mDataNode[i][j].mInColor == sf::Color::Black)
             {
-                mDataPoint[i][j].setBackgroundColor(pallete[color].first);
+                mDataNode[i][j].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
             }
             else 
             {
-                mDataPoint[i][j].setBackgroundColor(pallete[color].second);
-                mDataPoint[i][j].setTextColor(sf::Color::White, pallete[color].second);
+                bool ok = mDataNode[i][j].mArrColor != sf::Color::Black;
+                mDataNode[i][j].setColor(sf::Color::White, pallete[color].second, pallete[color].second, ok ? pallete[color].second : sf::Color::Black);
             }
         }
     }
 }
+
 
 void SinglyLinkedList::draw()
 {
@@ -837,8 +891,7 @@ void SinglyLinkedList::draw()
 
     if (runOption != -1 && step != -1)
     {
-        for (int i = 0; i < mDataPoint[step].size(); i++)
-            mDataPoint[step][i].draw(mWindow);
+        for (int i = 0; i < mDataNode[step].size(); i++)
+            mDataNode[step][i].draw(mWindow);
     }
 }
-

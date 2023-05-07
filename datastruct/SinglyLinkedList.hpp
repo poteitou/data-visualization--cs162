@@ -2,21 +2,30 @@
 #define SINGLYLINKEDLIST_HPP
 
 #include <SFML/Graphics.hpp>
-#include "../interface/Arrow.hpp"
 #include "../interface/Button.hpp"
-#include "../interface/DataPoint.hpp"
+#include "../interface/DataNode.hpp"
 #include "../interface/SearchBar.hpp"
 #include <string.h>
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
-#include <utility> 
+#include <utility>
 
 #include <iostream>
 
 struct SinglyLinkedList
 {
     SinglyLinkedList(sf::RenderWindow &window, sf::Font &font);
+
+    struct Node
+    {
+        std::string data;
+        Node *next;
+
+        Node(std::string data);
+    };
+
+    Node *head;
 
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress);
@@ -27,6 +36,7 @@ struct SinglyLinkedList
 
     int Rand(int MAX);
     void randomize();
+    void setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp);
     void create(std::string fileName);
     void insert(int index, std::string element);
     void remove(int index);
@@ -45,12 +55,13 @@ struct SinglyLinkedList
 
     std::vector<Button> mBStep;
     std::vector<Button> mBOnce;
-    
+
     std::vector<sf::Text> mDefaultText;
     std::vector<SearchBar> mSearchBar;
 
-    std::vector<std::vector<DataPoint>> mDataPoint;
+    std::vector<std::vector<DataNode>> mDataNode;
     std::string *array;
+
     int step;
     int size;
     int mType;
