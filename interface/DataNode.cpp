@@ -2,11 +2,11 @@
 
 DataNode::DataNode() {}
 
-DataNode::DataNode(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White, float appearTime = 0, float disappearTime = 0) : mPos(pos), mSize(size), mScale(1.f, 1.f), mAppear(false), mDisappear(false), mAppearTime(appearTime), mDefaultAppear(appearTime), mDisappearTime(disappearTime), mDefaultDisappear(disappearTime), mInColor(inColor), mColor(Color)
+DataNode::DataNode(sf::Vector2f pos, sf::Vector2f posPrev, sf::Vector2f posNext, std::string textIn, std::string textOut, sf::Font &font, int inSize = 24, int outSize = 24, sf::Color inColor = sf::Color::Black, sf::Color outColor = sf::Color::Black, sf::Color Color = sf::Color::White, float appearTime = 0, float disappearTime = 0, bool prev = false, bool next = true) : mPos(pos), mPosPrev(posPrev), mPosNext(posNext), mAppear(false), mDisappear(false), mAppearTime(appearTime), mDefaultAppear(appearTime), mDisappearTime(disappearTime), mDefaultDisappear(disappearTime), mInColor(inColor), mColor(Color), mPrev(prev), mNext(next)
 {
     // create rectangle
     mRect.setOrigin(sf::Vector2f(0.f, 0.f));
-    mRect.setSize(mSize);
+    mRect.setSize(sf::Vector2f(50.f, 50.f));
     mRect.setPosition(mPos);
     mRect.setFillColor(Color);
     mRect.setOutlineThickness(2.f);
@@ -17,15 +17,19 @@ DataNode::DataNode(sf::Vector2f pos, sf::Vector2f size, std::string textIn, std:
     mTextIn.setFont(font);
 
     mTextIn.setCharacterSize(inSize);
-    mTextIn.setPosition(mPos.x + (mSize.x - mTextIn.getLocalBounds().width) / 2, mPos.y + (mSize.y - inSize) / 2);
+    mTextIn.setPosition(mPos.x + (50.f - mTextIn.getLocalBounds().width) / 2, mPos.y + (50.f - inSize) / 2);
     mTextIn.setFillColor(inColor);
 
     mTextOut.setString(textOut);
     mTextOut.setFont(font);
 
     mTextOut.setCharacterSize(outSize);
-    mTextOut.setPosition(mPos.x + (mSize.x - mTextOut.getLocalBounds().width) / 2, mPos.y + (mSize.y - outSize) / 2 + mSize.y);
+    mTextOut.setPosition(mPos.x + (50.f - mTextOut.getLocalBounds().width) / 2, mPos.y + (50.f - outSize) / 2 + 50.f);
     mTextOut.setFillColor(outColor);
+
+    // create arrow
+    mPrevArrow = Arrow(sf::Vector2f(mPos.x, mPos.y + 23), sf::Vector2f(mPosPrev.x + 50, mPosPrev.y + 23), mPrev ? (mInColor == sf::Color::Black ? sf::Color::Black : mColor) : sf::Color::Transparent);
+    mNextArrow = Arrow(sf::Vector2f(mPos.x + 50, mPos.y + 27), sf::Vector2f(mPosNext.x, mPosNext.y + 27), mNext ? (mInColor == sf::Color::Black ? sf::Color::Black : mColor) : sf::Color::Transparent);
 }
 
 void DataNode::setText(std::string textIn, std::string textOut)
@@ -34,27 +38,22 @@ void DataNode::setText(std::string textIn, std::string textOut)
     mTextOut.setString(textOut);
 }
 
-void DataNode::setTextColor(sf::Color inColor, sf::Color outColor)
+void DataNode::setColor(sf::Color inColor, sf::Color outColor, sf::Color Color)
 {
     mInColor = inColor;
     mTextIn.setFillColor(inColor);
     mTextOut.setFillColor(outColor);
-}
-
-void DataNode::setBackgroundColor(sf::Color Color)
-{
     mColor = Color;
     mRect.setFillColor(Color);
+    mPrevArrow.setColor(mPrev ? (mInColor == sf::Color::Black ? sf::Color::Black : mColor) : sf::Color::Transparent);
+    mNextArrow.setColor(mNext ? (mInColor == sf::Color::Black ? sf::Color::Black : mColor) : sf::Color::Transparent);
 }
 
 void DataNode::setPosition(sf::Vector2f pos)
 {
     mPos = pos;
-}
-
-void DataNode::setScale(sf::Vector2f scale)
-{
-    mScale = scale;
+    mPrevArrow.setPosition(sf::Vector2f(mPos.x, mPos.y + 23), sf::Vector2f(mPosPrev.x + 50, mPosPrev.y + 23));
+    mNextArrow.setPosition(sf::Vector2f(mPos.x + 50, mPos.y + 27), sf::Vector2f(mPosNext.x, mPosNext.y + 27));
 }
 
 void DataNode::reset()
@@ -75,31 +74,12 @@ bool DataNode::appear(float limit, float dt)
     return mAppear;
 }
 
-bool DataNode::disappear(float limit, float dt)
-{
-    mRect.setFillColor(sf::Color::Transparent);
-    mRect.setOutlineColor(sf::Color::Transparent);
-    mTextIn.setFillColor(sf::Color::Transparent);
-    mTextOut.setFillColor(sf::Color::Transparent);
-    mDisappearTime += limit * dt;
-    if (mDisappearTime >= limit)
-    {
-        mDisappearTime = limit;
-        mDisappear = true;
-    }
-    return mDisappear;
-}
-
-void DataNode::move(float dx, float dy, float dt)
-{
-    mRect.move(dx, dy);
-    mTextIn.move(dx, dy);
-    mTextOut.move(dx, dy);
-}
-
 void DataNode::draw(sf::RenderWindow &mWindow)
 {
     mWindow.draw(mRect);
     mWindow.draw(mTextIn);
     mWindow.draw(mTextOut);
+    if (mPrev) mPrevArrow.draw(mWindow);
+    if (mNext) mNextArrow.draw(mWindow);
 }
+

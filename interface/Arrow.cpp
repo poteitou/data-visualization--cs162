@@ -3,7 +3,7 @@
 Arrow::Arrow() {}
 
 Arrow::Arrow(sf::Vector2f posBegin, sf::Vector2f posEnd, sf::Color Color = sf::Color::Black)
-    : mPosBegin(sf::Vector2f(posBegin.x, posBegin.y - 2.f)), mPosEnd(sf::Vector2f(posEnd.x, posEnd.y - 2.f)), mAngle(0.f), mTriangleSize(14.f)
+    : mPosBegin(sf::Vector2f(posBegin.x, posBegin.y - 2.f)), mPosEnd(sf::Vector2f(posEnd.x, posEnd.y - 2.f)), mAngle(0.f), mTriangleSize(12.f)
 {
     mLength = std::sqrt((mPosEnd.x - mPosBegin.x) * (mPosEnd.x - mPosBegin.x) + (mPosEnd.y - mPosBegin.y) * (mPosEnd.y - mPosBegin.y));
     mAngle = std::atan2(mPosEnd.y - mPosBegin.y, mPosEnd.x - mPosBegin.x) * 180.f / std::acos(-1);
