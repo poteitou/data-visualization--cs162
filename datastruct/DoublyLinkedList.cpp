@@ -578,17 +578,30 @@ void DoublyLinkedList::insert(int index, std::string element)
         temp[size].mNext = newNode->next != nullptr;
         mDataNode.push_back(temp);
 
-        temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        temp[0].setColorPrev(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
         mDataNode.push_back(temp);
         head->prev = newNode;
         temp[0].setPosition(sf::Vector2f(450 + 0 * 100, 150), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(450 + 1 * 100, 150));
-        temp[size].mPrev = head->prev != nullptr;
+        temp[0].mPrev = head->prev != nullptr;
         mDataNode.push_back(temp);
         head = newNode;
     }
     else if (index == size)
     {
-        
+        temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+        newNode->prev = tail;
+        temp[size].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + (size - 1) * 100, 150), sf::Vector2f(350 + index * 100, 250));
+        temp[size].mPrev = newNode->prev != nullptr;
+        mDataNode.push_back(temp);
+
+        temp[size - 1].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+        tail->next = newNode;
+        temp[size - 1].setPosition(sf::Vector2f(350 + (size - 1) * 100, 150), sf::Vector2f(350 + (size - 2) * 100, 150), sf::Vector2f(350 + index * 100, 250));
+        temp[size - 1].mNext = tail->next != nullptr;
+        mDataNode.push_back(temp);
+        tail = newNode;
     }
     else
     {
@@ -605,7 +618,7 @@ void DoublyLinkedList::insert(int index, std::string element)
 
             if (i < index - 1)
             {
-                temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+                temp[i].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
                 mDataNode.push_back(temp);
                 previous = previous->next;
             }
