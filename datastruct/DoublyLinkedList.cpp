@@ -507,9 +507,21 @@ void DoublyLinkedList::create(std::string filename)
         inFile.close();
         return;
     }
-    
+
     std::vector<DataNode> temp;
     head = new Node(array[0]);
+
+    if (size == 1)
+    {
+        temp[0] = DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), head->data, "head-tail-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false);
+        mDataNode.push_back(temp);
+        tmp = head;
+        setPos(temp, 0, 350, tmp);
+        mDataNode.push_back(temp);
+        inFile.close();
+        return;
+    }
+    
     Node *cur = head;
 
     temp.push_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), head->data, "head-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
@@ -521,13 +533,16 @@ void DoublyLinkedList::create(std::string filename)
         mDataNode.push_back(temp);
         tmp = new Node(array[i]);
         cur->next = tmp;
-        cur = cur->next;
-
         temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
         temp[i - 1].mAppear = true;
         temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
         temp.push_back(DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
         mDataNode.push_back(temp);
+        temp[i].mPrev = true;
+        mDataNode.push_back(temp);
+        cur->next->prev = cur;
+        temp[i].setColorPrev(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+        cur = cur->next;
     }
     temp[size - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
     mDataNode.push_back(temp);
