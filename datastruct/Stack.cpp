@@ -4,7 +4,6 @@ Stack::Stack(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(
 {
     mButton.resize(12);
     mBCreate.resize(2);
-    mBPush.resize(3);
     mBStep.resize(3);
     mBOnce.resize(4);
 
@@ -44,7 +43,7 @@ Stack::Stack(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(
     mDefaultText[8].setCharacterSize(25);
     mDefaultText[9].setCharacterSize(25);
 
-    mDefaultText[0].setPosition(600, 40);
+    mDefaultText[0].setPosition(770, 40);
     mDefaultText[1].setPosition(1050, 420);
     mDefaultText[2].setPosition(1050, 470);
     mDefaultText[3].setPosition(1050, 600);
@@ -440,7 +439,7 @@ void Stack::create(std::string filename)
         top = tmp;
 
         tmp = top;
-        setPos(temp, 0, 450, tmp);
+        setPos(temp, 0, 350, tmp);
         mDataNode.push_back(temp);
     }
     inFile.close();
@@ -467,7 +466,7 @@ void Stack::push(std::string element)
     runOption = 1;
     step = 0; // activate
     Node *newNode = new Node(element);
-    temp[size] = DataNode(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), newNode->data, "", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 0, false, newNode->next != nullptr);
+    temp[size] = DataNode(sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), newNode->data, "", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 0, false, newNode->next != nullptr);
     mDataNode.push_back(temp);
 
     temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
@@ -539,7 +538,7 @@ void Stack::clear()
     if (firstTime == false) return;
 
     firstTime = false;
-    if (mDataNode.empty())
+    if (mDataNode.empty() || 0 >= size)
     {
         nosuchfile = true;
         return;
@@ -559,10 +558,11 @@ void Stack::clear()
     {
         tmp = top;
         temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-    temp[0].mAppear = false;
-    temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
-    mDataNode.push_back(temp);
+        temp[0].mAppear = false;
+        temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
+        mDataNode.push_back(temp);
         temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
         top = top->next;
         if (top != nullptr)
         {
@@ -571,6 +571,8 @@ void Stack::clear()
             mDataNode.push_back(temp);
         }
         delete tmp;
+        --size;
+        temp.resize(size);
         tmp = top;
         setPos(temp, 0, 350, tmp);
         mDataNode.push_back(temp);
@@ -639,65 +641,18 @@ void Stack::draw()
         }
         break;
     case 2: // Push
-        for (int i = 0; i < 3; i++)
-            mBPush[i].draw(mWindow);
-        switch (mSmallType)
-        {
-        case 1: // At the first
-            mWindow.draw(mDefaultText[4]);
-            mSearchBar[2].draw(mWindow);
-            mButton[10].draw(mWindow);
-            break;
-        case 2: // At the last
-            mWindow.draw(mDefaultText[4]);
-            mSearchBar[2].draw(mWindow);
-            mButton[10].draw(mWindow);
-            break;
-        case 3: // At the middle
-            mWindow.draw(mDefaultText[7]);
-            mWindow.draw(mDefaultText[8]);
-            mSearchBar[2].draw(mWindow);
-            mSearchBar[3].draw(mWindow);
-            mButton[10].draw(mWindow);
-            break;
-        default:
-            break;
-        }
-        if (nosuchfile) mWindow.draw(mDefaultText[9]);
-        break;
-    case 3: // Pop
-        for (int i = 0; i < 3; i++)
-            mBPush[i].draw(mWindow);
-        switch (mSmallType)
-        {
-        case 1: // At the first
-            mButton[10].draw(mWindow);
-            break;
-        case 2: // At the last
-            mButton[10].draw(mWindow);
-            break;
-        case 3: // At the middle
-            mWindow.draw(mDefaultText[7]);
-            mSearchBar[2].draw(mWindow);
-            mButton[10].draw(mWindow);
-            break;
-        default:
-            break;
-        }
-        if (nosuchfile) mWindow.draw(mDefaultText[9]);
-        break;
-    case 4: // Clear
-        mWindow.draw(mDefaultText[7]);
-        mWindow.draw(mDefaultText[8]);
-        mSearchBar[2].draw(mWindow);
-        mSearchBar[3].draw(mWindow);
-        mButton[10].draw(mWindow);
-        if (nosuchfile) mWindow.draw(mDefaultText[9]);
-        break;
-    case 5: // Search
         mWindow.draw(mDefaultText[4]);
         mSearchBar[2].draw(mWindow);
         mButton[10].draw(mWindow);
+        if (nosuchfile) mWindow.draw(mDefaultText[9]);
+        break;
+    case 3: // Pop
+        mButton[10].draw(mWindow);
+        if (nosuchfile) mWindow.draw(mDefaultText[9]);
+        break;
+    case 4: // Clear
+        mButton[10].draw(mWindow);
+        if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
     default:
         break;
