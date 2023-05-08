@@ -30,6 +30,7 @@ DataNode::DataNode(sf::Vector2f pos, sf::Vector2f posPrev, sf::Vector2f posNext,
     // create arrow
     mPrevArrow = Arrow(sf::Vector2f(mPos.x, mPos.y + 23), sf::Vector2f(mPosPrev.x + 50, mPosPrev.y + 23), mArrColor);
     mNextArrow = Arrow(sf::Vector2f(mPos.x + 50, mPos.y + 27), sf::Vector2f(mPosNext.x, mPosNext.y + 27), mArrColor);
+    mColorPrev = mColorNext = mArrColor;
 }
 
 void DataNode::setText(std::string textIn, std::string textOut)
@@ -56,9 +57,9 @@ void DataNode::setColorPrev(sf::Color inColor, sf::Color outColor, sf::Color Col
     mTextIn.setFillColor(inColor);
     mTextOut.setFillColor(outColor);
     mColor = Color;
-    mArrColor = arrColor;
+    mColorPrev = arrColor;
     mRect.setFillColor(Color);
-    mPrevArrow.setColor(mArrColor);
+    mPrevArrow.setColor(mColorPrev);
 }
 
 void DataNode::setColorNext(sf::Color inColor, sf::Color outColor, sf::Color Color, sf::Color arrColor)
@@ -67,9 +68,9 @@ void DataNode::setColorNext(sf::Color inColor, sf::Color outColor, sf::Color Col
     mTextIn.setFillColor(inColor);
     mTextOut.setFillColor(outColor);
     mColor = Color;
-    mArrColor = arrColor;
+    mColorNext = arrColor;
     mRect.setFillColor(Color);
-    mNextArrow.setColor(mArrColor);
+    mNextArrow.setColor(mColorNext);
 }
 
 void DataNode::setPosition(sf::Vector2f pos, sf::Vector2f posPrev, sf::Vector2f posNext)

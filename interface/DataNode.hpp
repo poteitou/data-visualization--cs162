@@ -35,6 +35,8 @@ struct DataNode
     sf::Color mInColor;
     sf::Color mColor;
     sf::Color mArrColor;
+    sf::Color mColorPrev;
+    sf::Color mColorNext;
 };
 
 #endif

@@ -905,8 +905,18 @@ void DoublyLinkedList::setColor()
             }
             else 
             {
-                bool ok = mDataNode[i][j].mArrColor != sf::Color::Black;
-                mDataNode[i][j].setColor(sf::Color::White, pallete[color].second, pallete[color].second, ok ? pallete[color].second : sf::Color::Black);
+                if (mDataNode[i][j].mPrev)
+                {
+                    mDataNode[i][j].setColorPrev(sf::Color::White, pallete[color].second, pallete[color].second, mDataNode[i][j].mColorPrev != sf::Color::Black ? pallete[color].second : sf::Color::Black);
+                }
+                if (mDataNode[i][j].mNext)
+                {
+                    mDataNode[i][j].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, mDataNode[i][j].mColorNext != sf::Color::Black ? pallete[color].second : sf::Color::Black);
+                }
+                if (!mDataNode[i][j].mPrev && !mDataNode[i][j].mNext)
+                {
+                    mDataNode[i][j].setColor(sf::Color::White, pallete[color].second, pallete[color].second, mDataNode[i][j].mArrColor != sf::Color::Black ? pallete[color].second : sf::Color::Black);
+                }
             }
         }
     }
