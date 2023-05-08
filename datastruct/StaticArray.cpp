@@ -228,7 +228,6 @@ void StaticArray::update(bool mousePress, sf::Vector2i mousePosition, char &keyP
         color = 0;
         mButton[7].reset();
         mDataPoint.clear();
-        delete[] array;
         return;
     }
 

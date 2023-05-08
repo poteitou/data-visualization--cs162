@@ -242,7 +242,6 @@ void SinglyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             head = head->next;
             delete tmp;
         }
-        delete[] array;
         return;
     }
 

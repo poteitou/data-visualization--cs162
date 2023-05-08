@@ -112,7 +112,7 @@ DoublyLinkedList::DoublyLinkedList(sf::RenderWindow &window, sf::Font &font) : m
     mRect[1].setPosition(sf::Vector2f(1000, 380));
 
     array = new std::string[9];
-    head = nullptr;
+    head = tail = nullptr;
     size = 0;
     step = -1;
     speed = 0;
@@ -243,7 +243,7 @@ void DoublyLinkedList::update(bool mousePress, sf::Vector2i mousePosition, char 
             head = head->next;
             delete tmp;
         }
-        delete[] array;
+        head = tail = nullptr;
         return;
     }
 
@@ -883,7 +883,7 @@ void DoublyLinkedList::search(std::string element)
 
         if (i < size - 1)
         {
-            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+            temp[i].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
             mDataNode.push_back(temp);
             tmp = tmp->next;
         }
