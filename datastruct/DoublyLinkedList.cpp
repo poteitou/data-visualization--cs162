@@ -613,7 +613,7 @@ void DoublyLinkedList::insert(int index, std::string element)
             {
                 temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
             }
-            temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), previous->data, i == 0 ? "head-0" : std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black, 100.f, false, previous->next != nullptr);
+            temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), previous->data, i == 0 ? "head-0" : (i == size - 1 ? "tail-" + std::to_string(i) : std::to_string(i)), mFont, sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black, 100.f, previous->prev != nullptr, previous->next != nullptr);
             mDataNode.push_back(temp);
 
             if (i < index - 1)
@@ -626,25 +626,36 @@ void DoublyLinkedList::insert(int index, std::string element)
 
         temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
         mDataNode.push_back(temp);
+        newNode->prev = previous;
+        temp[size].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(450 + index * 100, 150));
+        temp[size].mPrev = newNode->prev != nullptr;
+        mDataNode.push_back(temp);
 
         tmp = previous->next;
         setPos(temp, index, 450, tmp);
         if (tmp != nullptr) 
         {
             temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(450 + index * 100, 150));
+            temp[index].setPosition(sf::Vector2f(450 + index * 100, 150), sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(450 + (index + 1) * 100, 150));
             mDataNode.push_back(temp);
         }
 
+        mDataNode.push_back(temp);
         newNode->next = previous->next;
-        temp[size].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + (index + 1) * 100, 150));
         temp[size].mNext = newNode->next != nullptr;
         if (newNode->next != nullptr) mDataNode.push_back(temp);
 
         previous->next = newNode;
+        temp[index - 1].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
         temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(350 + index * 100, 250));
-        temp[index - 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
         temp[index - 1].mNext = previous->next != nullptr;
         mDataNode.push_back(temp);
+
+        temp[index].setColorPrev(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+        temp[index].setPosition(sf::Vector2f(450 + index * 100, 150), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(450 + (index + 1) * 100, 150));
+        mDataNode.push_back(temp);
+        newNode->next->prev = newNode;
     }
     ++size;
     tmp = head;
