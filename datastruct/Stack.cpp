@@ -558,55 +558,23 @@ void Stack::clear()
     while (top != nullptr)
     {
         tmp = top;
-        top = top->next;
-        delete tmp;
-    }
-
-    tmp = top;
-    setPos(temp, 0, 350, tmp);
-    mDataNode.push_back(temp);
-}
-
-void Stack::search(std::string element) 
-{
-    if (firstTime == false || mDataNode.empty()) return;
-    firstTime = false;
-
-    if (size == 0)
-        return;
-    std::vector<DataNode> temp(size);
-    Node *tmp = top;
-    setPos(temp, 0, 350, tmp);
-    mDataNode.clear();
-    mDataNode.push_back(temp);
-
-    runOption = 1;
-    step = 0; // activate
-    tmp = top;
+        temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
     temp[0].mAppear = false;
     temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
-    for (int i = 0; i < size; i++)
-    {
-        if (i > 0)
-        {
-            temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-        }
-        temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-        mDataNode.push_back(temp);
-
-        if (tmp->data == element)
-            return;
-
-        if (i < size - 1)
-        {
-            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-            mDataNode.push_back(temp);
-            tmp = tmp->next;
-        }
-    }
-    tmp = top;
-    setPos(temp, 0, 350, tmp);
     mDataNode.push_back(temp);
+        temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        top = top->next;
+        if (top != nullptr)
+        {
+            temp[0].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+            temp[0 + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+            mDataNode.push_back(temp);
+        }
+        delete tmp;
+        tmp = top;
+        setPos(temp, 0, 350, tmp);
+        mDataNode.push_back(temp);
+    }
 }
 
 void Stack::setColor()
