@@ -46,7 +46,6 @@ struct Stack
     sf::Font &mFont;
     std::vector<Button> mButton;
     std::vector<Button> mBCreate;
-    std::vector<Button> mBInsert;
 
     std::vector<Button> mBStep;
     std::vector<Button> mBOnce;

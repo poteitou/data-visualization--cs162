@@ -17,7 +17,7 @@ Stack::Stack(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(
     }
 
     // Top right
-    mDefaultText[0].setString("SINGLY LINKED LIST ");
+    mDefaultText[0].setString("STACK");
     mDefaultText[1].setString("Maximum capacity: 9");
     mDefaultText[2].setString("Value range: 0..99");
     mDefaultText[3].setString("Color tone:");
@@ -60,30 +60,26 @@ Stack::Stack(sf::RenderWindow &window, sf::Font &font) : mWindow(window), mFont(
     mDefaultText[9].setFillColor(sf::Color::Red);
     mDefaultText[9].setPosition(350, 630 + 50 + 15);
 
-    std::string nameButton[] = {"Create", "Push", "Pop", "Update", "Search", "Run step-by-step", "Run at-once", "Choose data structure", "R", "G", "B", "OK"};
-    for (int i = 0; i < 5; i++)
+    std::string nameButton[] = {"Create", "Push", "Pop", "Clear", "Run step-by-step", "Run at-once", "Choose data structure", "R", "G", "B", "OK"};
+    for (int i = 0; i < 4; i++)
         mButton[i] = Button(sf::Vector2f(100, 50), sf::Vector2f(100, 570 + i * 55), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[i], font, 22);
 
-    mButton[5] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 420), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[5], font, 22);
-    mButton[6] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[6], font, 22);
-    mButton[7] = Button(sf::Vector2f(250, 50), sf::Vector2f(1050, 670), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[7], font, 22);
+    mButton[4] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 420), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[4], font, 22);
+    mButton[5] = Button(sf::Vector2f(200, 50), sf::Vector2f(100, 475), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[5], font, 22);
+    mButton[6] = Button(sf::Vector2f(250, 50), sf::Vector2f(1050, 670), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[6], font, 22);
 
     pallete[0] = {sf::Color(255, 200, 200), sf::Color(255, 95, 95)};
     pallete[1] = {sf::Color(180, 255, 215), sf::Color(30, 190, 90)};
     pallete[2] = {sf::Color(180, 255, 255), sf::Color(0, 180, 240)};
 
-    for (int i = 8; i < 11; i++)
-        mButton[i] = Button(sf::Vector2f(50, 50), sf::Vector2f(1200 + (i - 8) * 70, 590), pallete[i - 8].first, pallete[i - 8].second, nameButton[i], font, 22);
+    for (int i = 7; i < 10; i++)
+        mButton[i] = Button(sf::Vector2f(50, 50), sf::Vector2f(1200 + (i - 7) * 70, 590), pallete[i - 7].first, pallete[i - 7].second, nameButton[i], font, 22);
 
-    mButton[11] = Button(sf::Vector2f(75, 50), sf::Vector2f(750, 630 + 5), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[11], font, 22);
+    mButton[10] = Button(sf::Vector2f(75, 50), sf::Vector2f(750, 630 + 5), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameButton[10], font, 22);
 
     std::string nameBCreate[] = {"Randomize", "Data File"};
     for (int i = 0; i < 2; i++)
         mBCreate[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBCreate[i], font, 22);
-
-    std::string nameBPush[] = {"At The First", "At The Last", "At The Middle"};
-    for (int i = 0; i < 3; i++)
-        mBPush[i] = Button(sf::Vector2f(150, 50), sf::Vector2f(275 + i * 200, 570), sf::Color(160, 220, 255), sf::Color(50, 140, 200), nameBPush[i], font, 22);
 
     std::string nameBStep[] = {"Previous", "Next", "Final"};
     for (int i = 0; i < 3; i++)
@@ -129,35 +125,36 @@ Stack::Node::Node(std::string data)
 
 void Stack::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt)
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
         mButton[i].setMouseOver(mousePosition);
-    for (int i = 8; i < 11; i++)
+    for (int i = 7; i < 10; i++)
     {
         if (mButton[i].setMouseOver(mousePosition) && mousePress)
         {
-            color = i - 8;
+            color = i - 7;
             setColor();
         }
     }
-    mButton[8 + color].mHovered = true;
-    for (int i = 0; i < 5; i++)
+    mButton[7 + color].mHovered = true;
+    for (int i = 0; i < 4; i++)
         if (mousePress && mButton[i].mHovered)
         {
             mType = i + 1;
             mSmallType = 0;
             nosuchfile = false;
-            if (i >= 3)
+            if (i > 0)
+            {
                 firstTime = true;
-            if (i == 3)
                 nosuchfile = false;
+            }
             mSearchBar[2].reset(std::to_string(Rand(i < 4 ? 9 : 99)));
             mSearchBar[3].reset(std::to_string(Rand(99)));
         }
 
-    if (runOption == 1 && mousePress && mButton[5].mHovered)
+    if (runOption == 1 && mousePress && mButton[4].mHovered)
     {
         runOption = 0;
-        mButton[5].mHovered = true;
+        mButton[4].mHovered = true;
         for (int i = 0; i < 4; i++) mBOnce[i].mHovered = false;
         for (int i = 0; i < 3; i++)
             mBStep[i].setMouseOver(mousePosition);
@@ -171,7 +168,7 @@ void Stack::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, 
     }
     else if (runOption == 0) // Run step-by-step
     {
-        mButton[5].mHovered = true;
+        mButton[4].mHovered = true;
 
         if (mBStep[0].setMouseOver(mousePosition) && mousePress)
         {
@@ -205,10 +202,10 @@ void Stack::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, 
         }
         else firstStep = true;
     }
-    if ((runOption == 0 && mousePress && mButton[6].mHovered) || runOption == 1) // Run at-once
+    if ((runOption == 0 && mousePress && mButton[5].mHovered) || runOption == 1) // Run at-once
     {
         runOption = 1;
-        mButton[6].mHovered = true;
+        mButton[5].mHovered = true;
         for (int i = 0; i < 4; i++)
         {
             if (speed == 0) speed = 1; // auto 1x speed
@@ -226,14 +223,14 @@ void Stack::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, 
         }
     }
 
-    if (mousePress && mButton[7].mHovered)
+    if (mousePress && mButton[6].mHovered)
     {
         size = 0;
         firstTime = firstStep = true;
         runOption = step = -1;
         speed = mType = mData = 0;
         color = 0;
-        mButton[7].reset();
+        mButton[6].reset();
         mDataNode.clear();
         Node *tmp;
         while (top != nullptr)
@@ -256,11 +253,8 @@ void Stack::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, 
     case 3: // Pop
         updatePop(mousePress, mousePosition, keyPress);
         break;
-    case 4: // Update
+    case 4: // Clear
         updateClear(mousePress, mousePosition, keyPress);
-        break;
-    case 5: // Search
-        updateSearch(mousePress, mousePosition, keyPress);
         break;
     default:
         break;
@@ -307,7 +301,7 @@ void Stack::updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyP
     case 1: // Randomize
         mBCreate[0].mHovered = true;
         mSearchBar[0].update(mousePress, mousePosition, keyPress, 26);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress)
+        if (mButton[10].setMouseOver(mousePosition) && mousePress)
         {
             std::ofstream outFile("data/randomize.data");
             outFile << mSearchBar[0].mValue;
@@ -319,7 +313,7 @@ void Stack::updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyP
     case 2: // Data file
         mBCreate[1].mHovered = true;
         mSearchBar[1].update(mousePress, mousePosition, keyPress, 10);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress)
+        if (mButton[10].setMouseOver(mousePosition) && mousePress)
         {
             nosuchfile = false;
             create("data/" + mSearchBar[1].mValue + ".data");
@@ -333,105 +327,27 @@ void Stack::updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyP
 
 void Stack::updatePush(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
-    char tempkeyPress;
     mButton[1].mHovered = true;
-    for (int i = 0; i < 3; i++)
-    {
-        if (mBPush[i].setMouseOver(mousePosition) && mousePress)
-        {
-            mSmallType = i + 1;
-            nosuchfile = false;
-            mSearchBar[2].reset(std::to_string(Rand(i < 2 ? 99 : 9)));
-            mSearchBar[3].reset(std::to_string(Rand(99)));
-            firstTime = true;
-        }
-    }
-    switch (mSmallType)
-    {
-    case 1: // At the first
-        mBPush[0].mHovered = true;
-        mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
-            push(0, mSearchBar[2].mValue);
-        else firstTime = true;
-        break;
-    case 2: // At the last
-        mBPush[1].mHovered = true;
-        mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
-            push(size, mSearchBar[2].mValue);
-        else firstTime = true;
-        break;
-    case 3: // At the middle
-        mBPush[2].mHovered = true;
-        tempkeyPress = keyPress;
-        mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-        mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
-            push(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
-        else firstTime = true;
-        break;
-    default:
-        break;
-    }
+
+    mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
+    if (mButton[10].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
+        push(mSearchBar[2].mValue);
+    else firstTime = true;
 }
 
 void Stack::updatePop(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[2].mHovered = true;
-    for (int i = 0; i < 3; i++)
-    {
-        if (mBPush[i].setMouseOver(mousePosition) && mousePress)
-        {
-            mSmallType = i + 1;
-            nosuchfile = false;
-            mSearchBar[2].reset(std::to_string(Rand(9)));
-            firstTime = true;
-        }
-    }
-    switch (mSmallType)
-    {
-    case 1: // At the first
-        mBPush[0].mHovered = true;
-        if (mButton[11].setMouseOver(mousePosition) && mousePress) pop(0);
-        else firstTime = true;
-        break;
-    case 2: // At the last
-        mBPush[1].mHovered = true;
-        if (mButton[11].setMouseOver(mousePosition) && mousePress) pop(size - 1);
-        else firstTime = true;
-        break;
-    case 3: // At the middle
-        mBPush[2].mHovered = true;
-        mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-        if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
-            pop(stoi(mSearchBar[2].mValue));
-        else firstTime = true;
-        break;
-    default:
-        break;
-    }
+    if (mButton[10].setMouseOver(mousePosition) && mousePress)
+        pop();
+    else firstTime = true;
 }
 
 void Stack::updateClear(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
 {
     mButton[3].mHovered = true;
-
-    char tempkeyPress = keyPress;
-    mSearchBar[2].update(mousePress, mousePosition, keyPress, 1);
-    mSearchBar[3].update(mousePress, mousePosition, tempkeyPress, 2);
-    if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "" && mSearchBar[3].mValue != "")
-        clear(stoi(mSearchBar[2].mValue), mSearchBar[3].mValue);
-    else firstTime = true;
-}
-
-void Stack::updateSearch(bool mousePress, sf::Vector2i mousePosition, char &keyPress)
-{
-    mButton[4].mHovered = true;
-    
-    mSearchBar[2].update(mousePress, mousePosition, keyPress, 2);
-    if (mButton[11].setMouseOver(mousePosition) && mousePress && mSearchBar[2].mValue != "")
-        search(mSearchBar[2].mValue);
+    if (mButton[10].setMouseOver(mousePosition) && mousePress)
+        clear();
     else firstTime = true;
 }
 
@@ -465,6 +381,8 @@ void Stack::setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp)
         return;
     for (int i = id; i < size; i++)
     {
+        if (tmp == nullptr) 
+            return;
         temp[i] = DataNode(sf::Vector2f(start + i * 100, 150), sf::Vector2f(start + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(start + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == 0 ? "top-0" : std::to_string(i), mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
         tmp = tmp->next;
     }
@@ -502,28 +420,29 @@ void Stack::create(std::string filename)
     }
     
     std::vector<DataNode> temp;
-    top = new Node(array[0]);
-    Node *cur = top;
+    top = new Node(array[size - 1]);
 
     temp.push_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), top->data, "top-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
     mDataNode.push_back(temp);
 
     for (int i = 1; i < size; i++)
     {
-        temp[i - 1].mNext = true;
+        tmp = top;
+        setPos(temp, 0, 450, tmp);
         mDataNode.push_back(temp);
-        tmp = new Node(array[i]);
-        cur->next = tmp;
-        cur = cur->next;
 
-        temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
-        temp[i - 1].mAppear = true;
-        temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-        temp.push_back(DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
+        tmp = new Node(array[size - i - 1]);
+        temp.push_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), tmp->data, "", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
+        mDataNode.push_back(temp);
+        tmp->next = top;
+        temp[i].mNext = true;
+        mDataNode.push_back(temp);
+        top = tmp;
+
+        tmp = top;
+        setPos(temp, 0, 450, tmp);
         mDataNode.push_back(temp);
     }
-    temp[size - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-    mDataNode.push_back(temp);
     inFile.close();
 }
 
@@ -818,7 +737,7 @@ void Stack::draw()
     mWindow.draw(mRect[1]);
     for (int i = 0; i < 4; i++)
         mWindow.draw(mDefaultText[i]);
-    for (int i = 0; i < 11; i++)
+    for (int i = 0; i < 10; i++)
         mButton[i].draw(mWindow);
     if (runOption == 0)
     {
@@ -840,12 +759,12 @@ void Stack::draw()
         case 1: // Randomize
             mWindow.draw(mDefaultText[4]);
             mSearchBar[0].draw(mWindow);
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             break;
         case 2: // Data file
             mWindow.draw(mDefaultText[5]);
             mSearchBar[1].draw(mWindow);
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             if (nosuchfile)
                 mWindow.draw(mDefaultText[6]);
             break;
@@ -861,19 +780,19 @@ void Stack::draw()
         case 1: // At the first
             mWindow.draw(mDefaultText[4]);
             mSearchBar[2].draw(mWindow);
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             break;
         case 2: // At the last
             mWindow.draw(mDefaultText[4]);
             mSearchBar[2].draw(mWindow);
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             break;
         case 3: // At the middle
             mWindow.draw(mDefaultText[7]);
             mWindow.draw(mDefaultText[8]);
             mSearchBar[2].draw(mWindow);
             mSearchBar[3].draw(mWindow);
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             break;
         default:
             break;
@@ -886,33 +805,33 @@ void Stack::draw()
         switch (mSmallType)
         {
         case 1: // At the first
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             break;
         case 2: // At the last
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             break;
         case 3: // At the middle
             mWindow.draw(mDefaultText[7]);
             mSearchBar[2].draw(mWindow);
-            mButton[11].draw(mWindow);
+            mButton[10].draw(mWindow);
             break;
         default:
             break;
         }
         if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
-    case 4: // Update
+    case 4: // Clear
         mWindow.draw(mDefaultText[7]);
         mWindow.draw(mDefaultText[8]);
         mSearchBar[2].draw(mWindow);
         mSearchBar[3].draw(mWindow);
-        mButton[11].draw(mWindow);
+        mButton[10].draw(mWindow);
         if (nosuchfile) mWindow.draw(mDefaultText[9]);
         break;
     case 5: // Search
         mWindow.draw(mDefaultText[4]);
         mSearchBar[2].draw(mWindow);
-        mButton[11].draw(mWindow);
+        mButton[10].draw(mWindow);
         break;
     default:
         break;
