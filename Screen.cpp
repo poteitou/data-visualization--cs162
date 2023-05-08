@@ -1,7 +1,7 @@
 #include "Screen.hpp"
 
 Screen::Screen(sf::RenderWindow &window, sf::Font &font)
-    : mWindow(window), mFont(font), mData(0), mMenu(mWindow, mFont), mStaticArray(mWindow, mFont), mDynamicArray(mWindow, mFont), mSinglyLinkedList(mWindow, mFont), mDoublyLinkedList(mWindow, mFont), mStack(mWindow, mFont)
+    : mWindow(window), mFont(font), mData(0), mMenu(mWindow, mFont), mStaticArray(mWindow, mFont), mDynamicArray(mWindow, mFont), mSinglyLinkedList(mWindow, mFont), mDoublyLinkedList(mWindow, mFont), mStack(mWindow, mFont), mQueue(mWindow, mFont)
 {
     
 }
@@ -27,6 +27,8 @@ void Screen::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress,
         break;
     case 6: // Stack
         mStack.update(mousePress, mousePosition, keyPress, mData, dt);
+    case 7: // Queue
+        mQueue.update(mousePress, mousePosition, keyPress, mData, dt);
     default:
         break;
     }
@@ -52,6 +54,8 @@ void Screen::draw()
         mDoublyLinkedList.draw();
     case 6: // Stack
         mStack.draw();
+    case 7: // Queue
+        mQueue.draw();
     default:
         break;
     }

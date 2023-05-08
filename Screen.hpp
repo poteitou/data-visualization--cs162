@@ -2,12 +2,13 @@
 #define SCREEN_HPP
 
 #include <SFML/Graphics.hpp>
+#include "datastruct/Menu.hpp"
 #include "datastruct/StaticArray.hpp"
 #include "datastruct/DynamicArray.hpp"
 #include "datastruct/SinglyLinkedList.hpp"
 #include "datastruct/DoublyLinkedList.hpp"
 #include "datastruct/Stack.hpp"
-#include "datastruct/Menu.hpp"
+#include "datastruct/Queue.hpp"
 
 struct Screen
 {
@@ -23,6 +24,7 @@ struct Screen
     SinglyLinkedList mSinglyLinkedList;
     DoublyLinkedList mDoublyLinkedList;
     Stack mStack;
+    Queue mQueue;
     int mData;
 };
 
