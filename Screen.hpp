@@ -6,6 +6,7 @@
 #include "datastruct/DynamicArray.hpp"
 #include "datastruct/SinglyLinkedList.hpp"
 #include "datastruct/DoublyLinkedList.hpp"
+#include "datastruct/Stack.hpp"
 #include "datastruct/Menu.hpp"
 
 struct Screen
@@ -21,6 +22,7 @@ struct Screen
     DynamicArray mDynamicArray;
     SinglyLinkedList mSinglyLinkedList;
     DoublyLinkedList mDoublyLinkedList;
+    Stack mStack;
     int mData;
 };
 
