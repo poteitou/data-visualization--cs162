@@ -682,7 +682,15 @@ void DoublyLinkedList::remove(int index)
 
     runOption = 1;
     step = 0; // activate
-    if (index == 0)
+    if (size == 1)
+    {
+        temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+        tmp = head;
+        head = nullptr;
+        tail = nullptr;
+    }
+    else if (index == 0)
     {
         tmp = head;
         temp[index].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
@@ -690,7 +698,7 @@ void DoublyLinkedList::remove(int index)
         temp[index].mAppearTime = temp[index].mDefaultAppear = 0.f;
         mDataNode.push_back(temp);
 
-        temp[index].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        temp[index].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
         mDataNode.push_back(temp);
 
         head = head->next;
@@ -700,8 +708,7 @@ void DoublyLinkedList::remove(int index)
             temp[index + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
             mDataNode.push_back(temp);
         }
-
-        delete tmp;
+        head->prev = nullptr;
     }
     else
     {
@@ -744,6 +751,7 @@ void DoublyLinkedList::remove(int index)
         if (previous->next) mDataNode.push_back(temp);
         delete tmp;
     }
+    delete tmp;
     --size;
     temp.resize(size);
     tmp = head;
