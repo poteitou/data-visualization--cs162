@@ -446,12 +446,12 @@ void Stack::create(std::string filename)
     inFile.close();
 }
 
-void Stack::push(int index, std::string element)
+void Stack::push(std::string element)
 {
     if (firstTime == false) return;
 
     firstTime = false;
-    if (size == 9 || index > size || index >= 9)
+    if (size == 9)
     {
         nosuchfile = true;
         return;
@@ -470,65 +470,19 @@ void Stack::push(int index, std::string element)
     temp[size] = DataNode(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), newNode->data, "", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 0, false, newNode->next != nullptr);
     mDataNode.push_back(temp);
 
-    if (index == 0)
-    {
-        temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-        mDataNode.push_back(temp);
+    temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+    mDataNode.push_back(temp);
 
-        tmp = top;
-        setPos(temp, 0, 450, tmp);
-        if (top != nullptr) mDataNode.push_back(temp);
+    tmp = top;
+    setPos(temp, 0, 450, tmp);
+    if (top != nullptr) mDataNode.push_back(temp);
 
-        newNode->next = top;
-        temp[size].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(450 + 0 * 100, 150));
-        temp[size].mNext = newNode->next != nullptr;
-        if (newNode->next != nullptr) mDataNode.push_back(temp);
+    newNode->next = top;
+    temp[size].setPosition(sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(450 + 0 * 100, 150));
+    temp[size].mNext = newNode->next != nullptr;
+    if (newNode->next != nullptr) mDataNode.push_back(temp);
+    top = newNode;
 
-        top = newNode;
-    }
-    else
-    {
-        Node *previous = top;
-
-        for (int i = 0; i <= index - 1; i++)
-        {
-            if (i > 0)
-            {
-                temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-            }
-            temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), previous->data, i == 0 ? "top-0" : std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black, 100.f, false, previous->next != nullptr);
-            mDataNode.push_back(temp);
-
-            if (i < index - 1)
-            {
-                temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-                mDataNode.push_back(temp);
-                previous = previous->next;
-            }
-        }
-
-        temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-        mDataNode.push_back(temp);
-
-        tmp = previous->next;
-        setPos(temp, index, 450, tmp);
-        if (tmp != nullptr) 
-        {
-            temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(450 + index * 100, 150));
-            mDataNode.push_back(temp);
-        }
-
-        newNode->next = previous->next;
-        temp[size].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + (index + 1) * 100, 150));
-        temp[size].mNext = newNode->next != nullptr;
-        if (newNode->next != nullptr) mDataNode.push_back(temp);
-
-        previous->next = newNode;
-        temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(350 + index * 100, 250));
-        temp[index - 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-        temp[index - 1].mNext = previous->next != nullptr;
-        mDataNode.push_back(temp);
-    }
     ++size;
     tmp = top;
     setPos(temp, 0, 350, tmp);

@@ -35,9 +35,9 @@ struct Stack
     void randomize();
     void setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp);
     void create(std::string fileName);
-    void push(int index, std::string element);
-    void pop(int index);
-    void clear(int index, std::string element);
+    void push(std::string element);
+    void pop();
+    void clear();
 
     void setColor();
     void draw();
