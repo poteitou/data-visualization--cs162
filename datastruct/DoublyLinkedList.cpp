@@ -710,6 +710,26 @@ void DoublyLinkedList::remove(int index)
         }
         head->prev = nullptr;
     }
+    else if (index == size - 1)
+    {
+        tmp = tail;
+        temp[index].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+        temp[index].mAppear = false;
+        temp[index].mAppearTime = temp[index].mDefaultAppear = 0.f;
+        mDataNode.push_back(temp);
+
+        temp[index].setColorPrev(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+
+        tail = tail->prev;
+        if (tail != nullptr)
+        {
+            temp[index].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+            temp[index - 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+            mDataNode.push_back(temp);
+        }
+        tail->prev = nullptr;
+    }
     else
     {
         temp[index].mAppear = false;
