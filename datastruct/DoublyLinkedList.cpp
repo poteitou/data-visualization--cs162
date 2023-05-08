@@ -840,7 +840,7 @@ void DoublyLinkedList::modify(int index, std::string element)
 
         if (i < index)
         {
-            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+            temp[i].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
             mDataNode.push_back(temp);
             tmp = tmp->next;
         }
