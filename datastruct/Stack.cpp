@@ -489,11 +489,11 @@ void Stack::push(std::string element)
     mDataNode.push_back(temp);
 }
 
-void Stack::pop(int index)
+void Stack::pop()
 {
     if (firstTime == false) return;
     firstTime = false;
-    if (mDataNode.empty() || index < 0 || index >= size)
+    if (mDataNode.empty() || 0 >= size)
     {
         nosuchfile = true;
         return;
@@ -508,68 +508,25 @@ void Stack::pop(int index)
 
     runOption = 1;
     step = 0; // activate
-    if (index == 0)
+
+    tmp = top;
+    temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+    temp[0].mAppear = false;
+    temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
+    mDataNode.push_back(temp);
+
+    temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+    mDataNode.push_back(temp);
+
+    top = top->next;
+    if (top != nullptr)
     {
-        tmp = top;
-        temp[index].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-        temp[index].mAppear = false;
-        temp[index].mAppearTime = temp[index].mDefaultAppear = 0.f;
+        temp[0].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+        temp[0 + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
         mDataNode.push_back(temp);
-
-        temp[index].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-        mDataNode.push_back(temp);
-
-        top = top->next;
-        if (top != nullptr)
-        {
-            temp[index].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-            temp[index + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-            mDataNode.push_back(temp);
-        }
-
-        delete tmp;
     }
-    else
-    {
-        temp[index].mAppear = false;
-        temp[index].mAppearTime = temp[index].mDefaultAppear = 0.f;
-        Node *previous = top;
+    delete tmp;
 
-        for (int i = 0; i <= index - 1; i++)
-        {
-            if (i > 0)
-            {
-                temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-            }
-            temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), previous->data, i == 0 ? "top-0" : std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black, 100.f, false, previous->next != nullptr);
-            mDataNode.push_back(temp);
-
-            if (i < index - 1)
-            {
-                temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-                mDataNode.push_back(temp);
-                previous = previous->next;
-            }
-        }
-
-        temp[index - 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-        mDataNode.push_back(temp);
-
-        tmp = previous->next;
-        
-        temp[index].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-        mDataNode.push_back(temp);
-
-        temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(350 + index * 100, 250));
-        temp[index].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index < size - 1 ? index + 1 : index) * 100, 150));
-        mDataNode.push_back(temp);
-
-        previous->next = tmp->next;
-        temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(450 + index * 100, 150));
-        temp[index - 1].mNext = previous->next != nullptr;
-        if (previous->next) mDataNode.push_back(temp);
-        delete tmp;
-    }
     --size;
     temp.resize(size);
     tmp = top;
@@ -577,12 +534,12 @@ void Stack::pop(int index)
     mDataNode.push_back(temp);
 }
 
-void Stack::clear(int index, std::string element)
+void Stack::clear()
 {
     if (firstTime == false) return;
 
     firstTime = false;
-    if (mDataNode.empty() || index >= size)
+    if (mDataNode.empty())
     {
         nosuchfile = true;
         return;
@@ -597,27 +554,14 @@ void Stack::clear(int index, std::string element)
 
     runOption = 1;
     step = 0; // activate
-    tmp = top;
-    temp[0].mAppear = false;
-    temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
 
-    for (int i = 0; i <= index; i++)
+    while (top != nullptr)
     {
-        if (i > 0)
-        {
-            temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-        }
-        temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-        mDataNode.push_back(temp);
-
-        if (i < index)
-        {
-            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-            mDataNode.push_back(temp);
-            tmp = tmp->next;
-        }
+        tmp = top;
+        top = top->next;
+        delete tmp;
     }
-    tmp->data = element;
+
     tmp = top;
     setPos(temp, 0, 350, tmp);
     mDataNode.push_back(temp);
