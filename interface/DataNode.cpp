@@ -50,6 +50,28 @@ void DataNode::setColor(sf::Color inColor, sf::Color outColor, sf::Color Color, 
     mNextArrow.setColor(mArrColor);
 }
 
+void DataNode::setColorPrev(sf::Color inColor, sf::Color outColor, sf::Color Color, sf::Color arrColor)
+{
+    mInColor = inColor;
+    mTextIn.setFillColor(inColor);
+    mTextOut.setFillColor(outColor);
+    mColor = Color;
+    mArrColor = arrColor;
+    mRect.setFillColor(Color);
+    mPrevArrow.setColor(mArrColor);
+}
+
+void DataNode::setColorNext(sf::Color inColor, sf::Color outColor, sf::Color Color, sf::Color arrColor)
+{
+    mInColor = inColor;
+    mTextIn.setFillColor(inColor);
+    mTextOut.setFillColor(outColor);
+    mColor = Color;
+    mArrColor = arrColor;
+    mRect.setFillColor(Color);
+    mNextArrow.setColor(mArrColor);
+}
+
 void DataNode::setPosition(sf::Vector2f pos, sf::Vector2f posPrev, sf::Vector2f posNext)
 {
     mPos = pos;

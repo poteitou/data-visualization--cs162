@@ -10,6 +10,8 @@ struct DataNode
     DataNode(sf::Vector2f pos, sf::Vector2f posPrev, sf::Vector2f posNext, std::string textIn, std::string textOut, sf::Font &font, sf::Color inColor, sf::Color outColor, sf::Color Color, sf::Color arrColor, float appearTime, bool prev, bool next);
     void setText(std::string textIn, std::string textOut);
     void setColor(sf::Color inColor, sf::Color outColor, sf::Color Color, sf::Color arrColor);
+    void setColorPrev(sf::Color inColor, sf::Color outColor, sf::Color Color, sf::Color arrColor);
+    void setColorNext(sf::Color inColor, sf::Color outColor, sf::Color Color, sf::Color arrColor);
     void setPosition(sf::Vector2f pos, sf::Vector2f posPrev, sf::Vector2f posNext);
     void reset();
     bool appear(float limit, float dt);

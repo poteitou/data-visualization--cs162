@@ -20,12 +20,14 @@ struct DoublyLinkedList
     struct Node
     {
         std::string data;
+        Node *prev;
         Node *next;
 
         Node(std::string data);
     };
 
     Node *head;
+    Node *tail;
 
     void update(bool mousePress, sf::Vector2i mousePosition, char &keyPress, int &mData, float dt);
     void updateCreate(bool mousePress, sf::Vector2i mousePosition, char &keyPress);
