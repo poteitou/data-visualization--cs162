@@ -602,74 +602,7 @@ void CircularLinkedList::insert(int index, std::string element)
             mDataNode.push_back(temp);
             mCir.push_back(cir);
 
-            
-            temp[size].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-            mDataNode.push_back(temp);
-            mCir.push_back(cir);
-            head = newNode;
-
-            tmp = head->next;
-
-            for (int i = 0; i < size; i++)
-            {
-                if (i > 0)
-                {
-                    temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-                }
-                temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-                mDataNode.push_back(temp);
-                mCir.push_back(cir);
-                if (i < size - 1)
-                {
-                    temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-                    mDataNode.push_back(temp);
-                    mCir.push_back(cir);
-                    tmp = tmp->next;
-                }
-            }
-            cir.mDraw = false;
-            mDataNode.push_back(temp);
-            mCir.push_back(cir);
-            tmp->next = head;
-            cir = CircularArr(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(450 + (size - 1) * 100, 150), pallete[color].second, true);
-            mDataNode.push_back(temp);
-            mCir.push_back(cir);
-        }
-    }
-    else if (index == size)
-    {
-        tmp = head;
-        for (int i = 0; i < size; i++)
-        {
-            if (i > 0)
-            {
-                temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-            }
-            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-            mDataNode.push_back(temp);
-            mCir.push_back(cir);
-            if (i < size - 1)
-            {
-                temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-                mDataNode.push_back(temp);
-                mCir.push_back(cir);
-                tmp = tmp->next;
-            }
-        }
-        cir.mDraw = false;
-        mDataNode.push_back(temp);
-        mCir.push_back(cir);
-        temp[size - 1] = DataNode(sf::Vector2f(350 + (size - 1) * 100, 150), sf::Vector2f(350 + (size - 2) * 100, 150), sf::Vector2f(350 + size * 100, 250), tmp->data, size - 1 == 0 ? "head-0" : std::to_string(size - 1), mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0, false, true);
-        tmp->next = newNode;
-
-        temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-        mDataNode.push_back(temp);
-        mCir.push_back(cir);
-
-        cir = CircularArr(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + index * 100, 250), pallete[color].second, true);
-        mDataNode.push_back(temp);
-        mCir.push_back(cir);
-        newNode->next = head;
+        head = newNode;
     }
     else
     {
