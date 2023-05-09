@@ -35,7 +35,7 @@ struct CircularLinkedList
 
     int Rand(int MAX);
     void randomize();
-    void setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp);
+    void setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp, CircularArr &cir);
     void create(std::string fileName);
     void insert(int index, std::string element);
     void remove(int index);
@@ -58,6 +58,7 @@ struct CircularLinkedList
     std::vector<SearchBar> mSearchBar;
 
     std::vector<std::vector<DataNode>> mDataNode;
+    std::vector<CircularArr> mCir;
     std::string *array;
 
     int step;

@@ -235,8 +235,9 @@ void CircularLinkedList::update(bool mousePress, sf::Vector2i mousePosition, cha
         color = 0;
         mButton[7].reset();
         mDataNode.clear();
+        mCir.clear();
         Node *tmp;
-        while (head != nullptr)
+        for (int i = 0; i < size; i++)
         {
             tmp = head;
             head = head->next;
@@ -459,7 +460,7 @@ void CircularLinkedList::randomize()
     outFile.close();
 }
 
-void CircularLinkedList::setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp)
+void CircularLinkedList::setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp, CircularArr &cir)
 {
     if (tmp == nullptr)
         return;
@@ -468,6 +469,7 @@ void CircularLinkedList::setPos(std::vector<DataNode> &temp, int id, float start
         temp[i] = DataNode(sf::Vector2f(start + i * 100, 150), sf::Vector2f(start + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(start + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == 0 ? "head-0" : std::to_string(i), mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
         tmp = tmp->next;
     }
+    cir = CircularArr(sf::Vector2f(start + 0 * 100, 150), sf::Vector2f(start + (size - 1) * 100, 150), sf::Color::Black, true);
 }
 
 void CircularLinkedList::create(std::string filename)
@@ -485,8 +487,9 @@ void CircularLinkedList::create(std::string filename)
     runOption = 1;
     step = 0; // activate
     mDataNode.clear();
+    mCir.clear();
     Node *tmp;
-    while (head != nullptr)
+    for (int i = 0; i < size; i++)
     {
         tmp = head;
         head = head->next;
@@ -502,16 +505,19 @@ void CircularLinkedList::create(std::string filename)
     }
     
     std::vector<DataNode> temp;
+    CircularArr cir = CircularArr(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Color::Black, false);
     head = new Node(array[0]);
     Node *cur = head;
 
     temp.push_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), head->data, "head-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
     mDataNode.push_back(temp);
+    mCir.push_back(cir);
 
     for (int i = 1; i < size; i++)
     {
         temp[i - 1].mNext = true;
         mDataNode.push_back(temp);
+        mCir.push_back(cir);
         tmp = new Node(array[i]);
         cur->next = tmp;
         cur = cur->next;
@@ -521,9 +527,17 @@ void CircularLinkedList::create(std::string filename)
         temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
         temp.push_back(DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
         mDataNode.push_back(temp);
+        mCir.push_back(cir);
     }
+    cir = CircularArr(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + (size - 1) * 100, 150), pallete[color].second, true);
+    mDataNode.push_back(temp);
+    mCir.push_back(cir);
+    cur->next = head;
+
+    cir.setColor(sf::Color::Black);
     temp[size - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
     mDataNode.push_back(temp);
+    mCir.push_back(cir);
     inFile.close();
 }
 
@@ -540,8 +554,9 @@ void CircularLinkedList::insert(int index, std::string element)
     nosuchfile = false;
 
     std::vector<DataNode> temp(size + 1);
+    CircularArr cir;
     Node *tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.clear();
     mDataNode.push_back(temp);
 
@@ -557,7 +572,7 @@ void CircularLinkedList::insert(int index, std::string element)
         mDataNode.push_back(temp);
 
         tmp = head;
-        setPos(temp, 0, 450, tmp);
+        setPos(temp, 0, 450, tmp, cir);
         if (head != nullptr) mDataNode.push_back(temp);
 
         newNode->next = head;
@@ -592,7 +607,7 @@ void CircularLinkedList::insert(int index, std::string element)
         mDataNode.push_back(temp);
 
         tmp = previous->next;
-        setPos(temp, index, 450, tmp);
+        setPos(temp, index, 450, tmp, cir);
         if (tmp != nullptr) 
         {
             temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(450 + index * 100, 150));
@@ -612,7 +627,7 @@ void CircularLinkedList::insert(int index, std::string element)
     }
     ++size;
     tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.push_back(temp);
 }
 
@@ -628,8 +643,9 @@ void CircularLinkedList::remove(int index)
     nosuchfile = false;
 
     std::vector<DataNode> temp(size);
+    CircularArr cir;
     Node *tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.clear();
     mDataNode.push_back(temp);
 
@@ -700,7 +716,7 @@ void CircularLinkedList::remove(int index)
     --size;
     temp.resize(size);
     tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.push_back(temp);
 }
 
@@ -717,8 +733,9 @@ void CircularLinkedList::modify(int index, std::string element)
     nosuchfile = false;
     
     std::vector<DataNode> temp(size);
+    CircularArr cir;
     Node *tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.clear();
     mDataNode.push_back(temp);
 
@@ -746,7 +763,7 @@ void CircularLinkedList::modify(int index, std::string element)
     }
     tmp->data = element;
     tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.push_back(temp);
 }
 
@@ -758,8 +775,9 @@ void CircularLinkedList::search(std::string element)
     if (size == 0)
         return;
     std::vector<DataNode> temp(size);
+    CircularArr cir;
     Node *tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.clear();
     mDataNode.push_back(temp);
 
@@ -788,7 +806,7 @@ void CircularLinkedList::search(std::string element)
         }
     }
     tmp = head;
-    setPos(temp, 0, 350, tmp);
+    setPos(temp, 0, 350, tmp, cir);
     mDataNode.push_back(temp);
 }
 
@@ -922,5 +940,6 @@ void CircularLinkedList::draw()
     {
         for (int i = 0; i < mDataNode[step].size(); i++)
             mDataNode[step][i].draw(mWindow);
+        mCir[step].draw(mWindow);
     }
 }
