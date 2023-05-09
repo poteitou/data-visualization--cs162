@@ -7,6 +7,7 @@
 #include "datastruct/DynamicArray.hpp"
 #include "datastruct/SinglyLinkedList.hpp"
 #include "datastruct/DoublyLinkedList.hpp"
+#include "datastruct/CircularLinkedList.hpp"
 #include "datastruct/Stack.hpp"
 #include "datastruct/Queue.hpp"
 
@@ -23,6 +24,7 @@ struct Screen
     DynamicArray mDynamicArray;
     SinglyLinkedList mSinglyLinkedList;
     DoublyLinkedList mDoublyLinkedList;
+    CircularLinkedList mCircularLinkedList;
     Stack mStack;
     Queue mQueue;
     int mData;
