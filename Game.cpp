@@ -28,22 +28,6 @@ void Game::run()
         mScreen.draw();
         mWindow.display();
     }
-    /* while (mWindow.isOpen())
-    {
-        processEvents();
-        timeSinceLastUpdate += clock.restart().asSeconds();
-        while (timeSinceLastUpdate > dt)
-        {
-            timeSinceLastUpdate -= dt;
-            processEvents();
-            // handle(screen, dt);
-        }
-        mWindow.clear(sf::Color::White);
-        // mStaticArray.draw();
-        mScreen.draw();
-        mWindow.display();
-        // render(screen);
-    } */
 }
 
 void Game::processEvents()

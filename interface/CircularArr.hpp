@@ -9,6 +9,7 @@ struct CircularArr
 {
     CircularArr();
     CircularArr(sf::Vector2f posBegin, sf::Vector2f posEnd, sf::Color Color, bool beDraw);
+    float length(sf::Vector2f posBegin, sf::Vector2f posEnd);
     void setColor(sf::Color Color);
     void draw(sf::RenderWindow &mWindow);
 

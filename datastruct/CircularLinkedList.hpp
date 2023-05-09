@@ -5,6 +5,7 @@
 #include "../interface/Button.hpp"
 #include "../interface/DataNode.hpp"
 #include "../interface/SearchBar.hpp"
+#include "../interface/CircularArr.hpp"
 #include <string.h>
 #include <fstream>
 #include <ctime>

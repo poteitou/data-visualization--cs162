@@ -2,11 +2,6 @@
 
 CircularArr::CircularArr() {}
 
-/* mRect (300, posBegin.y + 25), (posBegin.x, posBegin.y + 25)
-mLeft (300, posBegin.y + 25), (300, 325)
-mBot  (300, 325), (posEnd.x + 100, 325)
-mRight (posEnd.x + 100, posEnd.y + 25), (posEnd.x + 100, 325)
-mTop  (posEnd.x + 50, posEnd.y + 25), (posEnd.x + 100, posEnd.y + 25) */
 CircularArr::CircularArr(sf::Vector2f posBegin, sf::Vector2f posEnd, sf::Color Color, bool beDraw): mDraw(beDraw)
 {
     float mLength = length(sf::Vector2f(300, posBegin.y + 25), sf::Vector2f(posBegin.x, posBegin.y + 25));
@@ -19,27 +14,32 @@ CircularArr::CircularArr(sf::Vector2f posBegin, sf::Vector2f posEnd, sf::Color C
 
     mPosRectOnly[0] = sf::Vector2f(300, posBegin.y + 25);
     mLength = length(sf::Vector2f(300, posBegin.y + 25), sf::Vector2f(300, 325));
-    mRect.setSize(sf::Vector2f(4.f, mLength));
+    mRectOnly[0].setSize(sf::Vector2f(4.f, mLength));
 
     mPosRectOnly[1] = sf::Vector2f(300, 325);
     mLength = length(sf::Vector2f(300, 325), sf::Vector2f(posEnd.x + 100, 325));
-    mRect.setSize(sf::Vector2f(mLength, 4.f));
+    mRectOnly[1].setSize(sf::Vector2f(mLength, 4.f));
 
     mPosRectOnly[2] = sf::Vector2f(posEnd.x + 100, posEnd.y + 25);
-    mLength = length(sf::Vector2f(posEnd.x + 100, posEnd.y + 25), sf::Vector2f(posEnd.x + 100, 325));
-    mRect.setSize(sf::Vector2f(4.f, mLength));
+    mLength = length(sf::Vector2f(posEnd.x + 100, posEnd.y + 25), sf::Vector2f(posEnd.x + 100, 325)) + 4.f;
+    mRectOnly[2].setSize(sf::Vector2f(4.f, mLength));
 
     mPosRectOnly[3] = sf::Vector2f(posEnd.x + 50, posEnd.y + 25);
     mLength = length(sf::Vector2f(posEnd.x + 50, posEnd.y + 25), sf::Vector2f(posEnd.x + 100, posEnd.y + 25));
-    mRect.setSize(sf::Vector2f(mLength, 4.f));
+    mRectOnly[3].setSize(sf::Vector2f(mLength, 4.f));
 
     mRect.setFillColor(Color);
     mTriangle.setFillColor(Color);
     for (int i = 0; i < 4; i++)
         mRectOnly[i].setFillColor(Color);
+    /* mRect (300, posBegin.y + 25), (posBegin.x, posBegin.y + 25)
+mLeft (300, posBegin.y + 25), (300, 325)
+mBot  (300, 325), (posEnd.x + 100, 325)
+mRight (posEnd.x + 100, posEnd.y + 25), (posEnd.x + 100, 325)
+mTop  (posEnd.x + 50, posEnd.y + 25), (posEnd.x + 100, posEnd.y + 25) */
 }
 
-float length(sf::Vector2f posBegin, sf::Vector2f posEnd)
+float CircularArr::length(sf::Vector2f posBegin, sf::Vector2f posEnd)
 {
     return std::sqrt((posEnd.x - posBegin.x) * (posEnd.x - posBegin.x) + (posEnd.y - posBegin.y) * (posEnd.y - posBegin.y));
 }
@@ -56,7 +56,7 @@ void CircularArr::draw(sf::RenderWindow &mWindow)
 {
     if (!mDraw) return;
     sf::Transform transform;
-    transform.translate(mPosBegin);
+    transform.translate(mPosRect);
     mWindow.draw(mRect, transform);
     mWindow.draw(mTriangle, transform);
 
@@ -64,7 +64,7 @@ void CircularArr::draw(sf::RenderWindow &mWindow)
     {
         sf::Transform trans;
         trans.translate(mPosRectOnly[i]);
-        mWindow.draw(mRectOnly[i], transform);
+        mWindow.draw(mRectOnly[i], trans);
     }
 }
 
