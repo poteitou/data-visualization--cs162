@@ -532,22 +532,32 @@ void Queue::remove()
 
     runOption = 1;
     step = 0; // activate
-
-    tmp = front;
-    temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-    temp[0].mAppear = false;
-    temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
-    mDataNode.push_back(temp);
-
-    temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-    mDataNode.push_back(temp);
-
-    front = front->next;
-    if (front != nullptr)
+    if (size == 1)
     {
-        temp[0].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
-        temp[0 + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+        temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
         mDataNode.push_back(temp);
+        tmp = front;
+        front = nullptr;
+        rear = nullptr;
+    }
+    else 
+    {
+        tmp = front;
+        temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+        temp[0].mAppear = false;
+        temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
+        mDataNode.push_back(temp);
+
+        temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+
+        front = front->next;
+        if (front != nullptr)
+        {
+            temp[0].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+            temp[0 + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+            mDataNode.push_back(temp);
+        }
     }
     delete tmp;
 
