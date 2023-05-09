@@ -483,21 +483,29 @@ void Queue::add(std::string element)
     runOption = 1;
     step = 0; // activate
     Node *newNode = new Node(element);
-    temp[size] = DataNode(sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), newNode->data, "", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 0, false, newNode->next != nullptr);
+    temp[size] = DataNode(sf::Vector2f(350 + size * 100, 250), sf::Vector2f(350 + size * 100, 250), sf::Vector2f(350 + size * 100, 250), newNode->data, "", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 0, false, false);
     mDataNode.push_back(temp);
 
     temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
     mDataNode.push_back(temp);
 
-    tmp = front;
-    setPos(temp, 0, 450, tmp);
-    if (front != nullptr) mDataNode.push_back(temp);
-
-    newNode->next = front;
-    temp[size].setPosition(sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(450 + 0 * 100, 150));
-    temp[size].mNext = newNode->next != nullptr;
-    if (newNode->next != nullptr) mDataNode.push_back(temp);
-    front = newNode;
+    temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+    mDataNode.push_back(temp);
+    if (size == 0)
+    {
+        front = newNode;
+        rear = newNode;
+    }
+    else
+    {
+        temp[size - 1].setColorNext(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+        rear->next = newNode;
+        temp[size - 1].setPosition(sf::Vector2f(350 + (size - 1) * 100, 150), sf::Vector2f(350 + (size - 2) * 100, 150), sf::Vector2f(350 + size * 100, 250));
+        temp[size - 1].mNext = rear->next != nullptr;
+        mDataNode.push_back(temp);
+        rear = newNode;
+    }
 
     ++size;
     tmp = front;

@@ -27,8 +27,10 @@ void Screen::update(bool mousePress, sf::Vector2i mousePosition, char &keyPress,
         break;
     case 6: // Stack
         mStack.update(mousePress, mousePosition, keyPress, mData, dt);
+        break;
     case 7: // Queue
         mQueue.update(mousePress, mousePosition, keyPress, mData, dt);
+        break;
     default:
         break;
     }
@@ -52,10 +54,13 @@ void Screen::draw()
         break;
     case 4: // Doubly linked list
         mDoublyLinkedList.draw();
+        break;
     case 6: // Stack
         mStack.draw();
+        break;
     case 7: // Queue
         mQueue.draw();
+        break;
     default:
         break;
     }
