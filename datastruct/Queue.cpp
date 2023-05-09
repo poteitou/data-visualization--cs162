@@ -431,7 +431,7 @@ void Queue::create(std::string filename)
 
     if (size == 1)
     {
-        temp[0] = DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), front->data, "front-rear-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false);
+        temp.push_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), front->data, "front-rear-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
         mDataNode.push_back(temp);
         tmp = front;
         setPos(temp, 0, 350, tmp);
@@ -450,7 +450,7 @@ void Queue::create(std::string filename)
         tmp = new Node(array[i]);
         rear->next = tmp;
         rear = rear->next;
-        
+
         temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
         temp[i - 1].mAppear = true;
         temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
