@@ -612,6 +612,7 @@ void Queue::clear()
         setPos(temp, 0, 350, tmp);
         mDataNode.push_back(temp);
     }
+    rear = nullptr;
 }
 
 void Queue::setColor()
