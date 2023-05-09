@@ -379,11 +379,16 @@ void Queue::setPos(std::vector<DataNode> &temp, int id, float start, Node* tmp)
 {
     if (tmp == nullptr)
         return;
+    if (size == 1)
+    {
+        temp[0] = DataNode(sf::Vector2f(start + 0 * 100, 150), sf::Vector2f(start + 0 * 100, 150), sf::Vector2f(start + 1 * 100, 150), tmp->data, "front-rear-0", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
+        return;
+    }
     for (int i = id; i < size; i++)
     {
         if (tmp == nullptr) 
             return;
-        temp[i] = DataNode(sf::Vector2f(start + i * 100, 150), sf::Vector2f(start + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(start + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == 0 ? "front-0" : std::to_string(i), mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
+        temp[i] = DataNode(sf::Vector2f(start + i * 100, 150), sf::Vector2f(start + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(start + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == 0 ? "front-0" : (i == size - 1 ? "rear-" + std::to_string(i) : std::to_string(i)), mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 100.f, false, tmp->next != nullptr);
         tmp = tmp->next;
     }
 }
@@ -410,6 +415,7 @@ void Queue::create(std::string filename)
         front = front->next;
         delete tmp;
     }
+    rear = nullptr;
 
     size = 0;
     while (size < 9 && inFile >> array[size]) ++size;
@@ -420,29 +426,39 @@ void Queue::create(std::string filename)
     }
     
     std::vector<DataNode> temp;
-    front = new Node(array[size - 1]);
+    front = new Node(array[0]);
+    rear = front;
 
-    temp.add_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), front->data, "front-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
-    mDataNode.add_back(temp);
+    if (size == 1)
+    {
+        temp[0] = DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), front->data, "front-rear-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false);
+        mDataNode.push_back(temp);
+        tmp = front;
+        setPos(temp, 0, 350, tmp);
+        mDataNode.push_back(temp);
+        inFile.close();
+        return;
+    }
+
+    temp.push_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), front->data, "front-0", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
+    mDataNode.push_back(temp);
 
     for (int i = 1; i < size; i++)
     {
-        tmp = front;
-        setPos(temp, 0, 450, tmp);
-        mDataNode.add_back(temp);
-
-        tmp = new Node(array[size - i - 1]);
-        temp.add_back(DataNode(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + 1 * 100, 150), tmp->data, "", mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
-        mDataNode.add_back(temp);
-        tmp->next = front;
-        temp[i].mNext = true;
-        mDataNode.add_back(temp);
-        front = tmp;
-
-        tmp = front;
-        setPos(temp, 0, 350, tmp);
-        mDataNode.add_back(temp);
+        temp[i - 1].mNext = true;
+        mDataNode.push_back(temp);
+        tmp = new Node(array[i]);
+        rear->next = tmp;
+        rear = rear->next;
+        
+        temp[i - 1].mAppearTime = temp[i - 1].mDefaultAppear = 100.f;
+        temp[i - 1].mAppear = true;
+        temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+        temp.push_back(DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), tmp->data, i == size - 1 ? "rear-" + std::to_string(i) : std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0.f, false, false));
+        mDataNode.push_back(temp);
     }
+    temp[size - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+    mDataNode.push_back(temp);
     inFile.close();
 }
 
@@ -462,31 +478,31 @@ void Queue::add(std::string element)
     Node *tmp = front;
     setPos(temp, 0, 350, tmp);
     mDataNode.clear();
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 
     runOption = 1;
     step = 0; // activate
     Node *newNode = new Node(element);
     temp[size] = DataNode(sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), newNode->data, "", mFont, sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black, 0, false, newNode->next != nullptr);
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 
     temp[size].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 
     tmp = front;
     setPos(temp, 0, 450, tmp);
-    if (front != nullptr) mDataNode.add_back(temp);
+    if (front != nullptr) mDataNode.push_back(temp);
 
     newNode->next = front;
     temp[size].setPosition(sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(350 + 0 * 100, 250), sf::Vector2f(450 + 0 * 100, 150));
     temp[size].mNext = newNode->next != nullptr;
-    if (newNode->next != nullptr) mDataNode.add_back(temp);
+    if (newNode->next != nullptr) mDataNode.push_back(temp);
     front = newNode;
 
     ++size;
     tmp = front;
     setPos(temp, 0, 350, tmp);
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 }
 
 void Queue::remove()
@@ -504,7 +520,7 @@ void Queue::remove()
     Node *tmp = front;
     setPos(temp, 0, 350, tmp);
     mDataNode.clear();
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 
     runOption = 1;
     step = 0; // activate
@@ -513,17 +529,17 @@ void Queue::remove()
     temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
     temp[0].mAppear = false;
     temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 
     temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 
     front = front->next;
     if (front != nullptr)
     {
         temp[0].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
         temp[0 + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-        mDataNode.add_back(temp);
+        mDataNode.push_back(temp);
     }
     delete tmp;
 
@@ -531,7 +547,7 @@ void Queue::remove()
     temp.resize(size);
     tmp = front;
     setPos(temp, 0, 350, tmp);
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 }
 
 void Queue::clear()
@@ -550,7 +566,7 @@ void Queue::clear()
     Node *tmp = front;
     setPos(temp, 0, 350, tmp);
     mDataNode.clear();
-    mDataNode.add_back(temp);
+    mDataNode.push_back(temp);
 
     runOption = 1;
     step = 0; // activate
@@ -561,22 +577,22 @@ void Queue::clear()
         temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
         temp[0].mAppear = false;
         temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
-        mDataNode.add_back(temp);
+        mDataNode.push_back(temp);
         temp[0].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
-        mDataNode.add_back(temp);
+        mDataNode.push_back(temp);
         front = front->next;
         if (front != nullptr)
         {
             temp[0].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
             temp[0 + 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
-            mDataNode.add_back(temp);
+            mDataNode.push_back(temp);
         }
         delete tmp;
         --size;
         temp.resize(size);
         tmp = front;
         setPos(temp, 0, 350, tmp);
-        mDataNode.add_back(temp);
+        mDataNode.push_back(temp);
     }
 }
 
