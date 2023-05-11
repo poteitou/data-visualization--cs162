@@ -988,6 +988,7 @@ void CircularLinkedList::search(std::string element)
         }
         temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
         mDataNode.push_back(temp);
+        mCir.push_back(cir);
 
         if (tmp->data == element)
             return;
@@ -996,12 +997,14 @@ void CircularLinkedList::search(std::string element)
         {
             temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
             mDataNode.push_back(temp);
+            mCir.push_back(cir);
             tmp = tmp->next;
         }
     }
     tmp = head;
     setPos(temp, 0, 350, tmp, cir);
     mDataNode.push_back(temp);
+    mCir.push_back(cir);
 }
 
 void CircularLinkedList::setColor()
@@ -1021,6 +1024,7 @@ void CircularLinkedList::setColor()
             }
         }
     }
+    for (int i = 0; i < )
 }
 
 
