@@ -804,6 +804,51 @@ void CircularLinkedList::remove(int index)
             mCir.push_back(cir);
         }
     }
+    else if (index == size - 1)
+    {
+        Node *previous = head;
+        temp[0].mAppear = false;
+        temp[0].mAppearTime = temp[0].mDefaultAppear = 0.f;
+        for (int i = 0; i < size - 1; i++)
+        {
+            if (i > 0)
+            {
+                temp[i - 1].setColor(sf::Color::Black, sf::Color::Black, pallete[color].first, sf::Color::Black);
+            }
+            temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
+            mDataNode.push_back(temp);
+            mCir.push_back(cir);
+
+            if (i < size - 2)
+            {
+                temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+                mDataNode.push_back(temp);
+                mCir.push_back(cir);
+                previous = previous->next;
+            }
+        }
+        std::cout << previous->data;
+        temp[size - 2].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+        mCir.push_back(cir);
+        temp[size - 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
+        mDataNode.push_back(temp);
+        mCir.push_back(cir);
+        cir.setColor(pallete[color].second);
+        mDataNode.push_back(temp);
+        mCir.push_back(cir);
+        temp.pop_back();
+        cir.mDraw = false;
+        temp[size - 2] = DataNode(sf::Vector2f(350 + (size - 2) * 100, 150), sf::Vector2f(350 + (size - 3) * 100, 150), sf::Vector2f(350 + (size - 1) * 100, 250), previous->data, size - 2 == 0 ? "head-0" : std::to_string(size - 2), mFont, sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second, 0, false, false);
+        mDataNode.push_back(temp);
+        mCir.push_back(cir);
+        tmp = previous->next;
+        previous->next = head;
+        delete tmp;
+        cir = CircularArr(sf::Vector2f(350 + 0 * 100, 150), sf::Vector2f(350 + (size - 2) * 100, 150), pallete[color].second, true);
+        mDataNode.push_back(temp);
+        mCir.push_back(cir);
+    }
     else
     {
         temp[index].mAppear = false;
@@ -1073,8 +1118,8 @@ void CircularLinkedList::draw()
 
     if (runOption != -1 && step != -1)
     {
-        mCir[step].draw(mWindow);
         for (int i = 0; i < mDataNode[step].size(); i++)
             mDataNode[step][i].draw(mWindow);
+        mCir[step].draw(mWindow);
     }
 }

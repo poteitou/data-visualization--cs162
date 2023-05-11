@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include <utility>
 
+#include <iostream>
+
 struct CircularLinkedList
 {
     CircularLinkedList(sf::RenderWindow &window, sf::Font &font);
