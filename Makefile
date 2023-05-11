@@ -5,5 +5,4 @@ build: compile
 compile:
 	g++ -c datastruct/*.cpp -I "SFML-2.5.1\include"
 	g++ -c interface/*.cpp -I "SFML-2.5.1\include"
-	g++ -c Screen.cpp Application.cpp -I "SFML-2.5.1\include"
 	g++ -c main.cpp -I "SFML-2.5.1\include"
