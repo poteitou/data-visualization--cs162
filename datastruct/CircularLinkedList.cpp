@@ -863,31 +863,40 @@ void CircularLinkedList::remove(int index)
             }
             temp[i] = DataNode(sf::Vector2f(350 + i * 100, 150), sf::Vector2f(350 + (i > 0 ? i - 1 : i) * 100, 150), sf::Vector2f(350 + (i < size - 1 ? i + 1 : i) * 100, 150), previous->data, i == 0 ? "head-0" : std::to_string(i), mFont, sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black, 100.f, false, previous->next != nullptr);
             mDataNode.push_back(temp);
+            mCir.push_back(cir);
 
             if (i < index - 1)
             {
                 temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
                 mDataNode.push_back(temp);
+                mCir.push_back(cir);
                 previous = previous->next;
             }
         }
 
         temp[index - 1].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
         mDataNode.push_back(temp);
+        mCir.push_back(cir);
 
         tmp = previous->next;
         
         temp[index].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
         mDataNode.push_back(temp);
+        mCir.push_back(cir);
 
         temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(350 + index * 100, 250));
         temp[index].setPosition(sf::Vector2f(350 + index * 100, 250), sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index < size - 1 ? index + 1 : index) * 100, 150));
         mDataNode.push_back(temp);
+        mCir.push_back(cir);
 
         previous->next = tmp->next;
         temp[index - 1].setPosition(sf::Vector2f(350 + (index - 1) * 100, 150), sf::Vector2f(350 + (index - 1 > 0 ? index - 2 : index - 1) * 100, 150), sf::Vector2f(450 + index * 100, 150));
         temp[index - 1].mNext = previous->next != nullptr;
-        if (previous->next) mDataNode.push_back(temp);
+        if (previous->next) 
+        {
+            mDataNode.push_back(temp);
+            mCir.push_back(cir);
+        }
         delete tmp;
     }
     --size;
