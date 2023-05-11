@@ -926,6 +926,7 @@ void CircularLinkedList::modify(int index, std::string element)
     mDataNode.clear();
     mCir.clear();
     mDataNode.push_back(temp);
+    mCir.push_back(cir);
 
     runOption = 1;
     step = 0; // activate
@@ -941,11 +942,13 @@ void CircularLinkedList::modify(int index, std::string element)
         }
         temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, sf::Color::Black);
         mDataNode.push_back(temp);
+        mCir.push_back(cir);
 
         if (i < index)
         {
             temp[i].setColor(sf::Color::White, pallete[color].second, pallete[color].second, pallete[color].second);
             mDataNode.push_back(temp);
+            mCir.push_back(cir);
             tmp = tmp->next;
         }
     }
@@ -953,6 +956,7 @@ void CircularLinkedList::modify(int index, std::string element)
     tmp = head;
     setPos(temp, 0, 350, tmp, cir);
     mDataNode.push_back(temp);
+    mCir.push_back(cir);
 }
 
 void CircularLinkedList::search(std::string element) 
@@ -969,6 +973,7 @@ void CircularLinkedList::search(std::string element)
     mDataNode.clear();
     mCir.clear();
     mDataNode.push_back(temp);
+    mCir.push_back(cir);
 
     runOption = 1;
     step = 0; // activate
