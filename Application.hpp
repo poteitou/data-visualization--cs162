@@ -1,17 +1,13 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+#ifndef APPLICATION_HPP
+#define APPLICATION_HPP
 
 #include <SFML/Graphics.hpp>
 #include "Screen.hpp"
-#include "datastruct/Menu.hpp"
-#include "datastruct/StaticArray.hpp"
-#include "interface/Button.hpp"
 
-struct Game
+struct Application
 {
-                Game();
+                Application();
     void        run();
-
     void        processEvents();
     void        render(Screen &mScreen);
 
@@ -23,4 +19,4 @@ struct Game
     char keyPress;
 };
 
-#endif // GAME_HPP
+#endif // APPLICATION_HPP

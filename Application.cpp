@@ -1,7 +1,7 @@
-#include "Game.hpp"
+#include "Application.hpp"
 
-Game::Game()
-    : mWindow(sf::VideoMode(1600, 900), "SFML Application", sf::Style::Titlebar | sf::Style::Close)
+Application::Application()
+    : mWindow(sf::VideoMode(1600, 900), "Data Structure Visualization", sf::Style::Titlebar | sf::Style::Close)
 {
     mFont.loadFromFile("resources/fonts/arial.ttf");
     mWindow.setVerticalSyncEnabled(true);
@@ -12,10 +12,8 @@ Game::Game()
     keyPress = '$';
 }
 
-void Game::run()
+void Application::run()
 {
-    float dt = 1.f / 60.f;
-    float timeSinceLastUpdate = 0.f;
     sf::Clock clock;
     Screen mScreen(mWindow, mFont);
 
@@ -25,12 +23,11 @@ void Game::run()
         processEvents();
         mScreen.update(mousePress, mousePosition, keyPress, dt);
         mWindow.clear(sf::Color(220, 240, 255));
-        mScreen.draw();
-        mWindow.display();
+        render(mScreen);
     }
 }
 
-void Game::processEvents()
+void Application::processEvents()
 {
     sf::Event event;
     char c;
@@ -67,4 +64,25 @@ void Game::processEvents()
             break;
         }
     }
+}
+
+void Application::render(Screen &mScreen)
+{
+    sf::Font mFont2;
+    mFont2.loadFromFile("resources/fonts/whitegone.ttf");
+    sf::Text author;
+    author.setString("Author: Trinh Nguyen Thao Vi - 22125120");
+    author.setCharacterSize(45);
+    author.setPosition(1020, 825);
+    author.setFont(mFont2);
+    author.setFillColor(sf::Color(80, 110, 230));
+
+    sf::Texture texture;
+    texture.loadFromFile("resources/images/background.png");
+    sf::Sprite sprite;
+    sprite.setTexture(texture, true);
+    mWindow.draw(sprite);
+    mWindow.draw(author);
+    mScreen.draw();
+    mWindow.display();
 }
