@@ -19,6 +19,7 @@ struct CircularArr
     sf::Vector2f mPosRect;
     sf::Vector2f mPosRectOnly[4];
 
+    sf::Color mColor;
     bool mDraw;
 };
 

@@ -1024,7 +1024,11 @@ void CircularLinkedList::setColor()
             }
         }
     }
-    for (int i = 0; i < )
+    for (int i = 0; i < mCir.size(); i++)
+    {
+        if (mCir[i].mColor != sf::Color::Black)
+            mCir[i].setColor(pallete[color].second);
+    }
 }
 
 

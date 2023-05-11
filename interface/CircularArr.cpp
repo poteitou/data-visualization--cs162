@@ -32,6 +32,7 @@ CircularArr::CircularArr(sf::Vector2f posBegin, sf::Vector2f posEnd, sf::Color C
     mTriangle.setFillColor(Color);
     for (int i = 0; i < 4; i++)
         mRectOnly[i].setFillColor(Color);
+    mColor = Color;
     /* mRect (300, posBegin.y + 25), (posBegin.x, posBegin.y + 25)
 mLeft (300, posBegin.y + 25), (300, 325)
 mBot  (300, 325), (posEnd.x + 90, 325)
@@ -46,6 +47,7 @@ float CircularArr::length(sf::Vector2f posBegin, sf::Vector2f posEnd)
 
 void CircularArr::setColor(sf::Color Color)
 {
+    mColor = Color;
     mRect.setFillColor(Color);
     mTriangle.setFillColor(Color);
     for (int i = 0; i < 4; i++)
